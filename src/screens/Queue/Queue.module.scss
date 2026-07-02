@@ -1,0 +1,183 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.activeCard {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-elevated;
+  border: 1.5px solid $color-success;
+  margin-bottom: $spacing-md;
+
+  .activeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-md;
+
+    .activeInfo {
+      flex: 1;
+
+      .activeLabel {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: $color-success;
+        display: block;
+        margin-bottom: $spacing-xs;
+      }
+
+      .activeName {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: $color-text-primary;
+        margin-bottom: 2px;
+      }
+
+      .activeSubzones {
+        font-size: 0.85rem;
+        color: $color-text-secondary;
+      }
+    }
+
+    .stopBtn {
+      flex-shrink: 0;
+
+      .stopIcon {
+        color: $color-error;
+        font-size: 2rem !important;
+      }
+    }
+  }
+
+  .progressBar {
+    height: 8px;
+    background-color: $color-divider;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: $spacing-md;
+
+    .progressFill {
+      height: 100%;
+      background-color: $color-success;
+      border-radius: 4px;
+      transition: width 1s linear;
+    }
+  }
+
+  .activeStats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+
+    .statItem {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+.queue {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+
+  .queueHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    border-bottom: 1px solid $color-divider;
+
+    .queueTitle {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $color-text-secondary;
+    }
+  }
+
+  .queueList {
+    .queueItem {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      padding: $spacing-sm $spacing-md;
+      border-bottom: 1px solid $color-divider;
+      border-left: 3px solid $color-warning;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .queuePosition {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: $color-warning-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: $color-warning;
+        flex-shrink: 0;
+      }
+
+      .queueInfo {
+        flex: 1;
+        min-width: 0;
+
+        .queueName {
+          display: block;
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: $color-text-primary;
+        }
+
+        .queueSubzones {
+          display: block;
+          font-size: 0.8rem;
+          color: $color-text-secondary;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .queueDuration {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-warning;
+        flex-shrink: 0;
+      }
+
+      .queueStopIcon {
+        color: $color-error;
+      }
+    }
+  }
+}
+
+.stopAllBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-error;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-error-light;
+  }
+}
+
+.stopAllRow {
+  margin-top: $spacing-md;
+  display: flex;
+  justify-content: center;
+}
+

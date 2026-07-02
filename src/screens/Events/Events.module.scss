@@ -1,0 +1,691 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+// ── Page Header ───────────────────────────────────────────────────────────────
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+  gap: $spacing-sm;
+}
+
+.pageTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+  flex: 1;
+}
+
+.pageHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.manageCatBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-primary;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-sm;
+  border: 1.5px solid $color-primary;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.viewToggle {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  overflow: hidden;
+}
+
+.viewToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: $color-text-muted;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.viewToggleBtnActive {
+  background-color: $color-primary;
+  color: #fff;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+// ── Filter Row ────────────────────────────────────────────────────────────────
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: $spacing-xs $spacing-sm;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.85rem;
+  color: $color-text-primary;
+  background-color: $color-surface;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.addEventHeaderBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: $color-primary;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-sm;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+// ── List View ─────────────────────────────────────────────────────────────────
+
+.listView {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.listGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.listGroupHeader {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding-bottom: $spacing-xs;
+  border-bottom: 1px solid $color-divider;
+  margin-bottom: $spacing-xs;
+}
+
+.listEventItem {
+  border-left: 4px solid $color-primary;
+  background-color: $color-surface;
+  border-radius: 0 $radius-sm $radius-sm 0;
+  padding: $spacing-sm $spacing-sm $spacing-sm $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.listEventMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.listEventTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+// ── Layout ────────────────────────────────────────────────────────────────────
+
+.calendarLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-md;
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: 1fr 340px;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    grid-template-columns: 1fr 380px;
+  }
+}
+
+// ── Calendar Panel ────────────────────────────────────────────────────────────
+
+.calendarPanel {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.monthNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.monthLabel {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dayHeader {
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  padding: $spacing-xs 0;
+  letter-spacing: 0.5px;
+}
+
+.dayCell {
+  min-height: 52px;
+  border-radius: $radius-sm;
+  padding: 4px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  @media (min-width: $breakpoint-md) {
+    min-height: 64px;
+  }
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.dayCellOther {
+  opacity: 0.35;
+}
+
+.dayCellSelected {
+  background-color: $color-primary !important;
+
+  .dayNum {
+    color: #fff;
+  }
+}
+
+.dayCellToday:not(.dayCellSelected) {
+  .dayNum {
+    background-color: $color-primary-light;
+    color: $color-primary;
+    border-radius: 50%;
+  }
+}
+
+.dayNum {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.eventDots {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.eventDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.eventDotMore {
+  font-size: 0.55rem;
+  color: $color-text-muted;
+  font-weight: 600;
+}
+
+.loadingText {
+  text-align: center;
+  color: $color-text-muted;
+  font-size: 0.85rem;
+  margin-top: $spacing-sm;
+}
+
+// ── Day Panel ─────────────────────────────────────────────────────────────────
+
+.dayPanel {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.dayPanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.dayPanelDate {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.addEventBtn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: $color-primary;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+}
+
+.noEvents {
+  font-size: 0.85rem;
+  color: $color-text-muted;
+  text-align: center;
+  padding: $spacing-lg 0;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.eventItem {
+  border-left: 4px solid $color-primary;
+  background-color: $color-background;
+  border-radius: 0 $radius-sm $radius-sm 0;
+  padding: $spacing-sm $spacing-sm $spacing-sm $spacing-md;
+}
+
+.eventItemMain {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eventItemTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.eventItemActions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.eventItemTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  line-height: 1.3;
+}
+
+.eventItemTime {
+  font-size: 0.78rem;
+  color: $color-text-secondary;
+}
+
+.eventItemMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.catTag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.subCatTag {
+  font-size: 0.72rem;
+  color: $color-text-muted;
+}
+
+.eventItemDesc {
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+  margin: 0;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-md;
+}
+
+.modalSheet {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  box-shadow: $shadow-elevated;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-sm;
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.modalClose {
+  font-size: 1rem;
+  color: $color-text-secondary;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background-color: $color-divider;
+  }
+}
+
+.modalError {
+  font-size: 0.85rem;
+  color: $color-error;
+  margin: 0;
+}
+
+.fieldLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-top: $spacing-sm;
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.fieldInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: $spacing-sm $spacing-md;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  background-color: $color-background;
+  margin-top: 4px;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.fieldTextarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: $spacing-sm $spacing-md;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  background-color: $color-background;
+  margin-top: 4px;
+  resize: vertical;
+  min-height: 72px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.modalBtns {
+  display: flex;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  border: 1.5px solid $color-border;
+  cursor: pointer;
+  background: transparent;
+
+  &:hover {
+    background-color: $color-divider;
+  }
+}
+
+.saveBtn {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: $color-primary;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-dark;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ── Manage Categories Modal ───────────────────────────────────────────────────
+
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: $spacing-sm;
+}
+
+.catItem {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-sm;
+}
+
+.catRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.catName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.catCount {
+  font-weight: 400;
+  color: $color-text-muted;
+  font-size: 0.8rem;
+}
+
+.catInput {
+  flex: 1;
+  padding: 4px $spacing-sm;
+  border: 1.5px solid $color-primary;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.catActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.iconBtn {
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: $radius-sm;
+  color: $color-text-secondary;
+
+  &:hover {
+    background-color: $color-divider;
+  }
+}
+
+.subRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: $spacing-md;
+  margin-top: 4px;
+}
+
+.subName {
+  font-size: 0.82rem;
+  color: $color-text-secondary;
+}
+
+.addSubRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-top: $spacing-xs;
+  padding-left: $spacing-md;
+}
+
+.subInput {
+  flex: 1;
+  padding: 4px $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.82rem;
+  color: $color-text-primary;
+  background-color: $color-background;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
+}
+
+.addSubBtn {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-primary;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background-color: $color-primary-light;
+  }
+}
+
+.addCatRow {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  margin-top: $spacing-sm;
+}

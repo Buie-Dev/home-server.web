@@ -1,0 +1,75 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.page {
+  min-height: 100vh;
+  background-color: $color-background;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+}
+
+.card {
+  background-color: $color-surface;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: $shadow-elevated;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: $spacing-xl;
+
+    .logo {
+      color: $color-primary;
+      font-size: 3rem !important;
+      margin-bottom: $spacing-sm;
+    }
+
+    .appName {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: $color-text-primary;
+      margin-bottom: $spacing-xs;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: $color-text-secondary;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    .field {
+      margin-bottom: $spacing-xs;
+    }
+
+    .error {
+      font-size: 0.85rem;
+      color: $color-error;
+      text-align: center;
+      padding: $spacing-xs 0;
+    }
+
+    .submitBtn {
+      margin-top: $spacing-sm;
+      background-color: $color-primary !important;
+      color: $color-surface !important;
+      font-weight: 600 !important;
+      padding: $spacing-sm !important;
+      font-size: 1rem !important;
+    }
+
+    .spinner {
+      color: $color-surface !important;
+    }
+  }
+}

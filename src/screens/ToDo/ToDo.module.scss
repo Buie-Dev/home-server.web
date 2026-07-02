@@ -1,0 +1,577 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.pageTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.manageCatBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-primary;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-sm;
+  border: 1.5px solid $color-primary;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover { background-color: $color-primary-light; }
+}
+
+// ── Tabs ────────────────────────────────────────────────────────────────────
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: $spacing-md;
+  border-bottom: 2px solid $color-border;
+}
+
+.tab {
+  padding: $spacing-xs $spacing-md;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+
+  &:hover { color: $color-text-primary; }
+}
+
+.tabActive {
+  color: $color-primary;
+  border-bottom-color: $color-primary;
+}
+
+// ── Filter row ──────────────────────────────────────────────────────────────
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 6px 10px;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.85rem;
+  color: $color-text-primary;
+  background-color: $color-surface;
+  cursor: pointer;
+
+  &:focus { outline: none; border-color: $color-primary; }
+}
+
+.addBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-surface;
+  background-color: $color-primary;
+  padding: 6px 14px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+
+  &:hover { background-color: $color-primary-dark; }
+}
+
+.archiveAllBtn {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  background: none;
+  border: 1.5px solid $color-border;
+  padding: 5px 12px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover { border-color: $color-text-muted; color: $color-text-primary; }
+}
+
+// ── List ─────────────────────────────────────────────────────────────────────
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.empty {
+  color: $color-text-muted;
+  font-size: 0.9rem;
+  padding: $spacing-lg 0;
+  text-align: center;
+}
+
+// ── Task Row ─────────────────────────────────────────────────────────────────
+
+.taskRow {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.taskCompleted {
+  opacity: 0.7;
+}
+
+.taskMain {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+}
+
+.completeBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  &:disabled { cursor: default; }
+}
+
+.taskContent {
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.taskTitle {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.taskTitleDone {
+  text-decoration: line-through;
+  color: $color-text-muted;
+}
+
+.taskMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-top: 4px;
+}
+
+.catBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: $color-primary-light;
+  color: $color-primary;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.subBadge {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+  background-color: $color-background;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid $color-border;
+}
+
+.freqBadge {
+  font-size: 0.72rem;
+  color: $color-text-muted;
+}
+
+.taskActions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.taskDetail {
+  padding: 0 $spacing-md $spacing-sm calc(#{$spacing-md} + 32px);
+  border-top: 1px solid $color-border;
+}
+
+.taskNotes {
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  margin: $spacing-sm 0;
+}
+
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: $spacing-sm;
+}
+
+.checklistItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: 0.85rem;
+  color: $color-text-primary;
+  cursor: pointer;
+}
+
+.checklistTextDone {
+  text-decoration: line-through;
+  color: $color-text-muted;
+}
+
+.taskDate {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+}
+
+// ── Template Card ────────────────────────────────────────────────────────────
+
+.templateCard {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  padding: $spacing-sm $spacing-md;
+}
+
+.templateMain {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+}
+
+.templateInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.templateTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.templateNotes {
+  font-size: 0.82rem;
+  color: $color-text-muted;
+  margin: 4px 0 0;
+}
+
+.useBtn {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: $color-primary;
+  border: 1.5px solid $color-primary;
+  background: transparent;
+  padding: 3px 10px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover { background-color: $color-primary-light; }
+}
+
+// ── History Row ──────────────────────────────────────────────────────────────
+
+.historyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  padding: $spacing-sm $spacing-md;
+  gap: $spacing-md;
+}
+
+.historyMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.historyTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.historyDate {
+  font-size: 0.78rem;
+  color: $color-text-muted;
+  white-space: nowrap;
+}
+
+// ── Modals ───────────────────────────────────────────────────────────────────
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  width: 420px;
+  max-width: calc(100vw - 2rem);
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-xs;
+}
+
+.modalTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.modalClose {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  color: $color-text-muted;
+  cursor: pointer;
+  padding: 2px 6px;
+
+  &:hover { color: $color-text-primary; }
+}
+
+.modalError {
+  font-size: 0.82rem;
+  color: $color-error;
+  margin: 0;
+}
+
+.fieldLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  margin-bottom: 2px;
+}
+
+.fieldInput {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  background-color: $color-background;
+  box-sizing: border-box;
+
+  &:focus { outline: none; border-color: $color-primary; }
+}
+
+.fieldTextarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  background-color: $color-background;
+  box-sizing: border-box;
+  resize: vertical;
+
+  &:focus { outline: none; border-color: $color-primary; }
+}
+
+.modalBtns {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+}
+
+.primaryBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-surface;
+  background-color: $color-primary;
+  padding: 7px 18px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover { background-color: $color-primary-dark; }
+  &:disabled { opacity: 0.6; cursor: default; }
+}
+
+.cancelBtn {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  background: none;
+  padding: 7px 14px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+
+  &:hover { color: $color-text-primary; }
+}
+
+// ── Category management ──────────────────────────────────────────────────────
+
+.catList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.catItem {
+  background-color: $color-background;
+  border-radius: $radius-sm;
+  padding: $spacing-sm;
+}
+
+.catRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.catName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.catCount {
+  font-size: 0.8rem;
+  color: $color-text-muted;
+  font-weight: 400;
+}
+
+.catActions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.catInput {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1.5px solid $color-primary;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  background-color: $color-surface;
+
+  &:focus { outline: none; }
+}
+
+.subRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: $spacing-md;
+  margin-top: 4px;
+}
+
+.subName {
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+}
+
+.addSubRow {
+  display: flex;
+  gap: $spacing-xs;
+  margin-top: $spacing-xs;
+  padding-left: $spacing-md;
+}
+
+.subInput {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.82rem;
+  color: $color-text-primary;
+  background-color: $color-surface;
+
+  &:focus { outline: none; border-color: $color-primary; }
+}
+
+.addSubBtn {
+  padding: 4px 10px;
+  background-color: $color-primary;
+  color: $color-surface;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:hover { background-color: $color-primary-dark; }
+}
+
+.addCatRow {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  margin-top: $spacing-xs;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: $color-text-muted;
+  padding: 2px 4px;
+
+  &:hover { color: $color-text-primary; }
+}
+
+// ── Checklist in template form ────────────────────────────────────────────────
+
+.checklistAddRow {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.checklistPreviewItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  padding: 2px 0;
+}

@@ -1,0 +1,35 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.title {
+  display: flex !important;
+  align-items: center;
+  gap: $spacing-sm;
+  font-weight: 700 !important;
+  color: $color-text-primary;
+
+  .warningIcon {
+    color: $color-warning;
+    font-size: 1.4rem !important;
+  }
+}
+
+.message {
+  font-size: 0.9rem;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+
+.actions {
+  padding: $spacing-sm $spacing-md $spacing-md !important;
+
+  .cancelBtn {
+    color: $color-text-secondary !important;
+  }
+
+  .deleteBtn {
+    background-color: $color-error !important;
+    color: $color-surface !important;
+    font-weight: 600 !important;
+  }
+}

@@ -1,0 +1,264 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.pageOverride {
+  padding-bottom: 80px;
+
+  @media (min-width: $breakpoint-md) {
+    padding-bottom: $spacing-lg;
+  }
+}
+
+
+.syncBanner {
+  border-radius: $radius-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.85rem;
+  margin-bottom: $spacing-md;
+
+  &.syncSuccess {
+    background-color: $color-success-light;
+    color: $color-success;
+    border: 1px solid $color-success;
+  }
+
+  &.syncWarning {
+    background-color: $color-warning-light;
+    color: $color-warning;
+    border: 1px solid $color-warning;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.card {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-card;
+  border-left: 4px solid transparent;
+
+  &.scheduleActive {
+    border-left-color: $color-success;
+  }
+
+  &.scheduleInactive {
+    border-left-color: $color-border;
+    opacity: 0.65;
+  }
+
+  &.cardDragging {
+    box-shadow: $shadow-elevated;
+    z-index: 10;
+  }
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-xs;
+
+    .timeBlock {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+
+      .dragHandle {
+        display: flex;
+        align-items: center;
+        cursor: grab;
+        color: $color-text-muted;
+        padding: 2px;
+        border-radius: $radius-sm;
+        flex-shrink: 0;
+
+        &:active {
+          cursor: grabbing;
+        }
+
+        .dragIcon {
+          font-size: 1.1rem !important;
+          color: $color-text-muted;
+        }
+      }
+
+      .statusBadge {
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 2px $spacing-xs;
+        border-radius: $radius-sm;
+
+        &.badgeActive {
+          background-color: $color-success-light;
+          color: $color-success;
+        }
+
+        &.badgePaused {
+          background-color: $color-divider;
+          color: $color-text-muted;
+        }
+      }
+
+      .startTime {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-text-secondary;
+      }
+    }
+
+    .headerRight {
+      display: flex;
+      align-items: center;
+      gap: $spacing-xs;
+
+      .toggle {
+        color: $color-primary !important;
+      }
+
+      .editIcon {
+        color: $color-primary;
+      }
+
+      .deleteIcon {
+        color: $color-error;
+      }
+    }
+  }
+
+  .scheduleName {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  .dayRow {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-sm;
+
+    .dayPill {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background-color: $color-divider;
+      color: $color-text-muted;
+
+      &.dayOn {
+        background-color: $color-primary;
+        color: $color-surface;
+      }
+    }
+
+    .daysLabel {
+      font-size: 0.8rem;
+      color: $color-text-secondary;
+      margin-left: $spacing-xs;
+    }
+  }
+
+  .metaRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+
+    .metaItem {
+      font-size: 0.8rem;
+      color: $color-text-secondary;
+    }
+  }
+}
+
+.actionRow {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+  position: fixed;
+  bottom: $bottom-nav-height;
+  left: 0;
+  right: 0;
+  padding: $spacing-sm $spacing-md;
+  background-color: $color-background;
+  border-top: 1px solid $color-border;
+  z-index: 10;
+
+  @media (min-width: $breakpoint-md) {
+    position: static;
+    border-top: none;
+    background-color: transparent;
+    padding: 0;
+    margin-top: $spacing-md;
+  }
+
+  .createBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    padding: $spacing-sm $spacing-md;
+    background-color: $color-primary;
+    color: $color-surface;
+    border-radius: $radius-md;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: $shadow-card;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: $color-primary-dark;
+    }
+
+    .addIcon {
+      font-size: 1.1rem !important;
+      color: $color-surface;
+    }
+  }
+
+  .syncBtn {
+    width: 48px;
+    height: 48px;
+    border-radius: $radius-md;
+    background-color: $color-surface;
+    border: 1.5px solid $color-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: $shadow-card;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: $color-primary-light;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .syncIcon {
+      color: $color-primary;
+    }
+
+    .syncSpinner {
+      color: $color-primary !important;
+    }
+  }
+}

@@ -1,0 +1,156 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.root {
+  position: relative;
+  display: inline-block;
+  margin-bottom: $spacing-md;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  min-width: 180px;
+  max-width: 300px;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-md;
+  background-color: $color-surface;
+  color: $color-text-primary;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  text-align: left;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.triggerOpen {
+    border-color: $color-primary;
+    box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+  }
+}
+
+.triggerLabel {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.triggerIcon {
+  color: $color-text-secondary;
+  font-size: 1.2rem !important;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+
+  &.iconOpen {
+    transform: rotate(180deg);
+  }
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 220px;
+  max-width: 300px;
+  max-height: 320px;
+  overflow-y: auto;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-elevated;
+  z-index: 200;
+  scrollbar-width: thin;
+  scrollbar-color: $color-border transparent;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: $color-text-primary;
+  font-size: 0.9rem;
+  transition: background-color 0.1s ease;
+
+  &:hover {
+    background-color: $color-divider;
+  }
+
+  &.optionActive {
+    color: $color-primary;
+    font-weight: 600;
+    background-color: $color-primary-light;
+  }
+}
+
+.sectionHeader {
+  padding: $spacing-xs $spacing-sm;
+  padding-left: 42px; // aligns with option labels (checkSlot 18px + gap 8px + padding 16px)
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: $color-text-muted;
+  pointer-events: none;
+}
+
+.dividerFirst {
+  margin-top: 0;
+}
+
+.subOption {
+  padding-left: $spacing-lg;
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+
+  &.optionActive {
+    color: $color-primary;
+    background-color: $color-primary-light;
+  }
+}
+
+.checkSlot {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkIcon {
+  font-size: 0.9rem !important;
+  color: $color-primary;
+}
+
+.optionLabel {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-size: 0.7rem;
+  color: $color-text-muted;
+  background-color: $color-divider;
+  border-radius: 10px;
+  padding: 1px 6px;
+  flex-shrink: 0;
+}
+
+.divider {
+  height: 1px;
+  background-color: $color-border;
+  margin: $spacing-xs 0;
+}

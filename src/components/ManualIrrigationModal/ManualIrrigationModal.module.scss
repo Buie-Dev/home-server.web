@@ -1,0 +1,54 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.title {
+  color: $color-text-primary;
+  font-weight: 700 !important;
+  padding-bottom: $spacing-sm !important;
+}
+
+.content {
+  padding-top: $spacing-sm !important;
+
+  .durationField {
+    margin-bottom: $spacing-sm;
+  }
+
+  .subzones {
+    margin-top: $spacing-sm;
+
+    .subzonesLabel {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: $color-text-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: $spacing-xs;
+    }
+
+    .checkboxLabel {
+      display: flex;
+      align-items: center;
+      color: $color-text-primary;
+      font-size: 0.9rem;
+    }
+
+    .checkbox {
+      color: $color-primary;
+    }
+  }
+}
+
+.actions {
+  padding: $spacing-sm $spacing-md $spacing-md !important;
+
+  .cancelBtn {
+    color: $color-text-secondary !important;
+  }
+
+  .startBtn {
+    background-color: $color-primary !important;
+    color: $color-surface !important;
+    font-weight: 600 !important;
+  }
+}

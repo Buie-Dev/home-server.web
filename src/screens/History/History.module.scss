@@ -1,0 +1,163 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.totalsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
+
+  .totalCard {
+    background-color: $color-surface;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    box-shadow: $shadow-card;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    .totalLabel {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: $color-text-secondary;
+    }
+
+    .totalValue {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: $color-primary;
+    }
+
+    .totalSub {
+      font-size: 0.75rem;
+      color: $color-text-muted;
+    }
+  }
+}
+
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.card {
+  background-color: $color-surface;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  border-left: 4px solid $color-primary-light;
+
+  .cardMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    gap: $spacing-sm;
+    min-width: 0;
+
+    .cardInfo {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+
+      .runName {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $color-text-primary;
+      }
+
+      .subzoneName {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+      }
+
+      .runDate {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+      }
+
+      .runTime {
+        font-size: 0.75rem;
+        color: $color-text-muted;
+      }
+    }
+
+    .cardStats {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      flex-shrink: 0;
+
+      .statValue {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $color-primary;
+      }
+
+      .statLabel {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+      }
+    }
+  }
+
+  .deleteBtn {
+    flex-shrink: 0;
+
+    .deleteIcon {
+      color: $color-text-muted;
+      transition: color 0.15s ease;
+    }
+
+    &:hover .deleteIcon {
+      color: $color-error;
+    }
+  }
+}
+
+.loadMoreRow {
+  display: flex;
+  justify-content: center;
+  padding: $spacing-md;
+
+  .loadMoreBtn {
+    padding: $spacing-sm $spacing-lg;
+    border: 1.5px solid $color-primary;
+    border-radius: $radius-md;
+    color: $color-primary;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: $color-surface;
+    transition: background-color 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+
+    &:hover {
+      background-color: $color-primary-light;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      color: $color-primary !important;
+    }
+  }
+}

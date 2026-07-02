@@ -1,0 +1,157 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.title {
+  font-weight: 700 !important;
+  color: $color-text-primary;
+  padding-bottom: $spacing-xs !important;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+
+  .section {
+    padding: $spacing-md 0;
+    border-bottom: 1px solid $color-divider;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .sectionLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $color-text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-sm;
+  }
+
+  .field {
+    margin-bottom: $spacing-sm !important;
+  }
+
+  .daysRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-xs;
+
+    .dayPill {
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-sm;
+      border: 1.5px solid $color-border;
+      background-color: $color-surface;
+      color: $color-text-secondary;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-width: 44px;
+
+      &:hover {
+        border-color: $color-primary;
+        color: $color-primary;
+      }
+
+      &.active {
+        background-color: $color-primary;
+        border-color: $color-primary;
+        color: $color-surface;
+      }
+    }
+  }
+
+  .zoneList {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    .zoneCard {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: $spacing-sm $spacing-md;
+      border-radius: $radius-md;
+      border: 1.5px solid $color-border;
+      background-color: $color-surface;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+
+      &:hover {
+        border-color: $color-primary;
+      }
+
+      &.selected {
+        border-color: $color-primary;
+        background-color: $color-primary-light;
+      }
+
+      .zoneName {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: $color-text-primary;
+      }
+
+      .zoneType {
+        font-size: 0.8rem;
+        color: $color-text-secondary;
+        text-transform: capitalize;
+      }
+
+      &.selected .zoneName,
+      &.selected .zoneType {
+        color: $color-primary;
+      }
+    }
+
+    .subzoneList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-xs;
+      padding: $spacing-xs $spacing-md $spacing-sm;
+
+      .subzoneCard {
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $radius-sm;
+        border: 1px solid $color-border;
+        background-color: $color-background;
+        font-size: 0.85rem;
+        color: $color-text-secondary;
+        cursor: pointer;
+        transition: all 0.15s ease;
+
+        &:hover {
+          border-color: $color-primary;
+          color: $color-primary;
+        }
+
+        &.selected {
+          border-color: $color-primary;
+          background-color: $color-primary-light;
+          color: $color-primary;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.actions {
+  padding: $spacing-sm $spacing-md $spacing-md !important;
+
+  .cancelBtn {
+    color: $color-text-secondary !important;
+  }
+
+  .saveBtn {
+    background-color: $color-primary !important;
+    color: $color-surface !important;
+    font-weight: 600 !important;
+  }
+}

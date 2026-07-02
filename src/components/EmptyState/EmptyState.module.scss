@@ -1,0 +1,26 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-xl * 2 $spacing-md;
+  gap: $spacing-sm;
+
+  .emptyIcon {
+    color: $color-text-muted;
+    font-size: 3rem !important;
+  }
+
+  .emptyTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $color-text-secondary;
+  }
+
+  .emptySub {
+    font-size: 0.85rem;
+    color: $color-text-muted;
+  }
+}

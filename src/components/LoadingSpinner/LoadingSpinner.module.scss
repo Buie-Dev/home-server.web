@@ -1,0 +1,12 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: $spacing-xl;
+
+  .spinner {
+    color: $color-primary !important;
+  }
+}
