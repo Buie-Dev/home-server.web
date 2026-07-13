@@ -1,0 +1,518 @@
+@use 'sass:color';
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.container {
+  padding: $spacing-lg;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+}
+
+.loading {
+  padding: $spacing-xl;
+  text-align: center;
+  color: $color-text-muted;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: none;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-background;
+  }
+}
+
+.raceInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex: 1;
+}
+
+.raceTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.raceType {
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+}
+
+.statusPill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
+  text-transform: uppercase;
+
+  &.pending {
+    background: $color-divider;
+    color: $color-text-secondary;
+  }
+
+  &.active {
+    background: $color-success-light;
+    color: $color-success;
+  }
+
+  &.completed {
+    background: $color-primary-light;
+    color: $color-primary-dark;
+  }
+}
+
+.completeBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-success;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-md;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: color.adjust(#4caf50, $lightness: -8%);
+  }
+}
+
+.raceMeta {
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+// ── Role Bar ──────────────────────────────────────────────────────────────────
+
+.roleBar {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+  flex-wrap: wrap;
+}
+
+.roleLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  margin-right: $spacing-xs;
+}
+
+.roleBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &.roleBtnActive {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+// ── Activate Panel ─────────────────────────────────────────────────────────────
+
+.activatePanel {
+  background: $color-warning-light;
+  border: 1px solid $color-warning;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.activateHint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: $color-text-primary;
+}
+
+.activateBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-warning;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: color.adjust(#ff9800, $lightness: -10%);
+  }
+}
+
+// ── Global Start ───────────────────────────────────────────────────────────────
+
+.globalStartPanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $color-surface;
+  border: 2px dashed $color-success;
+  border-radius: $radius-lg;
+}
+
+.globalStartHint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+}
+
+.globalStartBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background: $color-success;
+  color: #fff;
+  border: none;
+  border-radius: $radius-md;
+  padding: $spacing-md $spacing-xl;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: $shadow-elevated;
+  transition: transform 0.1s, background 0.15s;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:hover {
+    background: color.adjust(#4caf50, $lightness: -8%);
+  }
+}
+
+// ── Sections ──────────────────────────────────────────────────────────────────
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $color-text-muted;
+  margin: 0;
+}
+
+// ── Entry Cards ───────────────────────────────────────────────────────────────
+
+.entryGrid {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.entryCard {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  box-shadow: $shadow-card;
+  flex-wrap: wrap;
+
+  &.entryOnCourse {
+    border-color: $color-primary;
+    background: $color-primary-light;
+  }
+
+  &.entryDns {
+    opacity: 0.6;
+    border-color: $color-border;
+  }
+
+  &.entryDnf {
+    opacity: 0.6;
+    border-color: $color-error;
+    background: $color-error-light;
+  }
+}
+
+.entryBoat {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: $color-text-primary;
+  min-width: 100px;
+}
+
+.ticker {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: $color-primary;
+  letter-spacing: 0.03em;
+  min-width: 90px;
+}
+
+.startBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-success;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    background: color.adjust(#4caf50, $lightness: -8%);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.finishBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-error;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s, background 0.15s;
+
+  &:hover:not(:disabled) {
+    background: color.adjust(#f44336, $lightness: -8%);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.dnsBtn,
+.dnfBtn {
+  background: none;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:hover {
+    border-color: $color-error;
+    color: $color-error;
+  }
+}
+
+.dnsBadge,
+.dnfBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
+}
+
+.dnsBadge {
+  background: $color-divider;
+  color: $color-text-secondary;
+}
+
+.dnfBadge {
+  background: $color-error-light;
+  color: $color-error;
+}
+
+// ── Results ───────────────────────────────────────────────────────────────────
+
+.resultsTable {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.resultRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  border-bottom: 1px solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:first-child {
+    background: $color-success-light;
+  }
+}
+
+.resultPlacement {
+  font-size: 1rem;
+  font-weight: 700;
+  min-width: 36px;
+  color: $color-text-primary;
+}
+
+.resultBoat {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: $color-text-primary;
+}
+
+.resultTime {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  letter-spacing: 0.02em;
+}
+
+// ── Confirm Modal ─────────────────────────────────────────────────────────────
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: $spacing-md;
+}
+
+.confirmModal {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-elevated;
+  padding: $spacing-lg;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.confirmTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.confirmText {
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.confirmActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+}
+
+.cancelBtn {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-background;
+  }
+}
+
+.completeConfirmBtn {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $radius-sm;
+  background: $color-success;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: color.adjust(#4caf50, $lightness: -8%);
+  }
+}

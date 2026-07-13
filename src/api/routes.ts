@@ -8,3 +8,4 @@ export const EVENTS = `${baseAPIUrl}/events`;
 export const TODO = `${baseAPIUrl}/todo`;
 export const PEOPLE = `${baseAPIUrl}/people`;
 export const ADMIN = `${baseAPIUrl}/admin`;
+export const ROWING = `${baseAPIUrl}/rowing`;

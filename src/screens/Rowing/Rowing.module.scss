@@ -1,0 +1,576 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.container {
+  padding: $spacing-lg;
+  max-width: 800px;
+  margin: 0 auto;
+
+  @media (max-width: $breakpoint-md) {
+    padding: $spacing-md;
+  }
+}
+
+.header {
+  margin-bottom: $spacing-lg;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0 0 $spacing-md;
+}
+
+.tabs {
+  display: flex;
+  gap: $spacing-xs;
+  border-bottom: 2px solid $color-border;
+}
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $color-text-secondary;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+
+  &:hover {
+    color: $color-primary;
+  }
+
+  &.tabActive {
+    color: $color-primary;
+    border-bottom-color: $color-primary;
+  }
+}
+
+.section {
+  margin-top: $spacing-lg;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-primary;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-md;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-primary-dark;
+  }
+}
+
+.errorBanner {
+  background: $color-error-light;
+  color: $color-error;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-sm;
+  margin-bottom: $spacing-md;
+  font-size: 0.875rem;
+}
+
+.loadingText {
+  color: $color-text-muted;
+  font-size: 0.875rem;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xl;
+  color: $color-text-muted;
+  font-size: 0.875rem;
+}
+
+.emptyIcon {
+  font-size: 2.5rem !important;
+  opacity: 0.35;
+}
+
+// ── Race List ──────────────────────────────────────────────────────────────────
+
+.raceList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.raceCard {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.raceCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border-bottom: 1px solid $color-divider;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.raceCardMeta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.raceDistance {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.raceTypeBadge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
+
+  &.timeTrial {
+    background: $color-primary-light;
+    color: $color-primary-dark;
+  }
+
+  &.sideBySide {
+    background: $color-warning-light;
+    color: $color-warning;
+  }
+}
+
+.statusBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
+  text-transform: uppercase;
+
+  &.pending {
+    background: $color-divider;
+    color: $color-text-secondary;
+  }
+
+  &.active {
+    background: $color-success-light;
+    color: $color-success;
+  }
+
+  &.completed {
+    background: $color-primary-light;
+    color: $color-primary-dark;
+  }
+}
+
+.raceCardActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.openBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: $color-primary;
+  color: #fff;
+  border: none;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-primary-dark;
+  }
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-text-muted;
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: $color-error;
+    background: $color-error-light;
+  }
+}
+
+.raceCardBody {
+  padding: $spacing-sm $spacing-md;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.raceDate {
+  font-size: 0.8rem;
+  color: $color-text-secondary;
+}
+
+.raceMeta {
+  font-size: 0.8rem;
+  color: $color-text-muted;
+}
+
+.entryList {
+  border-top: 1px solid $color-divider;
+  padding: $spacing-xs 0;
+}
+
+.entryRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-md;
+  font-size: 0.85rem;
+
+  &.entryPending {
+    color: $color-text-muted;
+  }
+
+  &.entryDns,
+  &.entryDnf {
+    color: $color-error;
+    opacity: 0.7;
+  }
+}
+
+.entryPlacement {
+  font-weight: 700;
+  min-width: 32px;
+  color: $color-text-secondary;
+}
+
+.entryBoat {
+  flex: 1;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+
+.entryTime {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  font-weight: 600;
+}
+
+// ── Boats ─────────────────────────────────────────────────────────────────────
+
+.boatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: $spacing-md;
+}
+
+.boatCard {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  padding: $spacing-md;
+}
+
+.boatCardHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.boatIcon {
+  color: $color-primary;
+}
+
+.boatName {
+  flex: 1;
+  font-weight: 600;
+  color: $color-text-primary;
+  font-size: 0.95rem;
+}
+
+.crewList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.crewTag {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.75rem;
+  background: $color-primary-light;
+  color: $color-primary-dark;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
+}
+
+// ── Crew Members ──────────────────────────────────────────────────────────────
+
+.crewMemberList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.crewMemberRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+}
+
+.crewMemberIcon {
+  color: $color-text-secondary;
+}
+
+.crewMemberName {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+
+// ── Modals ─────────────────────────────────────────────────────────────────────
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: $spacing-md;
+}
+
+.modal {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-elevated;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: $spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.modalTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.input {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-sm $spacing-md;
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.textarea {
+  @extend .input;
+  min-height: 72px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.raceTypeToggle {
+  display: flex;
+  gap: $spacing-xs;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &.toggleActive {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.boatCheckList,
+.crewCheckList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.boatChip,
+.crewChip {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &.boatChipSelected,
+  &.crewChipSelected {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.boatChipCrew {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.crewCount {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+  align-self: flex-end;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  color: $color-text-muted;
+  margin: 0;
+}
+
+.formError {
+  color: $color-error;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+}
+
+.cancelBtn {
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:hover {
+    background: $color-background;
+  }
+}
+
+.submitBtn {
+  padding: $spacing-sm $spacing-md;
+  border: none;
+  border-radius: $radius-sm;
+  background: $color-primary;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

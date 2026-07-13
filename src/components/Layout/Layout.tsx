@@ -4,6 +4,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import CalendarStarIcon from '@mui/icons-material/Stars';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import DevicesOtherIcon from '@mui/icons-material/DevicesOther';
+import DirectionsBoatIcon from '@mui/icons-material/DirectionsBoat';
 import PeopleIcon from '@mui/icons-material/People';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import { useAuth } from 'context/AuthContext';
@@ -13,6 +14,7 @@ import styles from './Layout.module.scss';
 
 const ALL_NAV_ITEMS = [
   { path: PAGE_PATHS.IRRIGATION, label: 'Irrigation', Icon: WaterDropIcon, permission: 'irrigation' },
+  { path: PAGE_PATHS.ROWING, label: 'Rowing', Icon: DirectionsBoatIcon, permission: 'rowing' },
   { path: PAGE_PATHS.TODO, label: 'To Do', Icon: ChecklistIcon, permission: 'todo' },
   { path: PAGE_PATHS.PEOPLE, label: 'People', Icon: PeopleIcon, permission: 'people' },
   { path: PAGE_PATHS.DEVICES, label: 'Devices', Icon: DevicesOtherIcon, permission: 'devices' },

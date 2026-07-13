@@ -7,6 +7,8 @@ export enum WEBSOCKET_TOPICS {
   PRIORITY_QUEUE = 'priorityQueue',
   HEALTH_CHECK_RESPONSE = 'healthcheck/response',
   LIVE_FLOW = 'liveFlow',
+  ROWING_START = 'rowing/start',
+  ROWING_FINISH = 'rowing/finish',
 }
 
 export type CurrentState = {
@@ -35,6 +37,21 @@ export type LiveFlowState = {
   litres: number;
 };
 
+export type RowingStartEvent = {
+  raceId: number;
+  entryId: number;
+  boatName: string;
+  timestamp: number;
+};
+
+export type RowingFinishEvent = {
+  raceId: number;
+  entryId: number;
+  boatName: string;
+  timestamp: number;
+  elapsedMs: number;
+};
+
 interface WebSocketContextType {
   sendMessage: (topic: string, message: unknown) => void;
   latestCurrentStates: Array<CurrentState>;
@@ -42,6 +59,8 @@ interface WebSocketContextType {
   latestHealthCheckResponses: Array<HealthCheckResponse>;
   liveFlow: LiveFlowState | null;
   isConnected: boolean;
+  latestRowingStartEvent: RowingStartEvent | null;
+  latestRowingFinishEvent: RowingFinishEvent | null;
 }
 
 const WebSocketContext = createContext<WebSocketContextType | undefined>(undefined);
@@ -53,6 +72,8 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }): 
   const [latestHealthCheckResponses, setLatestHealthCheckResponses] = useState<Array<HealthCheckResponse>>([]);
   const [liveFlow, setLiveFlow] = useState<LiveFlowState | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [latestRowingStartEvent, setLatestRowingStartEvent] = useState<RowingStartEvent | null>(null);
+  const [latestRowingFinishEvent, setLatestRowingFinishEvent] = useState<RowingFinishEvent | null>(null);
 
   useEffect(() => {
     const connect = () => {
@@ -88,6 +109,12 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }): 
           }
           case WEBSOCKET_TOPICS.LIVE_FLOW:
             setLiveFlow(JSON.parse(content.message) as LiveFlowState);
+            break;
+          case WEBSOCKET_TOPICS.ROWING_START:
+            setLatestRowingStartEvent(content.message as unknown as RowingStartEvent);
+            break;
+          case WEBSOCKET_TOPICS.ROWING_FINISH:
+            setLatestRowingFinishEvent(content.message as unknown as RowingFinishEvent);
             break;
           default:
             break;
@@ -135,7 +162,7 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }): 
 
   return (
     <WebSocketContext.Provider
-      value={{ sendMessage, isConnected, latestCurrentQueueStates, latestCurrentStates, latestHealthCheckResponses, liveFlow }}
+      value={{ sendMessage, isConnected, latestCurrentQueueStates, latestCurrentStates, latestHealthCheckResponses, liveFlow, latestRowingStartEvent, latestRowingFinishEvent }}
     >
       {children}
     </WebSocketContext.Provider>

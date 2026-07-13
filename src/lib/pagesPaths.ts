@@ -10,4 +10,6 @@ export const PAGE_PATHS = {
   TODO: '/todo',
   PEOPLE: '/people',
   PERMISSIONS: '/admin/permissions',
+  ROWING: '/rowing',
+  ROWING_RACE: '/rowing/race',
 } as const;

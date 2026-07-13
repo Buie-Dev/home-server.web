@@ -8,6 +8,8 @@ import Irrigation from 'screens/Irrigation/Irrigation';
 import Login from 'screens/Login/Login';
 import People from 'screens/People/People';
 import Permissions from 'screens/Permissions/Permissions';
+import Rowing from 'screens/Rowing/Rowing';
+import RaceTimer from 'screens/Rowing/RaceTimer';
 import ToDo from 'screens/ToDo/ToDo';
 import Queue from 'screens/Queue/Queue';
 import Schedules from 'screens/Schedules/Schedules';
@@ -17,6 +19,7 @@ import { PAGE_PATHS } from 'lib/pagesPaths';
 
 const FIRST_PAGE_ORDER = [
   { permission: 'irrigation', path: PAGE_PATHS.ZONES },
+  { permission: 'rowing', path: PAGE_PATHS.ROWING },
   { permission: 'todo', path: PAGE_PATHS.TODO },
   { permission: 'people', path: PAGE_PATHS.PEOPLE },
   { permission: 'devices', path: PAGE_PATHS.DEVICES },
@@ -66,6 +69,8 @@ const router = createBrowserRouter([
           { path: 'history', element: <History /> },
         ],
       },
+      { path: 'rowing', element: <PermissionRoute permission="rowing"><Rowing /></PermissionRoute> },
+      { path: 'rowing/race/:id', element: <PermissionRoute permission="rowing"><RaceTimer /></PermissionRoute> },
       { path: 'todo', element: <PermissionRoute permission="todo"><ToDo /></PermissionRoute> },
       { path: 'devices', element: <PermissionRoute permission="devices"><Devices /></PermissionRoute> },
       { path: 'events', element: <PermissionRoute permission="events"><Events /></PermissionRoute> },
