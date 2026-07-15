@@ -58,7 +58,7 @@ type UseRowingReturn = {
   startRace: ({ distance, raceType, crewIds, eventType, windConditions, notes }: { distance: string; raceType: RaceType; crewIds: number[]; eventType?: string; windConditions?: string; notes?: string }) => Promise<number>;
   openRace: ({ id }: { id: number }) => Promise<void>;
   finishRace: ({ id }: { id: number }) => Promise<void>;
-  removeRace: ({ id }: { id: number }) => Promise<void>;
+  removeRace: ({ id, date }: { id: number; date?: string }) => Promise<void>;
   sendBoatStart: ({ raceId, entryId, boatName, timestamp }: { raceId: number; entryId: number; boatName: string; timestamp: number }) => Promise<void>;
   sendBoatFinish: ({ raceId, entryId, boatName, timestamp, elapsedMs }: { raceId: number; entryId: number; boatName: string; timestamp: number; elapsedMs: number }) => Promise<void>;
   setEntryDns: ({ entryId }: { entryId: number }) => Promise<void>;
@@ -222,9 +222,9 @@ export function useRowing(): UseRowingReturn {
     await fetchAllRaces();
   }, [loadRace, fetchAllRaces]);
 
-  const removeRace = useCallback(async ({ id }: { id: number }) => {
+  const removeRace = useCallback(async ({ id, date }: { id: number; date?: string }) => {
     await deleteRace({ id });
-    await fetchAllRaces();
+    await fetchAllRaces({ date });
   }, [fetchAllRaces]);
 
   const sendBoatStart = useCallback(async ({ raceId, entryId, boatName, timestamp }: { raceId: number; entryId: number; boatName: string; timestamp: number }) => {

@@ -665,8 +665,8 @@ function Rowing(): ReactElement {
 
   const handleDeleteRace = useCallback(async (id: number) => {
     if (!window.confirm('Delete this race and all its results?')) return;
-    await removeRace({ id });
-  }, [removeRace]);
+    await removeRace({ id, date: raceDateFilter });
+  }, [removeRace, raceDateFilter]);
 
   const handleDeleteBoat = useCallback(async (id: number) => {
     if (!window.confirm('Delete this boat?')) return;
