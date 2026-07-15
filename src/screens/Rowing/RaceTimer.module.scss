@@ -289,6 +289,12 @@
     border-color: $color-error;
     background: $color-error-light;
   }
+
+  &.entryFinished {
+    border-color: $color-success;
+    background: $color-success-light;
+    opacity: 0.85;
+  }
 }
 
 .entryBoat {
@@ -512,7 +518,249 @@
   font-weight: 500;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: color.adjust(#4caf50, $lightness: -8%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ── Entry info (clickable boat + crew summary) ─────────────────────────────────
+
+.entryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+
+  &:hover .entryBoat,
+  &:hover .resultBoat {
+    color: $color-primary;
+  }
+}
+
+.entryCrew {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Entry actions group ────────────────────────────────────────────────────────
+
+.entryActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+// ── Reassign crew button ───────────────────────────────────────────────────────
+
+.reassignBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-text-muted;
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  &:hover {
+    color: $color-primary;
+    background: $color-primary-light;
+  }
+}
+
+// ── Crew picker in reassign modal ──────────────────────────────────────────────
+
+.crewPickerList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.crewPickerItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.crewPickerActive {
+    border-color: $color-primary;
+    background: $color-primary-light;
+  }
+}
+
+.crewPickerBoat {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.crewPickerClass {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+}
+
+.confirmError {
+  color: $color-error;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+// ── Edit Lineup Modal ──────────────────────────────────────────────────────────
+
+.lineupModal {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-elevated;
+  padding: $spacing-lg;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.lineupField {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.lineupFieldLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $color-text-secondary;
+
+  .lineupFieldHint {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: $color-text-muted;
+  }
+}
+
+.lineupChipRow {
+  display: flex;
+  gap: $spacing-xs;
+  flex-wrap: wrap;
+}
+
+.lineupChip {
+  padding: $spacing-xs $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &.lineupChipActive {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
+.lineupSeatTable {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.lineupSeatRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.lineupSeatLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  min-width: 56px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.lineupSeatLabelCox {
+  color: $color-warning;
+}
+
+// ── Lineup View Modal ──────────────────────────────────────────────────────────
+
+.lineupViewHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.lineupViewClass {
+  font-size: 0.85rem;
+  color: $color-text-secondary;
+  margin: 0;
+}
+
+.lineupViewName {
+  font-size: 0.9rem;
+  color: $color-text-primary;
+  font-weight: 500;
+}
+
+.lineupViewEmpty {
+  color: $color-text-muted;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.lineupSeatSelect {
+  flex: 1;
+  padding: $spacing-xs $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-primary;
+  font-size: 0.85rem;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
   }
 }

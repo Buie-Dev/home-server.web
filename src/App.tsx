@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import Layout from 'components/Layout/Layout';
 import Devices from 'screens/Devices/Devices';
@@ -10,6 +10,7 @@ import People from 'screens/People/People';
 import Permissions from 'screens/Permissions/Permissions';
 import Rowing from 'screens/Rowing/Rowing';
 import RaceTimer from 'screens/Rowing/RaceTimer';
+import StrokeRate from 'screens/Rowing/StrokeRate';
 import ToDo from 'screens/ToDo/ToDo';
 import Queue from 'screens/Queue/Queue';
 import Schedules from 'screens/Schedules/Schedules';
@@ -71,6 +72,7 @@ const router = createBrowserRouter([
       },
       { path: 'rowing', element: <PermissionRoute permission="rowing"><Rowing /></PermissionRoute> },
       { path: 'rowing/race/:id', element: <PermissionRoute permission="rowing"><RaceTimer /></PermissionRoute> },
+      { path: 'rowing/stroke-rate', element: <PermissionRoute permission="rowing"><StrokeRate /></PermissionRoute> },
       { path: 'todo', element: <PermissionRoute permission="todo"><ToDo /></PermissionRoute> },
       { path: 'devices', element: <PermissionRoute permission="devices"><Devices /></PermissionRoute> },
       { path: 'events', element: <PermissionRoute permission="events"><Events /></PermissionRoute> },

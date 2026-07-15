@@ -1,4 +1,4 @@
-import { get, post, put } from 'api/base.api';
+import { get, post, put, del } from 'api/base.api';
 import { AUTH, ADMIN } from 'api/routes';
 
 interface LoginResponse {
@@ -23,4 +23,8 @@ export const setUserPermissions = (userId: number, permissions: Record<string, b
 
 export const createUser = ({ username, password }: { username: string; password: string }): Promise<{ id: number; username: string }> => {
   return post<{ id: number; username: string }>(`${ADMIN}/users`, { username, password });
+};
+
+export const deleteUser = ({ userId }: { userId: number }): Promise<void> => {
+  return del<void>(`${ADMIN}/users/${userId}`);
 };

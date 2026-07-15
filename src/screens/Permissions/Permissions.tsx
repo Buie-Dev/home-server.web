@@ -1,16 +1,17 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import AddIcon from '@mui/icons-material/Add';
 import EmptyState from 'components/EmptyState/EmptyState';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import PageContainer from 'components/PageContainer/PageContainer';
-import { fetchAllUsers, setUserPermissions, createUser } from 'api/auth.api';
+import { fetchAllUsers, setUserPermissions, createUser, deleteUser } from 'api/auth.api';
 import { useAuth } from 'context/AuthContext';
 import styles from './Permissions.module.scss';
 
 const ALL_PAGES = [
   { key: 'irrigation', label: 'Irrigation' },
+  { key: 'rowing', label: 'Rowing' },
   { key: 'people', label: 'People' },
   { key: 'todo', label: 'To Do' },
   { key: 'events', label: 'Events' },
@@ -55,10 +56,12 @@ function Permissions(): ReactElement {
     setAddError('');
     setAdding(true);
     try {
-      const created = await createUser({ username: newUsername.trim(), password: newPassword });
-      const emptyPerms = Object.fromEntries(ALL_PAGES.map(({ key }) => [key, false]));
-      setUsers((prev) => [...prev, { id: created.id, username: created.username, permissions: emptyPerms }]);
-      setDirty((prev) => ({ ...prev, [created.id]: { ...emptyPerms } }));
+      await createUser({ username: newUsername.trim(), password: newPassword });
+      const data = await fetchAllUsers();
+      setUsers(data);
+      const refreshed: Record<number, Record<string, boolean>> = {};
+      data.forEach((u) => { refreshed[u.id] = { ...u.permissions }; });
+      setDirty(refreshed);
       setShowAddDialog(false);
       setNewUsername('');
       setNewPassword('');
@@ -78,6 +81,17 @@ function Permissions(): ReactElement {
       console.error(e);
     } finally {
       setSaving(null);
+    }
+  };
+
+  const handleDeleteUser = async (userId: number, username: string): Promise<void> => {
+    if (!window.confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+    try {
+      await deleteUser({ userId });
+      setUsers((prev) => prev.filter((u) => u.id !== userId));
+      setDirty((prev) => { const next = { ...prev }; delete next[userId]; return next; });
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -150,6 +164,15 @@ function Permissions(): ReactElement {
                       disabled={saving === user.id}
                     >
                       {saving === user.id ? <CircularProgress size={14} /> : 'Save'}
+                    </button>
+                  )}
+                  {!isSelf && (
+                    <button
+                      type="button"
+                      className={styles.deleteBtn}
+                      onClick={() => handleDeleteUser(user.id, user.username)}
+                    >
+                      Delete
                     </button>
                   )}
                 </div>

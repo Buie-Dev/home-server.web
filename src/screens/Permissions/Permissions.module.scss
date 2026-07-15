@@ -118,7 +118,7 @@
 .cardHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: $spacing-sm;
   margin-bottom: $spacing-md;
 }
 
@@ -126,6 +126,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: $color-text-primary;
+  flex: 1;
 }
 
 .saveBtn {
@@ -148,6 +149,23 @@
   &:disabled {
     opacity: 0.6;
     cursor: default;
+  }
+}
+
+.deleteBtn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-error;
+  background: none;
+  padding: 4px 10px;
+  border-radius: $radius-sm;
+  border: 1.5px solid $color-error;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background-color: $color-error;
+    color: $color-surface;
   }
 }
 

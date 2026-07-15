@@ -13,19 +13,46 @@
 
 .header {
   margin-bottom: $spacing-lg;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: $spacing-sm;
 }
 
 .title {
   font-size: 1.6rem;
   font-weight: 700;
   color: $color-text-primary;
-  margin: 0 0 $spacing-md;
+  margin: 0;
+  flex: 1 1 100%;
 }
 
 .tabs {
   display: flex;
+  flex: 1;
   gap: $spacing-xs;
   border-bottom: 2px solid $color-border;
+}
+
+.strokeRateBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: none;
+  border: 1.5px solid $color-primary;
+  border-radius: $radius-sm;
+  color: $color-primary;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: $spacing-xs $spacing-md;
+  cursor: pointer;
+  white-space: nowrap;
+  align-self: flex-end;
+  margin-bottom: 2px;
+
+  &:hover {
+    background: $color-primary-light;
+  }
 }
 
 .tab {
@@ -292,6 +319,90 @@
   font-size: 0.9rem;
   color: $color-text-primary;
   font-weight: 600;
+}
+
+// ── Boat Card ─────────────────────────────────────────────────────────────────
+
+.boatCardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.boatClassName {
+  font-size: 0.7rem;
+  color: $color-text-muted;
+}
+
+// ── Crew Member Gender Badge ───────────────────────────────────────────────────
+
+.crewMemberGender {
+  font-size: 0.75rem;
+  color: $color-text-secondary;
+  background: $color-divider;
+  padding: 1px $spacing-sm;
+  border-radius: $radius-sm;
+}
+
+// ── Boat Class Selector ────────────────────────────────────────────────────────
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+}
+
+.boatClassList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.boatClassItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.boatClassSelected {
+    border-color: $color-primary;
+    background: $color-primary-light;
+  }
+}
+
+.boatClassSymbol {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: $color-primary;
+  min-width: 32px;
+}
+
+.boatClassLabel {
+  flex: 1;
+  font-size: 0.875rem;
+  color: $color-text-primary;
+}
+
+.coxBadge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: $color-warning-light;
+  color: $color-warning;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-sm;
 }
 
 // ── Boats ─────────────────────────────────────────────────────────────────────
@@ -573,4 +684,243 @@
     opacity: 0.6;
     cursor: not-allowed;
   }
+}
+
+// ── Shared small toggles + hints ───────────────────────────────────────────────
+
+.toggleBtnSm {
+  flex: none;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.8rem;
+}
+
+.optionalHint {
+  font-weight: 400;
+  color: $color-text-muted;
+  font-size: 0.75rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+// ── Edit button ────────────────────────────────────────────────────────────────
+
+.editBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-text-muted;
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: $color-primary;
+    background: $color-primary-light;
+  }
+}
+
+// ── Seat layout table (used in crew modal) ─────────────────────────────────────
+
+.seatTable {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.seatRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.seatLabel {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  min-width: 60px;
+  text-align: right;
+}
+
+.seatLabelCox {
+  color: $color-warning;
+}
+
+.seatSelect {
+  flex: 1;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.875rem;
+  color: $color-text-primary;
+  background: $color-surface;
+  outline: none;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+// ── Crew version note ──────────────────────────────────────────────────────────
+
+.crewVersionNote {
+  font-size: 0.8rem;
+  color: $color-warning;
+  background: $color-warning-light;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  margin: 0;
+}
+
+// ── Boat selector inside crew modal ───────────────────────────────────────────
+
+.boatSelectList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.boatSelectItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.boatSelectActive {
+    border-color: $color-primary;
+    background: $color-primary-light;
+  }
+}
+
+.boatSelectSymbol {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: $color-primary;
+  min-width: 28px;
+}
+
+.boatSelectName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.boatSelectClass {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+}
+
+// ── Crew Cards ─────────────────────────────────────────────────────────────────
+
+.crewCardList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.crewCard {
+  background: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.crewCardHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border-bottom: 1px solid $color-divider;
+}
+
+.crewCardIcon {
+  color: $color-primary;
+  flex-shrink: 0;
+}
+
+.crewCardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.crewCardBoatName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.crewCardClassName {
+  font-size: 0.7rem;
+  color: $color-text-muted;
+}
+
+.crewCardActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.crewSeatList {
+  padding: $spacing-xs $spacing-md $spacing-sm;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.crewSeatItem {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  font-size: 0.82rem;
+  padding: 2px 0;
+}
+
+.crewSeatLabel {
+  min-width: 52px;
+  font-weight: 600;
+  color: $color-text-secondary;
+  text-align: right;
+  font-size: 0.78rem;
+}
+
+.crewSeatLabelCox {
+  color: $color-warning;
+}
+
+.crewSeatName {
+  color: $color-text-primary;
+  font-weight: 500;
+}
+
+.crewSeatEmpty {
+  color: $color-text-muted;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.crewHasResultsBadge {
+  display: block;
+  font-size: 0.7rem;
+  color: $color-text-muted;
+  padding: $spacing-xs $spacing-md;
+  border-top: 1px solid $color-divider;
+  background: $color-background;
 }

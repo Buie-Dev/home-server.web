@@ -12,4 +12,5 @@ export const PAGE_PATHS = {
   PERMISSIONS: '/admin/permissions',
   ROWING: '/rowing',
   ROWING_RACE: '/rowing/race',
+  ROWING_STROKE_RATE: '/rowing/stroke-rate',
 } as const;

@@ -1,0 +1,131 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  background: $color-background;
+}
+
+.topBar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+  box-shadow: $shadow-card;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: none;
+  border: none;
+  color: $color-primary;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background: $color-primary-light;
+  }
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin: 0;
+}
+
+.resetBtn {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  background: none;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  color: $color-text-secondary;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: $spacing-xs $spacing-sm;
+
+  &:hover:not(:disabled) {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+// ── SPM display ───────────────────────────────────────────────────────────────
+
+.display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl * 2 $spacing-lg $spacing-xl;
+  gap: $spacing-sm;
+}
+
+.spmValue {
+  font-size: 6rem;
+  font-weight: 800;
+  color: $color-primary;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.spmPlaceholder {
+  font-size: 6rem;
+  font-weight: 800;
+  color: $color-border;
+  line-height: 1;
+}
+
+.spmLabel {
+  font-size: 1rem;
+  font-weight: 500;
+  color: $color-text-secondary;
+  letter-spacing: 0.05em;
+}
+
+// ── Tap button ────────────────────────────────────────────────────────────────
+
+.tapBtn {
+  width: min(320px, 80vw);
+  height: min(320px, 80vw);
+  border-radius: 50%;
+  background: $color-primary;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(33, 150, 243, 0.35);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active {
+    transform: scale(0.93);
+    box-shadow: 0 4px 16px rgba(33, 150, 243, 0.25);
+  }
+}
+

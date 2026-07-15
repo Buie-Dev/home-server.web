@@ -1,24 +1,73 @@
 import { get, post, put, del } from 'api/base.api';
 import { ROWING } from 'api/routes';
 
+export type Gender = 'Men' | 'Women' | 'Mixed';
+export type AgeCategory = 'U15' | 'U17' | 'U19' | 'Open';
+
+export type BoatClass = {
+  id: number;
+  symbol: string;
+  crewCount: number;
+  hasCox: boolean;
+};
+
 export type CrewMember = {
   id: number;
   name: string;
+  gender: string;
   createdAt: string;
-};
-
-export type BoatCrewSlot = {
-  id: number;
-  crewMemberId: number;
-  crewMemberName: string;
-  seatPosition: number;
 };
 
 export type Boat = {
   id: number;
   name: string;
+  boatClassId: number | null;
+  boatClassSymbol: string | null;
+  boatClassCrewCount: number | null;
+  boatClassHasCox: boolean;
   createdAt: string;
-  crew: BoatCrewSlot[];
+};
+
+export type CrewSeat = {
+  crewMemberId: number;
+  name: string;
+  gender: string;
+};
+
+export type Crew = {
+  id: number;
+  boatId: number;
+  boatName: string;
+  boatClassId: number | null;
+  boatClassSymbol: string | null;
+  boatClassCrewCount: number | null;
+  boatClassHasCox: boolean;
+  gender: Gender;
+  ageCategory: AgeCategory;
+  crewClassName: string | null;
+  cox: CrewSeat | null;
+  seat1: CrewSeat | null;
+  seat2: CrewSeat | null;
+  seat3: CrewSeat | null;
+  seat4: CrewSeat | null;
+  seat5: CrewSeat | null;
+  seat6: CrewSeat | null;
+  seat7: CrewSeat | null;
+  seat8: CrewSeat | null;
+  hasResults: boolean;
+  createdAt: string;
+};
+
+export type CrewSeats = {
+  cox: number | null;
+  seat1: number | null;
+  seat2: number | null;
+  seat3: number | null;
+  seat4: number | null;
+  seat5: number | null;
+  seat6: number | null;
+  seat7: number | null;
+  seat8: number | null;
 };
 
 export type RaceType = 'time_trial' | 'side_by_side';
@@ -27,7 +76,7 @@ export type RaceStatus = 'pending' | 'active' | 'completed';
 export type RaceEntry = {
   id: number;
   raceId: number;
-  boatId: number;
+  crewId: number | null;
   boatName: string;
   startTime: number | null;
   finishTime: number | null;
@@ -41,6 +90,7 @@ export type Race = {
   id: number;
   distance: string;
   raceType: RaceType;
+  eventType: string | null;
   windConditions: string | null;
   notes: string | null;
   status: RaceStatus;
@@ -49,33 +99,19 @@ export type Race = {
   entries: RaceEntry[];
 };
 
-type CreateBoatParams = {
-  name: string;
-  crewMemberIds: number[];
-};
+// ── Boat Classes ───────────────────────────────────────────────────────────────
 
-type UpdateBoatParams = {
-  name: string;
-  crewMemberIds: number[];
-};
-
-type CreateRaceParams = {
-  distance: string;
-  raceType: RaceType;
-  boatIds: number[];
-  windConditions?: string;
-  notes?: string;
-};
+export const fetchBoatClasses = (): Promise<BoatClass[]> => get(`${ROWING}/boat-classes`);
 
 // ── Crew Members ──────────────────────────────────────────────────────────────
 
 export const fetchCrewMembers = (): Promise<CrewMember[]> => get(`${ROWING}/crew`);
 
-export const createCrewMember = ({ name }: { name: string }): Promise<{ id: number }> =>
-  post(`${ROWING}/crew`, { name });
+export const createCrewMember = ({ name, gender }: { name: string; gender: string }): Promise<{ id: number }> =>
+  post(`${ROWING}/crew`, { name, gender });
 
-export const updateCrewMember = ({ id, name }: { id: number; name: string }): Promise<{ success: boolean }> =>
-  put(`${ROWING}/crew/${id}`, { name });
+export const updateCrewMember = ({ id, name, gender }: { id: number; name: string; gender: string }): Promise<{ success: boolean }> =>
+  put(`${ROWING}/crew/${id}`, { name, gender });
 
 export const deleteCrewMember = ({ id }: { id: number }): Promise<{ success: boolean }> =>
   del(`${ROWING}/crew/${id}`);
@@ -84,14 +120,30 @@ export const deleteCrewMember = ({ id }: { id: number }): Promise<{ success: boo
 
 export const fetchBoats = (): Promise<Boat[]> => get(`${ROWING}/boats`);
 
-export const createBoat = ({ name, crewMemberIds }: CreateBoatParams): Promise<{ id: number }> =>
-  post(`${ROWING}/boats`, { name, crewMemberIds });
+export const createBoat = ({ name, boatClassId }: { name: string; boatClassId?: number }): Promise<{ id: number }> =>
+  post(`${ROWING}/boats`, { name, boatClassId });
 
-export const updateBoat = ({ id, name, crewMemberIds }: UpdateBoatParams & { id: number }): Promise<{ success: boolean }> =>
-  put(`${ROWING}/boats/${id}`, { name, crewMemberIds });
+export const updateBoat = ({ id, name, boatClassId }: { id: number; name: string; boatClassId?: number }): Promise<{ success: boolean }> =>
+  put(`${ROWING}/boats/${id}`, { name, boatClassId });
 
 export const deleteBoat = ({ id }: { id: number }): Promise<{ success: boolean }> =>
   del(`${ROWING}/boats/${id}`);
+
+// ── Crews ─────────────────────────────────────────────────────────────────────
+
+export const fetchCrews = (): Promise<Crew[]> => get(`${ROWING}/crews`);
+
+export const createCrew = ({ boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 }: { boatId: number; gender: Gender; ageCategory: AgeCategory } & CrewSeats): Promise<{ id: number }> =>
+  post(`${ROWING}/crews`, { boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 });
+
+export const updateCrew = ({ id, boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 }: { id: number; boatId: number; gender: Gender; ageCategory: AgeCategory } & CrewSeats): Promise<{ id: number; copied: boolean }> =>
+  put(`${ROWING}/crews/${id}`, { boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 });
+
+export const deleteCrew = ({ id }: { id: number }): Promise<{ success: boolean }> =>
+  del(`${ROWING}/crews/${id}`);
+
+export const updateCrewLineup = ({ id, boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 }: { id: number; boatId: number; gender: Gender; ageCategory: AgeCategory } & CrewSeats): Promise<{ success: boolean }> =>
+  put(`${ROWING}/crews/${id}/lineup`, { boatId, gender, ageCategory, cox, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8 });
 
 // ── Races ─────────────────────────────────────────────────────────────────────
 
@@ -99,8 +151,15 @@ export const fetchRaces = (): Promise<Race[]> => get(`${ROWING}/races`);
 
 export const fetchRace = ({ id }: { id: number }): Promise<Race> => get(`${ROWING}/races/${id}`);
 
-export const createRace = ({ distance, raceType, boatIds, windConditions, notes }: CreateRaceParams): Promise<{ id: number }> =>
-  post(`${ROWING}/races`, { distance, raceType, boatIds, windConditions, notes });
+export const createRace = ({ distance, raceType, crewIds, eventType, windConditions, notes }: {
+  distance: string;
+  raceType: RaceType;
+  crewIds: number[];
+  eventType?: string;
+  windConditions?: string;
+  notes?: string;
+}): Promise<{ id: number }> =>
+  post(`${ROWING}/races`, { distance, raceType, crewIds, eventType, windConditions, notes });
 
 export const activateRace = ({ id }: { id: number }): Promise<{ success: boolean }> =>
   post(`${ROWING}/races/${id}/activate`);
@@ -124,6 +183,9 @@ export const markEntryDns = ({ entryId }: { entryId: number }): Promise<{ succes
 
 export const markEntryDnf = ({ entryId }: { entryId: number }): Promise<{ success: boolean }> =>
   post(`${ROWING}/entries/${entryId}/dnf`);
+
+export const updateEntryCrew = ({ entryId, crewId }: { entryId: number; crewId: number }): Promise<{ success: boolean }> =>
+  put(`${ROWING}/entries/${entryId}/crew`, { crewId });
 
 export const deleteEntry = ({ entryId }: { entryId: number }): Promise<{ success: boolean }> =>
   del(`${ROWING}/entries/${entryId}`);
