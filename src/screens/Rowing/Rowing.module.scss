@@ -113,6 +113,20 @@
   }
 }
 
+.dateFilter {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.85rem;
+  color: $color-text-primary;
+  background: $color-surface;
+  outline: none;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
 .errorBanner {
   background: $color-error-light;
   color: $color-error;
@@ -272,6 +286,15 @@
 .raceDate {
   font-size: 0.8rem;
   color: $color-text-secondary;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.raceStartTime {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-size: 0.75rem;
+  color: $color-text-muted;
 }
 
 .raceMeta {
@@ -308,10 +331,23 @@
   color: $color-text-secondary;
 }
 
-.entryBoat {
+.entryInfo {
   flex: 1;
-  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.entryBoat {
+  font-weight: 600;
   color: $color-text-primary;
+  font-size: 0.875rem;
+}
+
+.entryKeyPerson {
+  font-size: 0.75rem;
+  color: $color-text-secondary;
 }
 
 .entryTime {

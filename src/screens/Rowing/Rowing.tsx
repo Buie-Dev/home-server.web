@@ -59,11 +59,23 @@ function formatElapsed(elapsedMs: number): string {
   return `${minutes}:${seconds.toFixed(2).padStart(5, '0')}`;
 }
 
+function formatStartTime(ts: number): string {
+  const d = new Date(ts);
+  const h = d.getHours().toString().padStart(2, '0');
+  const m = d.getMinutes().toString().padStart(2, '0');
+  const s = d.getSeconds().toString().padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
 // ── Race Card ──────────────────────────────────────────────────────────────────
 
 function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void; onOpen: () => void }): ReactElement {
   const finishedEntries = race.entries.filter((e) => e.elapsedMs !== null && !e.dns && !e.dnf);
   const pendingEntries = race.entries.filter((e) => e.elapsedMs === null && !e.dns && !e.dnf);
+  const firstStartTime = race.entries.reduce<number | null>((min, e) => {
+    if (e.startTime === null) return min;
+    return min === null || e.startTime < min ? e.startTime : min;
+  }, null);
 
   return (
     <div className={styles.raceCard}>
@@ -86,7 +98,10 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
         </div>
       </div>
       <div className={styles.raceCardBody}>
-        <span className={styles.raceDate}>{formatDate(race.createdAt, dateFormats.abbreviatedPrettyWithWeekday)}</span>
+        <span className={styles.raceDate}>
+          {formatDate(race.createdAt, dateFormats.abbreviatedPrettyWithWeekday)}
+          {firstStartTime !== null && <span className={styles.raceStartTime}>{formatStartTime(firstStartTime)}</span>}
+        </span>
         {race.windConditions && <span className={styles.raceMeta}>Wind: {race.windConditions}</span>}
         {race.notes && <span className={styles.raceMeta}>{race.notes}</span>}
       </div>
@@ -95,28 +110,40 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
           {finishedEntries.map((entry) => (
             <div key={entry.id} className={styles.entryRow}>
               <span className={styles.entryPlacement}>{entry.placement != null ? `#${entry.placement}` : '—'}</span>
-              <span className={styles.entryBoat}>{entry.boatName}</span>
+              <span className={styles.entryInfo}>
+                <span className={styles.entryBoat}>{entry.boatName}</span>
+                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+              </span>
               <span className={styles.entryTime}>{entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}</span>
             </div>
           ))}
           {pendingEntries.map((entry) => (
             <div key={entry.id} className={`${styles.entryRow} ${styles.entryPending}`}>
               <span className={styles.entryPlacement}>—</span>
-              <span className={styles.entryBoat}>{entry.boatName}</span>
+              <span className={styles.entryInfo}>
+                <span className={styles.entryBoat}>{entry.boatName}</span>
+                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+              </span>
               <span className={styles.entryTime}>Pending</span>
             </div>
           ))}
           {race.entries.filter((e) => e.dns).map((entry) => (
             <div key={entry.id} className={`${styles.entryRow} ${styles.entryDns}`}>
               <span className={styles.entryPlacement}>DNS</span>
-              <span className={styles.entryBoat}>{entry.boatName}</span>
+              <span className={styles.entryInfo}>
+                <span className={styles.entryBoat}>{entry.boatName}</span>
+                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+              </span>
               <span className={styles.entryTime}>—</span>
             </div>
           ))}
           {race.entries.filter((e) => e.dnf).map((entry) => (
             <div key={entry.id} className={`${styles.entryRow} ${styles.entryDnf}`}>
               <span className={styles.entryPlacement}>DNF</span>
-              <span className={styles.entryBoat}>{entry.boatName}</span>
+              <span className={styles.entryInfo}>
+                <span className={styles.entryBoat}>{entry.boatName}</span>
+                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+              </span>
               <span className={styles.entryTime}>—</span>
             </div>
           ))}
@@ -588,6 +615,7 @@ function Rowing(): ReactElement {
   } = useRowing();
 
   const [activeTab, setActiveTab] = useState<Tab>('races');
+  const [raceDateFilter, setRaceDateFilter] = useState(() => new Date().toISOString().slice(0, 10));
   const [showCreateRace, setShowCreateRace] = useState(false);
   const [showCreateBoat, setShowCreateBoat] = useState(false);
   const [showCreateCrew, setShowCreateCrew] = useState(false);
@@ -595,12 +623,15 @@ function Rowing(): ReactElement {
   const [editingCrew, setEditingCrew] = useState<Crew | null>(null);
 
   useEffect(() => {
-    fetchAllRaces();
     fetchAllBoats();
     fetchAllCrew();
     fetchAllCrews();
     fetchAllBoatClasses();
-  }, [fetchAllRaces, fetchAllBoats, fetchAllCrew, fetchAllCrews, fetchAllBoatClasses]);
+  }, [fetchAllBoats, fetchAllCrew, fetchAllCrews, fetchAllBoatClasses]);
+
+  useEffect(() => {
+    fetchAllRaces({ date: raceDateFilter });
+  }, [fetchAllRaces, raceDateFilter]);
 
   const handleCreateRace = useCallback(async (form: CreateRaceFormState) => {
     const raceId = await startRace({
@@ -665,6 +696,12 @@ function Rowing(): ReactElement {
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Race History</h2>
+            <input
+              type="date"
+              className={styles.dateFilter}
+              value={raceDateFilter}
+              onChange={(e) => setRaceDateFilter(e.target.value)}
+            />
             <button className={styles.addBtn} onClick={() => setShowCreateRace(true)}>
               <AddIcon fontSize="small" /> New Race
             </button>

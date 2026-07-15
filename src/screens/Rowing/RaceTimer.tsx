@@ -39,14 +39,17 @@ function buildSeatKeys(hasCox: boolean, crewCount: number): string[] {
   return keys;
 }
 
-function getCrewSummary(crew: Crew | null): string {
-  if (!crew) return '';
+function getCrewSummary(crew: Crew | null, entry?: RaceEntry): string {
   const parts: string[] = [];
-  if (crew.crewClassName) parts.push(crew.crewClassName);
-  if (crew.boatClassHasCox) {
-    parts.push(crew.cox ? `Cox: ${crew.cox.name}` : 'No cox assigned');
-  } else if (crew.seat1) {
-    parts.push(`Stroke: ${crew.seat1.name}`);
+  if (crew) {
+    if (crew.crewClassName) parts.push(crew.crewClassName);
+    if (crew.boatClassHasCox) {
+      parts.push(crew.cox ? `Cox: ${crew.cox.name}` : 'No cox assigned');
+    } else if (crew.seat1) {
+      parts.push(`Stroke: ${crew.seat1.name}`);
+    }
+  } else if (entry?.keyPerson) {
+    parts.push(entry.keyPerson);
   }
   return parts.join(' · ');
 }
@@ -485,7 +488,7 @@ function RaceTimer(): ReactElement {
                   <span className={styles.dnsBadge}>DNS</span>
                   <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                     <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew)}</span>
+                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                   </button>
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
@@ -500,7 +503,7 @@ function RaceTimer(): ReactElement {
                   <span className={styles.dnfBadge}>DNF</span>
                   <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                     <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew)}</span>
+                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                   </button>
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
@@ -517,7 +520,7 @@ function RaceTimer(): ReactElement {
                   </span>
                   <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                     <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew)}</span>
+                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                   </button>
                   <span className={styles.resultTime}>
                     {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
@@ -534,7 +537,7 @@ function RaceTimer(): ReactElement {
                 <div key={entry.id} className={`${styles.entryCard} ${styles.entryOnCourse}`}>
                   <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                     <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew)}</span>
+                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                   </button>
                   {startTs !== null && <ElapsedTicker startTimestamp={startTs} />}
                   <div className={styles.entryActions}>
@@ -557,7 +560,7 @@ function RaceTimer(): ReactElement {
               <div key={entry.id} className={styles.entryCard}>
                 <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                   <span className={styles.entryBoat}>{entry.boatName}</span>
-                  <span className={styles.entryCrew}>{getCrewSummary(crew)}</span>
+                  <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                 </button>
                 <div className={styles.entryActions}>
                   {activeRace.status === 'active' && role === 'start' && !isSideBySide && (

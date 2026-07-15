@@ -78,6 +78,9 @@ export type RaceEntry = {
   raceId: number;
   crewId: number | null;
   boatName: string;
+  coxName: string | null;
+  strokeName: string | null;
+  keyPerson: string | null;
   startTime: number | null;
   finishTime: number | null;
   elapsedMs: number | null;
@@ -147,7 +150,7 @@ export const updateCrewLineup = ({ id, boatId, gender, ageCategory, cox, seat1, 
 
 // ── Races ─────────────────────────────────────────────────────────────────────
 
-export const fetchRaces = (): Promise<Race[]> => get(`${ROWING}/races`);
+export const fetchRaces = ({ date }: { date?: string } = {}): Promise<Race[]> => get(`${ROWING}/races`, date ? { date } : undefined);
 
 export const fetchRace = ({ id }: { id: number }): Promise<Race> => get(`${ROWING}/races/${id}`);
 

@@ -53,7 +53,7 @@ type UseRowingReturn = {
   editCrew: ({ id, boatId, gender, ageCategory, ...seats }: { id: number; boatId: number; gender: Gender; ageCategory: AgeCategory } & CrewSeats) => Promise<{ copied: boolean }>;
   editCrewLineup: ({ id, boatId, gender, ageCategory, ...seats }: { id: number; boatId: number; gender: Gender; ageCategory: AgeCategory } & CrewSeats) => Promise<void>;
   removeCrew: ({ id }: { id: number }) => Promise<void>;
-  fetchAllRaces: () => Promise<void>;
+  fetchAllRaces: (params?: { date?: string }) => Promise<void>;
   loadRace: ({ id }: { id: number }) => Promise<void>;
   startRace: ({ distance, raceType, crewIds, eventType, windConditions, notes }: { distance: string; raceType: RaceType; crewIds: number[]; eventType?: string; windConditions?: string; notes?: string }) => Promise<number>;
   openRace: ({ id }: { id: number }) => Promise<void>;
@@ -172,11 +172,12 @@ export function useRowing(): UseRowingReturn {
     await fetchAllCrews();
   }, [fetchAllCrews]);
 
-  const fetchAllRaces = useCallback(async () => {
+  const fetchAllRaces = useCallback(async (params?: { date?: string }) => {
+    const date = params?.date;
     setIsLoading(true);
     setError(null);
     try {
-      setRaces(await fetchRaces());
+      setRaces(await fetchRaces({ date }));
     } catch {
       setError('Failed to load races');
     } finally {
