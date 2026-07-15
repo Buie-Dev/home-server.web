@@ -2,7 +2,7 @@ import { get, post, put, del } from 'api/base.api';
 import { ROWING } from 'api/routes';
 
 export type Gender = 'Men' | 'Women' | 'Mixed';
-export type AgeCategory = 'U15' | 'U17' | 'U19' | 'Open';
+export type AgeCategory = 'U15' | 'U17' | 'U19' | 'U23' | 'Open';
 
 export type BoatClass = {
   id: number;
@@ -87,6 +87,11 @@ export type RaceEntry = {
   dns: boolean;
   dnf: boolean;
   placement: number | null;
+  gender: string | null;
+  ageCategory: string | null;
+  boatClassSymbol: string | null;
+  wbtPct: number | null;
+  wbtIsEstimated: boolean;
 };
 
 export type Race = {
@@ -192,3 +197,4 @@ export const updateEntryCrew = ({ entryId, crewId }: { entryId: number; crewId: 
 
 export const deleteEntry = ({ entryId }: { entryId: number }): Promise<{ success: boolean }> =>
   del(`${ROWING}/entries/${entryId}`);
+

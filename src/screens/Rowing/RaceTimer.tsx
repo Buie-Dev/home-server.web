@@ -16,7 +16,7 @@ import styles from './RaceTimer.module.scss';
 type Role = 'start' | 'finish' | 'observer';
 type LiveStartMap = Record<number, number>;
 
-const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19'] as const;
+const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19', 'U23'] as const;
 
 const EMPTY_SEATS: CrewSeats = {
   cox: null, seat1: null, seat2: null, seat3: null, seat4: null,
@@ -59,6 +59,13 @@ function formatElapsed(ms: number): string {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toFixed(2).padStart(5, '0')}`;
+}
+
+function formatPlacement(rank: number | null): string {
+  if (rank === 1) return '🥇';
+  if (rank === 2) return '🥈';
+  if (rank === 3) return '🥉';
+  return rank !== null ? `#${rank}` : '—';
 }
 
 function ElapsedTicker({ startTimestamp }: { startTimestamp: number }): ReactElement {
@@ -286,6 +293,7 @@ function RaceTimer(): ReactElement {
   const { latestRowingStartEvent, latestRowingFinishEvent } = useWebSocket();
 
   const [role, setRole] = useState<Role | null>(null);
+  const [rankBy, setRankBy] = useState<'time' | 'wbt'>('wbt');
   const [liveStarts, setLiveStarts] = useState<LiveStartMap>({});
   const [finishing, setFinishing] = useState<Record<number, boolean>>({});
   const [confirmCompleteOpen, setConfirmCompleteOpen] = useState(false);
@@ -402,6 +410,7 @@ function RaceTimer(): ReactElement {
   const isSideBySide = activeRace.raceType === 'side_by_side';
   const allBoatsStarted = activeRace.entries.every((e) => e.startTime !== null || e.dns);
   const allBoatsFinished = activeRace.entries.every((e) => e.finishTime !== null || e.dns || e.dnf);
+  const hasWbt = activeRace.entries.some((e) => e.wbtPct !== null);
 
   const pendingEntries = activeRace.entries.filter((e) => e.startTime === null && !e.dns && !e.dnf);
 
@@ -473,12 +482,28 @@ function RaceTimer(): ReactElement {
       )}
 
       <div className={styles.section}>
+        {activeRace.status === 'completed' && hasWbt && (
+          <div className={styles.rankBar}>
+            <span className={styles.rankLabel}>Rank by</span>
+            <button className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('time')}>Time</button>
+            <button className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('wbt')}>WBT%</button>
+          </div>
+        )}
         <div className={styles.entryGrid}>
-          {[...activeRace.entries].sort(
-            activeRace.status === 'completed'
-              ? (a, b) => (a.placement ?? 999) - (b.placement ?? 999)
-              : byStableOrder
-          ).map((entry) => {
+          {(() => {
+            const wbtRanks = new Map(
+              [...activeRace.entries]
+                .filter((e) => e.wbtPct !== null)
+                .sort((a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1))
+                .map((e, i) => [e.id, i + 1])
+            );
+            return [...activeRace.entries].sort(
+              activeRace.status === 'completed'
+                ? rankBy === 'wbt'
+                  ? (a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1)
+                  : (a, b) => (a.placement ?? 999) - (b.placement ?? 999)
+                : byStableOrder
+            ).map((entry) => {
             const crew = crews.find((c) => c.id === entry.crewId) ?? null;
             const startTs = liveStarts[entry.id] ?? entry.startTime;
 
@@ -516,15 +541,22 @@ function RaceTimer(): ReactElement {
               return (
                 <div key={entry.id} className={`${styles.entryCard} ${styles.entryFinished}`}>
                   <span className={styles.resultPlacement}>
-                    {entry.placement === 1 ? '🥇' : entry.placement === 2 ? '🥈' : entry.placement === 3 ? '🥉' : entry.placement !== null ? `#${entry.placement}` : '—'}
+                    {formatPlacement(rankBy === 'wbt' ? (wbtRanks.get(entry.id) ?? null) : entry.placement)}
                   </span>
                   <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
                     <span className={styles.entryBoat}>{entry.boatName}</span>
                     <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                   </button>
-                  <span className={styles.resultTime}>
-                    {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
-                  </span>
+                  <div className={styles.resultTimeBlock}>
+                    <span className={styles.resultTime}>
+                      {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
+                    </span>
+                    {entry.wbtPct !== null && (
+                      <span className={styles.wbtBadge}>
+                        {entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}
+                      </span>
+                    )}
+                  </div>
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
                   </button>
@@ -577,7 +609,8 @@ function RaceTimer(): ReactElement {
                 </div>
               </div>
             );
-          })}
+          });
+          })()}
         </div>
       </div>
 

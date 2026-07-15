@@ -307,6 +307,46 @@
   padding: $spacing-xs 0;
 }
 
+.entryListHeader {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  border-bottom: 1px solid $color-divider;
+}
+
+.rankLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: $spacing-xs;
+}
+
+.rankBtn {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  background: $color-surface;
+  color: $color-text-secondary;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: $color-primary;
+    color: $color-primary;
+  }
+
+  &.rankBtnActive {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: #fff;
+  }
+}
+
 .entryRow {
   display: flex;
   align-items: center;
@@ -350,11 +390,28 @@
   color: $color-text-secondary;
 }
 
+.entryTimeBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
 .entryTime {
   font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
   font-size: 0.9rem;
   color: $color-text-primary;
   font-weight: 600;
+}
+
+.wbtBadge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: $color-text-secondary;
+  background: $color-divider;
+  border-radius: $radius-sm;
+  padding: 1px $spacing-xs;
+  white-space: nowrap;
 }
 
 // ── Boat Card ─────────────────────────────────────────────────────────────────

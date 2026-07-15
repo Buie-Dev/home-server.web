@@ -29,7 +29,7 @@ type CreateBoatFormState = {
   boatClassId: number | null;
 };
 
-const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19'] as const;
+const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19', 'U23'] as const;
 
 const EMPTY_SEATS: CrewSeats = {
   cox: null, seat1: null, seat2: null, seat3: null, seat4: null,
@@ -70,8 +70,13 @@ function formatStartTime(ts: number): string {
 // ── Race Card ──────────────────────────────────────────────────────────────────
 
 function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void; onOpen: () => void }): ReactElement {
+  const [rankBy, setRankBy] = useState<'time' | 'wbt'>('wbt');
   const finishedEntries = race.entries.filter((e) => e.elapsedMs !== null && !e.dns && !e.dnf);
   const pendingEntries = race.entries.filter((e) => e.elapsedMs === null && !e.dns && !e.dnf);
+  const hasWbt = finishedEntries.some((e) => e.wbtPct !== null);
+  const sortedFinished = rankBy === 'wbt' && hasWbt
+    ? [...finishedEntries].sort((a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1))
+    : [...finishedEntries].sort((a, b) => (a.placement ?? 999) - (b.placement ?? 999));
   const firstStartTime = race.entries.reduce<number | null>((min, e) => {
     if (e.startTime === null) return min;
     return min === null || e.startTime < min ? e.startTime : min;
@@ -107,14 +112,28 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
       </div>
       {race.entries.length > 0 && (
         <div className={styles.entryList}>
-          {finishedEntries.map((entry) => (
+          {hasWbt && finishedEntries.length >= 2 && (
+            <div className={styles.entryListHeader}>
+              <span className={styles.rankLabel}>Rank by</span>
+              <button className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('time')}>Time</button>
+              <button className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('wbt')}>WBT%</button>
+            </div>
+          )}
+          {sortedFinished.map((entry, index) => (
             <div key={entry.id} className={styles.entryRow}>
-              <span className={styles.entryPlacement}>{entry.placement != null ? `#${entry.placement}` : '—'}</span>
+              <span className={styles.entryPlacement}>
+                {rankBy === 'wbt' ? `#${index + 1}` : entry.placement != null ? `#${entry.placement}` : '—'}
+              </span>
               <span className={styles.entryInfo}>
                 <span className={styles.entryBoat}>{entry.boatName}</span>
                 {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
               </span>
-              <span className={styles.entryTime}>{entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}</span>
+              <div className={styles.entryTimeBlock}>
+                <span className={styles.entryTime}>{entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}</span>
+                {entry.wbtPct !== null && (
+                  <span className={styles.wbtBadge}>{entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}</span>
+                )}
+              </div>
             </div>
           ))}
           {pendingEntries.map((entry) => (
