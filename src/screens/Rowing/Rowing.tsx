@@ -9,6 +9,8 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import PersonIcon from '@mui/icons-material/Person';
 import TimerIcon from '@mui/icons-material/Timer';
 import { useRowing } from 'hooks/useRowing.hook';
+import useBodyScrollLock from 'hooks/useBodyScrollLock.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import type { Boat, BoatClass, Crew, CrewMember, CrewSeats, Race, RaceType, Gender, AgeCategory } from 'api/rowing.api';
 import { PAGE_PATHS } from 'lib/pagesPaths';
 import { formatDate, dateFormats } from 'lib/date';
@@ -95,7 +97,7 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
         <div className={styles.raceCardActions}>
           <button className={styles.openBtn} onClick={onOpen}>
             <TimerIcon fontSize="small" />
-            {race.status === 'pending' ? 'Start Race' : race.status === 'active' ? 'Open Timer' : 'View Results'}
+            {race.status === 'completed' ? 'View Results' : 'Open Timer'}
           </button>
           <button className={styles.deleteBtn} onClick={onDelete} aria-label="Delete race">
             <DeleteIcon fontSize="small" />
@@ -179,6 +181,7 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
   onClose: () => void;
   onSubmit: (form: CreateRaceFormState) => Promise<void>;
 }): ReactElement {
+  useBodyScrollLock();
   const [form, setForm] = useState<CreateRaceFormState>({ distance: '', raceType: 'time_trial', crewIds: [], windConditions: '', notes: '' });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -278,6 +281,7 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
   onClose: () => void;
   onSubmit: (params: CrewModalSubmitParams) => Promise<void>;
 }): ReactElement {
+  useBodyScrollLock();
   const [selectedBoatId, setSelectedBoatId] = useState<number | null>(initialCrew?.boatId ?? null);
   const [gender, setGender] = useState<Gender>(initialCrew?.gender ?? 'Men');
   const [ageCategory, setAgeCategory] = useState<AgeCategory>(initialCrew?.ageCategory ?? 'Open');
@@ -354,12 +358,6 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h2 className={styles.modalTitle}>{isEditing ? `Edit Crew — ${initialCrew?.boatName}` : 'New Crew'}</h2>
-
-        {isEditing && initialCrew?.hasResults && (
-          <p className={styles.crewVersionNote}>
-            This crew has race results — saving will create a new version to preserve history.
-          </p>
-        )}
 
         {isEditing && sameClassBoats.length > 1 && (
           <div className={styles.field}>
@@ -507,6 +505,7 @@ function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
   onClose: () => void;
   onSubmit: (form: CreateBoatFormState) => Promise<void>;
 }): ReactElement {
+  useBodyScrollLock();
   const [form, setForm] = useState<CreateBoatFormState>({ name: '', boatClassId: null });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -572,6 +571,7 @@ function CrewMemberModal({ onClose, onSubmit }: {
   onClose: () => void;
   onSubmit: ({ name, gender }: { name: string; gender: string }) => Promise<void>;
 }): ReactElement {
+  useBodyScrollLock();
   const [name, setName] = useState('');
   const [gender, setGender] = useState<'Men' | 'Women'>('Men');
   const [saving, setSaving] = useState(false);
@@ -633,6 +633,7 @@ function Rowing(): ReactElement {
     startRace, removeRace,
   } = useRowing();
 
+  const { confirm, confirmElement } = useConfirm();
   const [activeTab, setActiveTab] = useState<Tab>('races');
   const [raceDateFilter, setRaceDateFilter] = useState(() => new Date().toISOString().slice(0, 10));
   const [showCreateRace, setShowCreateRace] = useState(false);
@@ -664,24 +665,24 @@ function Rowing(): ReactElement {
   }, [startRace, navigate]);
 
   const handleDeleteRace = useCallback(async (id: number) => {
-    if (!window.confirm('Delete this race and all its results?')) return;
+    if (!await confirm({ message: 'Delete this race and all its results?', variant: 'danger', confirmLabel: 'Delete' })) return;
     await removeRace({ id, date: raceDateFilter });
-  }, [removeRace, raceDateFilter]);
+  }, [removeRace, raceDateFilter, confirm]);
 
   const handleDeleteBoat = useCallback(async (id: number) => {
-    if (!window.confirm('Delete this boat?')) return;
+    if (!await confirm({ message: 'Delete this boat?', variant: 'danger', confirmLabel: 'Delete' })) return;
     await removeBoat({ id });
-  }, [removeBoat]);
+  }, [removeBoat, confirm]);
 
   const handleDeleteCrew = useCallback(async (id: number) => {
-    if (!window.confirm('Delete this crew?')) return;
+    if (!await confirm({ message: 'Delete this crew?', variant: 'danger', confirmLabel: 'Delete' })) return;
     await removeCrew({ id });
-  }, [removeCrew]);
+  }, [removeCrew, confirm]);
 
   const handleDeleteMember = useCallback(async (id: number) => {
-    if (!window.confirm('Remove this rower?')) return;
+    if (!await confirm({ message: 'Remove this rower?', variant: 'danger', confirmLabel: 'Remove' })) return;
     await removeCrewMember({ id });
-  }, [removeCrewMember]);
+  }, [removeCrewMember, confirm]);
 
   const handleCrewSubmit = useCallback(async ({ boatId, gender, ageCategory, seats }: CrewModalSubmitParams) => {
     if (editingCrew) {
@@ -838,6 +839,7 @@ function Rowing(): ReactElement {
       {showCreateMember && (
         <CrewMemberModal onClose={() => setShowCreateMember(false)} onSubmit={addCrewMember} />
       )}
+      {confirmElement}
     </div>
   );
 }

@@ -7,6 +7,8 @@ import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import PageContainer from 'components/PageContainer/PageContainer';
 import { fetchAllUsers, setUserPermissions, createUser, deleteUser } from 'api/auth.api';
 import { useAuth } from 'context/AuthContext';
+import useBodyScrollLock from 'hooks/useBodyScrollLock.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import styles from './Permissions.module.scss';
 
 const ALL_PAGES = [
@@ -23,11 +25,13 @@ type UserRow = { id: number; username: string; permissions: Record<string, boole
 
 function Permissions(): ReactElement {
   const { userId: currentUserId } = useAuth();
+  const { confirm, confirmElement } = useConfirm();
   const [users, setUsers] = useState<UserRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<number | null>(null);
   const [dirty, setDirty] = useState<Record<number, Record<string, boolean>>>({});
   const [showAddDialog, setShowAddDialog] = useState(false);
+  useBodyScrollLock(showAddDialog);
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [addError, setAddError] = useState('');
@@ -85,7 +89,7 @@ function Permissions(): ReactElement {
   };
 
   const handleDeleteUser = async (userId: number, username: string): Promise<void> => {
-    if (!window.confirm(`Delete user "${username}"? This cannot be undone.`)) return;
+    if (!await confirm({ message: `Delete user "${username}"? This cannot be undone.`, variant: 'danger', confirmLabel: 'Delete' })) return;
     try {
       await deleteUser({ userId });
       setUsers((prev) => prev.filter((u) => u.id !== userId));
@@ -198,6 +202,7 @@ function Permissions(): ReactElement {
           })}
         </div>
       )}
+      {confirmElement}
     </PageContainer>
   );
 }

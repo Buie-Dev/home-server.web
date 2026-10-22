@@ -1,0 +1,50 @@
+@use 'scss/base/colors' as *;
+@use 'scss/base/sizes' as *;
+
+.title {
+  font-weight: 700 !important;
+  color: $color-text-primary;
+}
+
+.message {
+  font-size: 0.9rem;
+  color: $color-text-secondary;
+  line-height: 1.5;
+  white-space: pre-line;
+  margin: 0;
+}
+
+.input {
+  width: 100%;
+  margin-top: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.9rem;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.actions {
+  padding: $spacing-sm $spacing-md $spacing-md !important;
+
+  .cancelBtn {
+    color: $color-text-secondary !important;
+  }
+
+  .dangerBtn {
+    background-color: $color-error !important;
+    color: $color-surface !important;
+    font-weight: 600 !important;
+  }
+
+  .confirmBtn {
+    background-color: $color-primary !important;
+    color: $color-surface !important;
+    font-weight: 600 !important;
+  }
+}

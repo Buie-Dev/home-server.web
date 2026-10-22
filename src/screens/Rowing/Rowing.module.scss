@@ -587,8 +587,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 200;
   padding: $spacing-md;
+  padding-top: calc(#{$spacing-md} + env(safe-area-inset-top));
+  padding-bottom: calc(#{$spacing-md} + env(safe-area-inset-bottom));
 }
 
 .modal {
@@ -598,7 +600,10 @@
   width: 100%;
   max-width: 480px;
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: $spacing-lg;
   display: flex;
   flex-direction: column;
@@ -742,7 +747,13 @@
   display: flex;
   justify-content: flex-end;
   gap: $spacing-sm;
-  margin-top: $spacing-xs;
+  position: sticky;
+  bottom: -#{$spacing-lg};
+  margin: $spacing-xs -#{$spacing-lg} -#{$spacing-lg};
+  padding: $spacing-sm $spacing-lg;
+  background: $color-surface;
+  border-top: 1px solid $color-border;
+  border-radius: 0 0 $radius-lg $radius-lg;
 }
 
 .cancelBtn {

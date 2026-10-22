@@ -9,6 +9,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ListIcon from '@mui/icons-material/List';
 import PageContainer from 'components/PageContainer/PageContainer';
 import useEvents, { CalendarEvent, EventCategory } from 'hooks/useEvents.hook';
+import useBodyScrollLock from 'hooks/useBodyScrollLock.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import styles from './Events.module.scss';
 
 const CATEGORY_COLORS = [
@@ -42,6 +44,7 @@ type AddEditModalProps = {
 };
 
 function AddEditModal({ event, defaultDate, categories, onSave, onClose }: AddEditModalProps): ReactElement {
+  useBodyScrollLock();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(defaultDate);
@@ -163,6 +166,8 @@ type ManageCatModalProps = {
 };
 
 function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, onDeleteCategory, onAddSubcategory, onUpdateSubcategory, onDeleteSubcategory }: ManageCatModalProps): ReactElement {
+  useBodyScrollLock();
+  const { confirm, alert, prompt, confirmElement } = useConfirm();
   const [newCatName, setNewCatName] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState('');
@@ -184,8 +189,8 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
   };
 
   const handleDeleteCategory = async ({ cat }: { cat: EventCategory }) => {
-    if (cat.itemCount > 0) { alert(`"${cat.name}" has ${cat.itemCount} event(s). Remove them first.`); return; }
-    if (!confirm(`Delete "${cat.name}"?`)) return;
+    if (cat.itemCount > 0) { await alert({ message: `"${cat.name}" has ${cat.itemCount} event(s). Remove them first.` }); return; }
+    if (!await confirm({ message: `Delete "${cat.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
     await onDeleteCategory({ id: cat.id });
   };
 
@@ -236,10 +241,10 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
                 <div key={sub.id} className={styles.subRow}>
                   <span className={styles.subName}>— {sub.name}</span>
                   <div className={styles.catActions}>
-                    <IconButton size="small" onClick={() => { const n = prompt('New name:', sub.name); if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() }); }}>
+                    <IconButton size="small" onClick={async () => { const n = await prompt({ message: 'New name:', defaultValue: sub.name }); if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() }); }}>
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" onClick={() => { if (confirm(`Delete "${sub.name}"?`)) onDeleteSubcategory({ id: sub.id }); }}>
+                    <IconButton size="small" onClick={async () => { if (await confirm({ message: `Delete "${sub.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) onDeleteSubcategory({ id: sub.id }); }}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </div>
@@ -273,6 +278,7 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
         <div className={styles.modalBtns}>
           <button className={styles.saveBtn} onClick={onClose}>Done</button>
         </div>
+        {confirmElement}
       </div>
     </div>
   );
@@ -288,6 +294,7 @@ function Events(): ReactElement {
     createCategory, updateCategory, deleteCategory,
     createSubcategory, updateSubcategory, deleteSubcategory,
   } = useEvents();
+  const { confirm, confirmElement: eventsConfirmElement } = useConfirm();
 
   const [view, setView] = useState<'calendar' | 'list'>('list');
   const [currentMonth, setCurrentMonth] = useState<Dayjs>(dayjs().startOf('month'));
@@ -401,7 +408,7 @@ function Events(): ReactElement {
   };
 
   const handleDelete = async ({ event }: { event: CalendarEvent }) => {
-    if (!confirm(`Delete "${event.title}"?`)) return;
+    if (!await confirm({ message: `Delete "${event.title}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
     await deleteEvent({ id: event.id });
   };
 
@@ -635,6 +642,7 @@ function Events(): ReactElement {
           onDeleteSubcategory={deleteSubcategory}
         />
       )}
+      {eventsConfirmElement}
     </PageContainer>
   );
 }

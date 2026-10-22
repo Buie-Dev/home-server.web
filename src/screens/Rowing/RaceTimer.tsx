@@ -2,12 +2,15 @@ import { ReactElement, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SportsMartialArtsIcon from '@mui/icons-material/SportsMartialArts';
 import StopIcon from '@mui/icons-material/Stop';
 import { useRowing } from 'hooks/useRowing.hook';
+import useBodyScrollLock from 'hooks/useBodyScrollLock.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import { useWebSocket } from 'context/WebSocketContext';
 import type { Boat, Crew, CrewMember, CrewSeats, RaceEntry, Gender, AgeCategory } from 'api/rowing.api';
 import { PAGE_PATHS } from 'lib/pagesPaths';
@@ -93,6 +96,7 @@ function LineupViewModal({ entry, crew, onClose }: {
   crew: Crew | null;
   onClose: () => void;
 }): ReactElement {
+  useBodyScrollLock();
   const crewCount = crew?.boatClassCrewCount ?? 1;
   const hasCox = crew?.boatClassHasCox ?? false;
   const seatKeys = buildSeatKeys(hasCox, crewCount);
@@ -140,6 +144,7 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
   onClose: () => void;
   onSubmit: (params: { boatId: number; gender: Gender; ageCategory: AgeCategory; seats: CrewSeats }) => Promise<void>;
 }): ReactElement {
+  useBodyScrollLock();
   const [selectedBoatId, setSelectedBoatId] = useState<number>(crew?.boatId ?? 0);
   const [gender, setGender] = useState<Gender>(crew?.gender ?? 'Men');
   const [ageCategory, setAgeCategory] = useState<AgeCategory>(crew?.ageCategory ?? 'Open');
@@ -281,15 +286,16 @@ function RaceTimer(): ReactElement {
     fetchAllCrews,
     fetchAllBoats,
     fetchAllCrew,
-    openRace,
     finishRace,
     sendBoatStart,
     sendBoatFinish,
     setEntryDns,
     setEntryDnf,
     editCrewLineup,
+    removeEntry,
   } = useRowing();
 
+  const { confirm, confirmElement } = useConfirm();
   const { latestRowingStartEvent, latestRowingFinishEvent } = useWebSocket();
 
   const [role, setRole] = useState<Role | null>(null);
@@ -299,6 +305,7 @@ function RaceTimer(): ReactElement {
   const [confirmCompleteOpen, setConfirmCompleteOpen] = useState(false);
   const [lineupEditEntry, setLineupEditEntry] = useState<RaceEntry | null>(null);
   const [viewLineupEntry, setViewLineupEntry] = useState<RaceEntry | null>(null);
+  useBodyScrollLock(confirmCompleteOpen);
   const stableEntryOrderRef = useRef<number[]>([]);
 
   useEffect(() => {
@@ -339,10 +346,6 @@ function RaceTimer(): ReactElement {
     });
   }, [activeRace]);
 
-  const handleActivate = useCallback(async () => {
-    await openRace({ id: raceId });
-  }, [openRace, raceId]);
-
   const handleStart = useCallback(async (entry: RaceEntry) => {
     const timestamp = Date.now();
     setLiveStarts((prev) => ({ ...prev, [entry.id]: timestamp }));
@@ -379,6 +382,17 @@ function RaceTimer(): ReactElement {
     await finishRace({ id: raceId });
     setConfirmCompleteOpen(false);
   }, [finishRace, raceId]);
+
+  const handleRemoveEntry = useCallback(async (entry: RaceEntry) => {
+    const confirmed = await confirm({
+      title: 'Remove Entry',
+      message: `Remove ${entry.boatName} from this race?`,
+      confirmLabel: 'Remove',
+      variant: 'danger',
+    });
+    if (!confirmed) return;
+    await removeEntry({ entryId: entry.id });
+  }, [confirm, removeEntry]);
 
   const handleEditLineup = useCallback(async ({ boatId, gender, ageCategory, seats }: { boatId: number; gender: Gender; ageCategory: AgeCategory; seats: CrewSeats }) => {
     if (!lineupEditEntry?.crewId) return;
@@ -425,7 +439,7 @@ function RaceTimer(): ReactElement {
           <span className={styles.raceType}>{activeRace.raceType === 'time_trial' ? 'Time Trial' : 'Side by Side'}</span>
           <span className={`${styles.statusPill} ${styles[activeRace.status]}`}>{activeRace.status}</span>
         </div>
-        {activeRace.status === 'active' && allBoatsFinished && (
+        {activeRace.status !== 'completed' && allBoatsFinished && (
           <button className={styles.completeBtn} onClick={() => setConfirmCompleteOpen(true)}>
             <CheckCircleIcon fontSize="small" /> Complete Race
           </button>
@@ -454,16 +468,7 @@ function RaceTimer(): ReactElement {
         </div>
       )}
 
-      {activeRace.status === 'pending' && role === 'start' && (
-        <div className={styles.activatePanel}>
-          <p className={styles.activateHint}>Race is not yet active. Activate it to begin timing.</p>
-          <button className={styles.activateBtn} onClick={handleActivate}>
-            <PlayArrowIcon /> Activate Race
-          </button>
-        </div>
-      )}
-
-      {activeRace.status === 'active' && isSideBySide && role === 'start' && !allBoatsStarted && (
+      {activeRace.status !== 'completed' && isSideBySide && role === 'start' && !allBoatsStarted && (
         <div className={styles.globalStartPanel}>
           <p className={styles.globalStartHint}>Tap Start All when all boats are on the line.</p>
           <button
@@ -518,6 +523,9 @@ function RaceTimer(): ReactElement {
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
                   </button>
+                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
+                    <CloseIcon fontSize="small" />
+                  </button>
                 </div>
               );
             }
@@ -532,6 +540,9 @@ function RaceTimer(): ReactElement {
                   </button>
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
+                  </button>
+                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
+                    <CloseIcon fontSize="small" />
                   </button>
                 </div>
               );
@@ -560,6 +571,9 @@ function RaceTimer(): ReactElement {
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
                   </button>
+                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
+                    <CloseIcon fontSize="small" />
+                  </button>
                 </div>
               );
             }
@@ -582,6 +596,9 @@ function RaceTimer(): ReactElement {
                     {role === 'finish' && (
                       <button className={styles.dnfBtn} onClick={() => handleDnf(entry.id)}>DNF</button>
                     )}
+                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
+                      <CloseIcon fontSize="small" />
+                    </button>
                   </div>
                 </div>
               );
@@ -595,16 +612,19 @@ function RaceTimer(): ReactElement {
                   <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                 </button>
                 <div className={styles.entryActions}>
-                  {activeRace.status === 'active' && role === 'start' && !isSideBySide && (
+                  {activeRace.status !== 'completed' && role === 'start' && !isSideBySide && (
                     <button className={styles.startBtn} onClick={() => handleStart(entry)}>
                       <PlayArrowIcon fontSize="small" /> Start
                     </button>
                   )}
-                  {activeRace.status === 'active' && role === 'start' && (
+                  {activeRace.status !== 'completed' && role === 'start' && (
                     <button className={styles.dnsBtn} onClick={() => handleDns(entry.id)}>DNS</button>
                   )}
                   <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
                     <EditIcon fontSize="small" />
+                  </button>
+                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
+                    <CloseIcon fontSize="small" />
                   </button>
                 </div>
               </div>
@@ -645,6 +665,8 @@ function RaceTimer(): ReactElement {
           onSubmit={handleEditLineup}
         />
       )}
+
+      {confirmElement}
     </div>
   );
 }

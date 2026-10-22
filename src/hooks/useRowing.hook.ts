@@ -17,7 +17,6 @@ import {
   fetchRaces,
   fetchRace,
   createRace,
-  activateRace,
   completeRace,
   deleteRace,
   recordEntryStart,
@@ -56,7 +55,6 @@ type UseRowingReturn = {
   fetchAllRaces: (params?: { date?: string }) => Promise<void>;
   loadRace: ({ id }: { id: number }) => Promise<void>;
   startRace: ({ distance, raceType, crewIds, eventType, windConditions, notes }: { distance: string; raceType: RaceType; crewIds: number[]; eventType?: string; windConditions?: string; notes?: string }) => Promise<number>;
-  openRace: ({ id }: { id: number }) => Promise<void>;
   finishRace: ({ id }: { id: number }) => Promise<void>;
   removeRace: ({ id, date }: { id: number; date?: string }) => Promise<void>;
   sendBoatStart: ({ raceId, entryId, boatName, timestamp }: { raceId: number; entryId: number; boatName: string; timestamp: number }) => Promise<void>;
@@ -211,11 +209,6 @@ export function useRowing(): UseRowingReturn {
     return id;
   }, [fetchAllRaces]);
 
-  const openRace = useCallback(async ({ id }: { id: number }) => {
-    await activateRace({ id });
-    await loadRace({ id });
-  }, [loadRace]);
-
   const finishRace = useCallback(async ({ id }: { id: number }) => {
     await completeRace({ id });
     await loadRace({ id });
@@ -297,7 +290,6 @@ export function useRowing(): UseRowingReturn {
     fetchAllRaces,
     loadRace,
     startRace,
-    openRace,
     finishRace,
     removeRace,
     sendBoatStart,

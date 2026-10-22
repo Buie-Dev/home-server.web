@@ -12,6 +12,9 @@ const srcAliases = Object.fromEntries(
 );
 
 export default defineConfig({
+  server: {
+    host: true,
+  },
   plugins: [react()],
   resolve: {
     alias: srcAliases,

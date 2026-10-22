@@ -9,6 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import PageContainer from 'components/PageContainer/PageContainer';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import useTodo, { TodoCategory, TodoTask, TodoTemplate, TodoHistoryItem, Frequency } from 'hooks/useTodo.hook';
+import useBodyScrollLock from 'hooks/useBodyScrollLock.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import styles from './ToDo.module.scss';
 
 const FREQUENCIES: { value: Frequency; label: string }[] = [
@@ -71,6 +73,8 @@ type ManageCatProps = {
 };
 
 function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, onDeleteCategory, onAddSubcategory, onUpdateSubcategory, onDeleteSubcategory }: ManageCatProps): ReactElement {
+  useBodyScrollLock();
+  const { confirm, alert, prompt, confirmElement } = useConfirm();
   const [newCatName, setNewCatName] = useState('');
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingName, setEditingName] = useState('');
@@ -110,8 +114,8 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
                         <EditIcon fontSize="small" />
                       </IconButton>
                       <IconButton size="small" disabled={cat.itemCount > 0} onClick={async () => {
-                        if (cat.itemCount > 0) { alert(`"${cat.name}" has active templates. Remove them first.`); return; }
-                        if (!confirm(`Delete "${cat.name}"?`)) return;
+                        if (cat.itemCount > 0) { await alert({ message: `"${cat.name}" has active templates. Remove them first.` }); return; }
+                        if (!await confirm({ message: `Delete "${cat.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
                         await onDeleteCategory({ id: cat.id });
                       }}>
                         <DeleteIcon fontSize="small" />
@@ -124,10 +128,10 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
                 <div key={sub.id} className={styles.subRow}>
                   <span className={styles.subName}>— {sub.name}</span>
                   <div className={styles.catActions}>
-                    <IconButton size="small" onClick={() => { const n = prompt('New name:', sub.name); if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() }); }}>
+                    <IconButton size="small" onClick={async () => { const n = await prompt({ message: 'New name:', defaultValue: sub.name }); if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() }); }}>
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" onClick={() => { if (confirm(`Delete "${sub.name}"?`)) onDeleteSubcategory({ id: sub.id }); }}>
+                    <IconButton size="small" onClick={async () => { if (await confirm({ message: `Delete "${sub.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) onDeleteSubcategory({ id: sub.id }); }}>
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </div>
@@ -153,6 +157,7 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
         <div className={styles.modalBtns}>
           <button className={styles.primaryBtn} onClick={onClose}>Done</button>
         </div>
+        {confirmElement}
       </div>
     </div>
   );
@@ -168,6 +173,7 @@ type TemplateModalProps = {
 };
 
 function TemplateModal({ template, categories, onSave, onClose }: TemplateModalProps): ReactElement {
+  useBodyScrollLock();
   const [title, setTitle] = useState(template?.title ?? '');
   const [notes, setNotes] = useState(template?.notes ?? '');
   const [categoryId, setCategoryId] = useState<number | ''>(template?.categoryId ?? (categories[0]?.id ?? ''));
@@ -263,6 +269,7 @@ type DirectTaskModalProps = {
 };
 
 function DirectTaskModal({ categories, onSave, onClose }: DirectTaskModalProps): ReactElement {
+  useBodyScrollLock();
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [categoryId, setCategoryId] = useState<number | ''>(categories[0]?.id ?? '');
@@ -385,6 +392,7 @@ function ToDo(): ReactElement {
     createTaskFromTemplate, createDirectTask, completeTask, archiveTask, archiveAllCompleted, deleteTask,
     toggleChecklistItem,
   } = useTodo();
+  const { confirm, confirmElement } = useConfirm();
 
   const [tab, setTab] = useState<Tab>('tasks');
   const [catId, setCatId] = useState<number | ''>('');
@@ -434,12 +442,12 @@ function ToDo(): ReactElement {
   };
 
   const handleDeleteTask = async ({ task }: { task: TodoTask }) => {
-    if (!confirm(`Delete "${task.title}"?`)) return;
+    if (!await confirm({ message: `Delete "${task.title}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
     await deleteTask({ id: task.id });
   };
 
   const handleDeleteTemplate = async ({ template }: { template: TodoTemplate }) => {
-    if (!confirm(`Delete template "${template.title}"?`)) return;
+    if (!await confirm({ message: `Delete template "${template.title}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
     await deleteTemplate({ id: template.id });
   };
 
@@ -449,7 +457,7 @@ function ToDo(): ReactElement {
   };
 
   const handleArchiveAll = async () => {
-    if (!confirm('Archive all completed tasks?')) return;
+    if (!await confirm({ message: 'Archive all completed tasks?' })) return;
     await archiveAllCompleted();
   };
 
@@ -599,6 +607,7 @@ function ToDo(): ReactElement {
           onClose={() => setShowAddTask(false)}
         />
       )}
+      {confirmElement}
     </PageContainer>
   );
 }

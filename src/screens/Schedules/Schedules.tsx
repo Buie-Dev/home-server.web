@@ -30,6 +30,7 @@ import EmptyState from 'components/EmptyState/EmptyState';
 import PageContainer from 'components/PageContainer/PageContainer';
 import ZoneSubzoneFilter from 'components/ZoneSubzoneFilter/ZoneSubzoneFilter';
 import useIrrigation, { Schedule, SyncStatus } from 'hooks/useIrrigation.hook';
+import useConfirm from 'hooks/useConfirm.hook';
 import styles from './Schedules.module.scss';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
@@ -139,6 +140,7 @@ function SortableCard({ schedule, onToggle, onEdit, onDelete }: SortableCardProp
 
 function Schedules(): ReactElement {
   const { schedules, fetchSchedules, toggleSchedule, deleteSchedule, reorderSchedules, checkSync, forceSync, zoneDetails, fetchZones } = useIrrigation();
+  const { confirm, confirmElement } = useConfirm();
   const [localSchedules, setLocalSchedules] = useState<Schedule[]>([]);
   const [openCreate, setOpenCreate] = useState(false);
   const [scheduleToEdit, setScheduleToEdit] = useState<Schedule | undefined>();
@@ -201,7 +203,7 @@ function Schedules(): ReactElement {
     }
 
     const message = getSyncMessage(result, localSchedules);
-    const confirmed = window.confirm(`Out of sync:\n\n${message}\n\nForce sync now?`);
+    const confirmed = await confirm({ title: 'Out of sync', message: `${message}\n\nForce sync now?`, confirmLabel: 'Sync' });
     if (confirmed) {
       const syncResult = await forceSync();
       if (syncResult) {
@@ -287,6 +289,7 @@ function Schedules(): ReactElement {
         onCancel={() => setScheduleToDelete(undefined)}
         onConfirm={handleDeleteConfirm}
       />
+      {confirmElement}
     </PageContainer>
   );
 }
