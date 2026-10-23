@@ -31,9 +31,9 @@ npm run preview      # Preview production build
 npm run lint         # ESLint (auto-fix)
 npm run format       # Prettier
 npm run preCommit    # format + lint
+npm test             # Run all tests (Vitest)
+npm run test:watch   # Run tests in watch mode
 ```
-
-No test command yet.
 
 ## Environment
 
