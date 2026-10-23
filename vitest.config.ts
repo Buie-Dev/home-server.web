@@ -1,0 +1,14 @@
+import { defineConfig, mergeConfig } from 'vitest/config';
+import viteConfig from './vite.config';
+
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      globals: true,
+      environment: 'happy-dom',
+      setupFiles: ['./__tests__/setup.ts'],
+      include: ['__tests__/**/*.test.{ts,tsx}'],
+    },
+  }),
+);
