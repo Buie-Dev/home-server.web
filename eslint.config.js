@@ -24,6 +24,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ['src/context/**'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
     files: ['__tests__/**'],
     rules: {
       'react-refresh/only-export-components': 'off',

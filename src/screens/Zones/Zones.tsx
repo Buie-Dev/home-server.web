@@ -43,10 +43,12 @@ function Zones(): ReactElement {
 
   useEffect(() => {
     fetchZoneTypes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchZones(selectedFilter?.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilter]);
 
   useEffect(() => {

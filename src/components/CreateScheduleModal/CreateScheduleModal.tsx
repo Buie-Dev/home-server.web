@@ -60,6 +60,7 @@ function CreateScheduleModal({ open, onClose, onSave, editSchedule }: CreateSche
   useEffect(() => {
     fetchZones(zoneType?.id);
     if (!editSchedule) setSelectedZone(undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zoneType]);
 
   useEffect(() => {
@@ -83,6 +84,7 @@ function CreateScheduleModal({ open, onClose, onSave, editSchedule }: CreateSche
       });
       setSelectedSubzoneIds(editSchedule.subzoneIds ?? []);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useEffect(() => {
@@ -90,6 +92,7 @@ function CreateScheduleModal({ open, onClose, onSave, editSchedule }: CreateSche
       const match = zones.find((zone) => zone.id === editSchedule.zoneId);
       if (match) setSelectedZone(match);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [zones, editSchedule]);
 
   const resetForm = (): void => {

@@ -52,6 +52,7 @@ function Queue(): ReactElement {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeItem?.id, activeItem?.startTime]);
 
   const getProgressPercent = (): number => {

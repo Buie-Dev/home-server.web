@@ -699,6 +699,7 @@ function ToDo(): ReactElement {
   useEffect(() => {
     fetchCategories();
     fetchTasks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTabChange = ({ next }: { next: Tab }) => {

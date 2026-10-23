@@ -153,6 +153,7 @@ function Schedules(): ReactElement {
   useEffect(() => {
     fetchSchedules();
     fetchZones();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

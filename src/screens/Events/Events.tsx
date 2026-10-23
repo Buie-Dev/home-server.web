@@ -86,6 +86,7 @@ function AddEditModal({ event, defaultDate, categories, onSave, onClose }: AddEd
       setSubcategoryId(null);
     }
     setError('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [event, defaultDate]);
 
   const selectedCategory = categories.find((c) => c.id === categoryId) ?? null;
@@ -451,6 +452,7 @@ function Events(): ReactElement {
   useEffect(() => {
     fetchCategories();
     fetchEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const doFetch = ({

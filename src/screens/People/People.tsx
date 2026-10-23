@@ -1,5 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
+import { ReactElement, useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,10 +17,8 @@ import DeleteConfirmationModal from 'components/DeleteConfirmationModal/DeleteCo
 import EmptyState from 'components/EmptyState/EmptyState';
 import LoadingSpinner from 'components/LoadingSpinner/LoadingSpinner';
 import PageContainer from 'components/PageContainer/PageContainer';
-import usePeople, { PersonCategory, PersonIdea, TrackedPerson } from 'hooks/usePeople.hook';
+import usePeople, { PersonIdea, TrackedPerson } from 'hooks/usePeople.hook';
 import styles from './People.module.scss';
-
-const ALL_PAGES = ['irrigation', 'people', 'todo', 'events', 'devices', 'admin'] as const;
 
 type IdeaFormState = { title: string; notes: string; categoryId: number | ''; subcategoryId: number | '' };
 const emptyIdeaForm: IdeaFormState = { title: '', notes: '', categoryId: '', subcategoryId: '' };
@@ -40,8 +37,6 @@ function People(): ReactElement {
     clearPerson,
     createCategory,
     createSubcategory,
-    updateCategory,
-    updateSubcategory,
     deleteSubcategory,
     deleteCategory,
     createIdea,
@@ -76,6 +71,7 @@ function People(): ReactElement {
 
   useEffect(() => {
     fetchPeople();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -24,6 +24,7 @@ function Devices(): ReactElement {
 
   useEffect(() => {
     fetchDevices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -31,6 +32,7 @@ function Devices(): ReactElement {
       hasAutoPinged.current = true;
       checkConnectivity();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [devices.length, isConnected]);
 
   const handleRefresh = async (): Promise<void> => {

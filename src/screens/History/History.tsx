@@ -26,9 +26,8 @@ function History(): ReactElement {
   useEffect(() => {
     fetchZones();
     fetchHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const activeZoneSubzones = zoneDetails.find((zone) => zone.id === filters.zoneId)?.subzones ?? [];
 
   const handleZoneFilter = (zoneId: number | undefined): void => {
     const updatedFilters: HistoryFilters = { ...filters, zoneId, subzoneId: undefined };

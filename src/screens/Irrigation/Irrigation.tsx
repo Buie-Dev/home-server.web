@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { NavLink, Navigate, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import HistoryIcon from '@mui/icons-material/History';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
