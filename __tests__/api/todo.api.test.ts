@@ -7,11 +7,28 @@ vi.mock('api/base.api', () => ({
 
 import * as base from 'api/base.api';
 import {
-  fetchCategories, createCategory, updateCategory, deleteCategory,
-  createSubcategory, updateSubcategory, deleteSubcategory,
-  fetchTemplates, createTemplate, updateTemplate, deleteTemplate,
-  fetchTasks, createTaskFromTemplate, createDirectTask, updateTask, completeTask, archiveTask, archiveAllCompleted, deleteTask,
-  addChecklistItem, updateChecklistItem, deleteChecklistItem,
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  createSubcategory,
+  updateSubcategory,
+  deleteSubcategory,
+  fetchTemplates,
+  createTemplate,
+  updateTemplate,
+  deleteTemplate,
+  fetchTasks,
+  createTaskFromTemplate,
+  createDirectTask,
+  updateTask,
+  completeTask,
+  archiveTask,
+  archiveAllCompleted,
+  deleteTask,
+  addChecklistItem,
+  updateChecklistItem,
+  deleteChecklistItem,
   fetchHistory,
 } from 'api/todo.api';
 
@@ -31,13 +48,19 @@ describe('todo.api', () => {
     it('createCategory posts name and subcategoryNames', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createCategory({ name: 'Work', subcategoryNames: ['Urgent'] });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories'), { name: 'Work', subcategoryNames: ['Urgent'] });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories'), {
+        name: 'Work',
+        subcategoryNames: ['Urgent'],
+      });
     });
 
     it('createCategory defaults subcategoryNames to empty array', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createCategory({ name: 'Personal' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories'), { name: 'Personal', subcategoryNames: [] });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories'), {
+        name: 'Personal',
+        subcategoryNames: [],
+      });
     });
 
     it('updateCategory puts to categories/:id', async () => {
@@ -57,7 +80,9 @@ describe('todo.api', () => {
     it('createSubcategory posts to categories/:id/subcategories', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createSubcategory({ categoryId: 1, name: 'Sub' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories/1/subcategories'), { name: 'Sub' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/categories/1/subcategories'), {
+        name: 'Sub',
+      });
     });
 
     it('updateSubcategory puts to subcategories/:id', async () => {
@@ -89,13 +114,19 @@ describe('todo.api', () => {
     it('createTemplate posts data', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createTemplate({ title: 'T', categoryId: 1, frequency: 'weekly' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/templates'), expect.objectContaining({ title: 'T' }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/todo/templates'),
+        expect.objectContaining({ title: 'T' })
+      );
     });
 
     it('updateTemplate puts to templates/:id', async () => {
       mockedPut.mockResolvedValue(undefined);
       await updateTemplate({ id: 1, data: { title: 'U', categoryId: 1, frequency: 'daily' } });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/todo/templates/1'), expect.objectContaining({ title: 'U' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/todo/templates/1'),
+        expect.objectContaining({ title: 'U' })
+      );
     });
 
     it('deleteTemplate deletes templates/:id', async () => {
@@ -121,13 +152,19 @@ describe('todo.api', () => {
     it('createDirectTask posts to tasks/direct', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createDirectTask({ title: 'Quick', categoryId: 1 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/todo/tasks/direct'), expect.objectContaining({ title: 'Quick' }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/todo/tasks/direct'),
+        expect.objectContaining({ title: 'Quick' })
+      );
     });
 
     it('updateTask puts to tasks/:id', async () => {
       mockedPut.mockResolvedValue(undefined);
       await updateTask({ id: 1, data: { title: 'Updated', categoryId: 1 } });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/todo/tasks/1'), expect.objectContaining({ title: 'Updated' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/todo/tasks/1'),
+        expect.objectContaining({ title: 'Updated' })
+      );
     });
 
     it('completeTask puts to tasks/:id/complete', async () => {
@@ -165,7 +202,10 @@ describe('todo.api', () => {
     it('updateChecklistItem puts to checklist/:id', async () => {
       mockedPut.mockResolvedValue(undefined);
       await updateChecklistItem({ id: 5, checked: true });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/todo/checklist/5'), expect.objectContaining({ checked: true }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/todo/checklist/5'),
+        expect.objectContaining({ checked: true })
+      );
     });
 
     it('deleteChecklistItem deletes checklist/:id', async () => {

@@ -14,8 +14,16 @@ import useConfirm from 'hooks/useConfirm.hook';
 import styles from './Events.module.scss';
 
 const CATEGORY_COLORS = [
-  '#2196F3', '#4CAF50', '#E91E63', '#FF9800', '#9C27B0',
-  '#00BCD4', '#F44336', '#607D8B', '#795548', '#3F51B5',
+  '#2196F3',
+  '#4CAF50',
+  '#E91E63',
+  '#FF9800',
+  '#9C27B0',
+  '#00BCD4',
+  '#F44336',
+  '#607D8B',
+  '#795548',
+  '#3F51B5',
 ];
 
 const DAY_HEADERS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -33,7 +41,14 @@ const toDateStr = ({ d }: { d: Dayjs }) => d.format('YYYY-MM-DD');
 
 // ── Add/Edit Modal ─────────────────────────────────────────────────────────────
 
-type EventPayload = { title: string; description?: string; date: string; time?: string; categoryId: number; subcategoryId?: number };
+type EventPayload = {
+  title: string;
+  description?: string;
+  date: string;
+  time?: string;
+  categoryId: number;
+  subcategoryId?: number;
+};
 
 type AddEditModalProps = {
   event: CalendarEvent | null;
@@ -73,12 +88,18 @@ function AddEditModal({ event, defaultDate, categories, onSave, onClose }: AddEd
     setError('');
   }, [event, defaultDate]);
 
-  const selectedCategory = categories.find(c => c.id === categoryId) ?? null;
+  const selectedCategory = categories.find((c) => c.id === categoryId) ?? null;
   const subcategories = selectedCategory?.subcategories ?? [];
 
   const handleSave = async () => {
-    if (!title.trim()) { setError('Title is required.'); return; }
-    if (!categoryId) { setError('Please select a category.'); return; }
+    if (!title.trim()) {
+      setError('Title is required.');
+      return;
+    }
+    if (!categoryId) {
+      setError('Please select a category.');
+      return;
+    }
     setSaving(true);
     try {
       await onSave({
@@ -101,48 +122,86 @@ function AddEditModal({ event, defaultDate, categories, onSave, onClose }: AddEd
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalSheet} onClick={e => e.stopPropagation()}>
+      <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h3 className={styles.modalTitle}>{event ? 'Edit Event' : 'Add Event'}</h3>
-          <button className={styles.modalClose} onClick={onClose}>✕</button>
+          <button className={styles.modalClose} onClick={onClose}>
+            ✕
+          </button>
         </div>
 
         {error && <p className={styles.modalError}>{error}</p>}
 
         <label className={styles.fieldLabel}>Title *</label>
-        <input className={styles.fieldInput} value={title} onChange={e => setTitle(e.target.value)} placeholder="Event title" />
+        <input
+          className={styles.fieldInput}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Event title"
+        />
 
         <label className={styles.fieldLabel}>Date *</label>
-        <input className={styles.fieldInput} type="date" value={date} onChange={e => setDate(e.target.value)} />
+        <input className={styles.fieldInput} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
 
-        <label className={styles.fieldLabel}>Time <span className={styles.optional}>(optional)</span></label>
-        <input className={styles.fieldInput} type="time" value={time} onChange={e => setTime(e.target.value)} />
+        <label className={styles.fieldLabel}>
+          Time <span className={styles.optional}>(optional)</span>
+        </label>
+        <input className={styles.fieldInput} type="time" value={time} onChange={(e) => setTime(e.target.value)} />
 
         <label className={styles.fieldLabel}>Category *</label>
-        <select className={styles.fieldInput} value={categoryId ?? ''} onChange={e => { setCategoryId(Number(e.target.value)); setSubcategoryId(null); }}>
-          <option value="" disabled>Select category</option>
-          {categories.map(c => (
-            <option key={c.id} value={c.id}>{c.name}</option>
+        <select
+          className={styles.fieldInput}
+          value={categoryId ?? ''}
+          onChange={(e) => {
+            setCategoryId(Number(e.target.value));
+            setSubcategoryId(null);
+          }}
+        >
+          <option value="" disabled>
+            Select category
+          </option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
           ))}
         </select>
 
         {subcategories.length > 0 && (
           <>
-            <label className={styles.fieldLabel}>Subcategory <span className={styles.optional}>(optional)</span></label>
-            <select className={styles.fieldInput} value={subcategoryId ?? ''} onChange={e => setSubcategoryId(e.target.value ? Number(e.target.value) : null)}>
+            <label className={styles.fieldLabel}>
+              Subcategory <span className={styles.optional}>(optional)</span>
+            </label>
+            <select
+              className={styles.fieldInput}
+              value={subcategoryId ?? ''}
+              onChange={(e) => setSubcategoryId(e.target.value ? Number(e.target.value) : null)}
+            >
               <option value="">None</option>
-              {subcategories.map(s => (
-                <option key={s.id} value={s.id}>{s.name}</option>
+              {subcategories.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
               ))}
             </select>
           </>
         )}
 
-        <label className={styles.fieldLabel}>Description <span className={styles.optional}>(optional)</span></label>
-        <textarea className={styles.fieldTextarea} value={description} onChange={e => setDescription(e.target.value)} placeholder="Optional notes" rows={3} />
+        <label className={styles.fieldLabel}>
+          Description <span className={styles.optional}>(optional)</span>
+        </label>
+        <textarea
+          className={styles.fieldTextarea}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Optional notes"
+          rows={3}
+        />
 
         <div className={styles.modalBtns}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
           <button className={styles.saveBtn} onClick={handleSave} disabled={saving}>
             {saving ? 'Saving…' : 'Save'}
           </button>
@@ -165,7 +224,16 @@ type ManageCatModalProps = {
   onDeleteSubcategory: ({ id }: { id: number }) => Promise<void>;
 };
 
-function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, onDeleteCategory, onAddSubcategory, onUpdateSubcategory, onDeleteSubcategory }: ManageCatModalProps): ReactElement {
+function ManageCatModal({
+  categories,
+  onClose,
+  onAddCategory,
+  onUpdateCategory,
+  onDeleteCategory,
+  onAddSubcategory,
+  onUpdateSubcategory,
+  onDeleteSubcategory,
+}: ManageCatModalProps): ReactElement {
   useBodyScrollLock();
   const { confirm, alert, prompt, confirmElement } = useConfirm();
   const [newCatName, setNewCatName] = useState('');
@@ -177,20 +245,31 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
   const handleAddCategory = async () => {
     if (!newCatName.trim()) return;
     setSaving(true);
-    try { await onAddCategory({ name: newCatName.trim(), subcategoryNames: [] }); setNewCatName(''); }
-    finally { setSaving(false); }
+    try {
+      await onAddCategory({ name: newCatName.trim(), subcategoryNames: [] });
+      setNewCatName('');
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleUpdateCategory = async ({ id }: { id: number }) => {
     if (!editingName.trim()) return;
     setSaving(true);
-    try { await onUpdateCategory({ id, name: editingName.trim() }); setEditingId(null); }
-    finally { setSaving(false); }
+    try {
+      await onUpdateCategory({ id, name: editingName.trim() });
+      setEditingId(null);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleDeleteCategory = async ({ cat }: { cat: EventCategory }) => {
-    if (cat.itemCount > 0) { await alert({ message: `"${cat.name}" has ${cat.itemCount} event(s). Remove them first.` }); return; }
-    if (!await confirm({ message: `Delete "${cat.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
+    if (cat.itemCount > 0) {
+      await alert({ message: `"${cat.name}" has ${cat.itemCount} event(s). Remove them first.` });
+      return;
+    }
+    if (!(await confirm({ message: `Delete "${cat.name}"?`, variant: 'danger', confirmLabel: 'Delete' }))) return;
     await onDeleteCategory({ id: cat.id });
   };
 
@@ -198,53 +277,98 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
     const name = newSubNames[categoryId]?.trim();
     if (!name) return;
     setSaving(true);
-    try { await onAddSubcategory({ categoryId, name }); setNewSubNames(prev => ({ ...prev, [categoryId]: '' })); }
-    finally { setSaving(false); }
+    try {
+      await onAddSubcategory({ categoryId, name });
+      setNewSubNames((prev) => ({ ...prev, [categoryId]: '' }));
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalSheet} onClick={e => e.stopPropagation()}>
+      <div className={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h3 className={styles.modalTitle}>Manage Categories</h3>
-          <button className={styles.modalClose} onClick={onClose}>✕</button>
+          <button className={styles.modalClose} onClick={onClose}>
+            ✕
+          </button>
         </div>
 
         <div className={styles.catList}>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <div key={cat.id} className={styles.catItem}>
               <div className={styles.catRow}>
                 {editingId === cat.id ? (
-                  <input className={styles.catInput} value={editingName} onChange={e => setEditingName(e.target.value)} autoFocus />
+                  <input
+                    className={styles.catInput}
+                    value={editingName}
+                    onChange={(e) => setEditingName(e.target.value)}
+                    autoFocus
+                  />
                 ) : (
-                  <span className={styles.catName}>{cat.name} <span className={styles.catCount}>({cat.itemCount})</span></span>
+                  <span className={styles.catName}>
+                    {cat.name} <span className={styles.catCount}>({cat.itemCount})</span>
+                  </span>
                 )}
                 <div className={styles.catActions}>
                   {editingId === cat.id ? (
                     <>
-                      <button className={styles.iconBtn} onClick={() => handleUpdateCategory({ id: cat.id })} disabled={saving}>✓</button>
-                      <button className={styles.iconBtn} onClick={() => setEditingId(null)}>✕</button>
+                      <button
+                        className={styles.iconBtn}
+                        onClick={() => handleUpdateCategory({ id: cat.id })}
+                        disabled={saving}
+                      >
+                        ✓
+                      </button>
+                      <button className={styles.iconBtn} onClick={() => setEditingId(null)}>
+                        ✕
+                      </button>
                     </>
                   ) : (
                     <>
-                      <IconButton size="small" onClick={() => { setEditingId(cat.id); setEditingName(cat.name); }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => {
+                          setEditingId(cat.id);
+                          setEditingName(cat.name);
+                        }}
+                      >
                         <EditIcon fontSize="small" />
                       </IconButton>
-                      <IconButton size="small" onClick={() => handleDeleteCategory({ cat })} disabled={cat.itemCount > 0}>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleDeleteCategory({ cat })}
+                        disabled={cat.itemCount > 0}
+                      >
                         <DeleteIcon fontSize="small" />
                       </IconButton>
                     </>
                   )}
                 </div>
               </div>
-              {cat.subcategories.map(sub => (
+              {cat.subcategories.map((sub) => (
                 <div key={sub.id} className={styles.subRow}>
                   <span className={styles.subName}>— {sub.name}</span>
                   <div className={styles.catActions}>
-                    <IconButton size="small" onClick={async () => { const n = await prompt({ message: 'New name:', defaultValue: sub.name }); if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() }); }}>
+                    <IconButton
+                      size="small"
+                      onClick={async () => {
+                        const n = await prompt({ message: 'New name:', defaultValue: sub.name });
+                        if (n?.trim()) onUpdateSubcategory({ id: sub.id, name: n.trim() });
+                      }}
+                    >
                       <EditIcon fontSize="small" />
                     </IconButton>
-                    <IconButton size="small" onClick={async () => { if (await confirm({ message: `Delete "${sub.name}"?`, variant: 'danger', confirmLabel: 'Delete' })) onDeleteSubcategory({ id: sub.id }); }}>
+                    <IconButton
+                      size="small"
+                      onClick={async () => {
+                        if (
+                          await confirm({ message: `Delete "${sub.name}"?`, variant: 'danger', confirmLabel: 'Delete' })
+                        )
+                          onDeleteSubcategory({ id: sub.id });
+                      }}
+                    >
                       <DeleteIcon fontSize="small" />
                     </IconButton>
                   </div>
@@ -255,10 +379,14 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
                   className={styles.subInput}
                   placeholder="Add subcategory…"
                   value={newSubNames[cat.id] ?? ''}
-                  onChange={e => setNewSubNames(prev => ({ ...prev, [cat.id]: e.target.value }))}
-                  onKeyDown={e => { if (e.key === 'Enter') handleAddSubcategory({ categoryId: cat.id }); }}
+                  onChange={(e) => setNewSubNames((prev) => ({ ...prev, [cat.id]: e.target.value }))}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleAddSubcategory({ categoryId: cat.id });
+                  }}
                 />
-                <button className={styles.addSubBtn} onClick={() => handleAddSubcategory({ categoryId: cat.id })}>+</button>
+                <button className={styles.addSubBtn} onClick={() => handleAddSubcategory({ categoryId: cat.id })}>
+                  +
+                </button>
               </div>
             </div>
           ))}
@@ -269,14 +397,20 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
             className={styles.fieldInput}
             placeholder="New category name"
             value={newCatName}
-            onChange={e => setNewCatName(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') handleAddCategory(); }}
+            onChange={(e) => setNewCatName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleAddCategory();
+            }}
           />
-          <button className={styles.saveBtn} onClick={handleAddCategory} disabled={saving || !newCatName.trim()}>Add</button>
+          <button className={styles.saveBtn} onClick={handleAddCategory} disabled={saving || !newCatName.trim()}>
+            Add
+          </button>
         </div>
 
         <div className={styles.modalBtns}>
-          <button className={styles.saveBtn} onClick={onClose}>Done</button>
+          <button className={styles.saveBtn} onClick={onClose}>
+            Done
+          </button>
         </div>
         {confirmElement}
       </div>
@@ -288,11 +422,20 @@ function ManageCatModal({ categories, onClose, onAddCategory, onUpdateCategory, 
 
 function Events(): ReactElement {
   const {
-    events, categories, loading,
-    fetchEvents, fetchCategories,
-    createEvent, updateEvent, deleteEvent,
-    createCategory, updateCategory, deleteCategory,
-    createSubcategory, updateSubcategory, deleteSubcategory,
+    events,
+    categories,
+    loading,
+    fetchEvents,
+    fetchCategories,
+    createEvent,
+    updateEvent,
+    deleteEvent,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+    createSubcategory,
+    updateSubcategory,
+    deleteSubcategory,
   } = useEvents();
   const { confirm, confirmElement: eventsConfirmElement } = useConfirm();
 
@@ -310,7 +453,17 @@ function Events(): ReactElement {
     fetchEvents();
   }, []);
 
-  const doFetch = ({ categoryId, subcategoryId, month, year }: { categoryId?: number; subcategoryId?: number; month?: number; year?: number }) => {
+  const doFetch = ({
+    categoryId,
+    subcategoryId,
+    month,
+    year,
+  }: {
+    categoryId?: number;
+    subcategoryId?: number;
+    month?: number;
+    year?: number;
+  }) => {
     fetchEvents({ categoryId, subcategoryId, month, year });
   };
 
@@ -359,7 +512,7 @@ function Events(): ReactElement {
     categories.map((c, i) => [c.id, getCategoryColor({ index: i })])
   );
 
-  const filterCategoryObj = categories.find(c => c.id === filterCategoryId) ?? null;
+  const filterCategoryObj = categories.find((c) => c.id === filterCategoryId) ?? null;
   const filterSubcategories = filterCategoryObj?.subcategories ?? [];
 
   // Calendar grid
@@ -381,9 +534,7 @@ function Events(): ReactElement {
     return map;
   }, [events]);
 
-  const selectedEvents = (eventsByDate[selectedDate] ?? []).sort((a, b) =>
-    (a.time ?? '').localeCompare(b.time ?? '')
-  );
+  const selectedEvents = (eventsByDate[selectedDate] ?? []).sort((a, b) => (a.time ?? '').localeCompare(b.time ?? ''));
 
   // List view: group by date
   const listSections = useMemo(() => {
@@ -408,7 +559,7 @@ function Events(): ReactElement {
   };
 
   const handleDelete = async ({ event }: { event: CalendarEvent }) => {
-    if (!await confirm({ message: `Delete "${event.title}"?`, variant: 'danger', confirmLabel: 'Delete' })) return;
+    if (!(await confirm({ message: `Delete "${event.title}"?`, variant: 'danger', confirmLabel: 'Delete' }))) return;
     await deleteEvent({ id: event.id });
   };
 
@@ -447,28 +598,35 @@ function Events(): ReactElement {
         <select
           className={styles.filterSelect}
           value={filterCategoryId}
-          onChange={e => handleFilterCategory({ value: e.target.value ? Number(e.target.value) : '' })}
+          onChange={(e) => handleFilterCategory({ value: e.target.value ? Number(e.target.value) : '' })}
         >
           <option value="">All categories</option>
           {categories.map((c, i) => (
-            <option key={c.id} value={c.id} style={{ color: getCategoryColor({ index: i }) }}>{c.name}</option>
+            <option key={c.id} value={c.id} style={{ color: getCategoryColor({ index: i }) }}>
+              {c.name}
+            </option>
           ))}
         </select>
         {filterSubcategories.length > 0 && (
           <select
             className={styles.filterSelect}
             value={filterSubcategoryId}
-            onChange={e => handleFilterSubcategory({ value: e.target.value ? Number(e.target.value) : '' })}
+            onChange={(e) => handleFilterSubcategory({ value: e.target.value ? Number(e.target.value) : '' })}
           >
             <option value="">All subcategories</option>
-            {filterSubcategories.map(s => (
-              <option key={s.id} value={s.id}>{s.name}</option>
+            {filterSubcategories.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
             ))}
           </select>
         )}
         <button
           className={styles.addEventHeaderBtn}
-          onClick={() => { setEditingEvent(null); setShowAddEdit(true); }}
+          onClick={() => {
+            setEditingEvent(null);
+            setShowAddEdit(true);
+          }}
         >
           + Add Event
         </button>
@@ -489,10 +647,12 @@ function Events(): ReactElement {
             </div>
 
             <div className={styles.calendarGrid}>
-              {DAY_HEADERS.map(h => (
-                <div key={h} className={styles.dayHeader}>{h}</div>
+              {DAY_HEADERS.map((h) => (
+                <div key={h} className={styles.dayHeader}>
+                  {h}
+                </div>
               ))}
-              {days.map(day => {
+              {days.map((day) => {
                 const dateStr = toDateStr({ d: day });
                 const isCurrentMonth = day.month() === currentMonth.month();
                 const isSelected = dateStr === selectedDate;
@@ -513,7 +673,7 @@ function Events(): ReactElement {
                     <span className={styles.dayNum}>{day.date()}</span>
                     {dayEvents.length > 0 && (
                       <div className={styles.eventDots}>
-                        {dayEvents.slice(0, 3).map(ev => (
+                        {dayEvents.slice(0, 3).map((ev) => (
                           <span
                             key={ev.id}
                             className={styles.eventDot}
@@ -537,7 +697,10 @@ function Events(): ReactElement {
               <span className={styles.dayPanelDate}>{dayjs(selectedDate).format('dddd, MMMM D')}</span>
               <button
                 className={styles.addEventBtn}
-                onClick={() => { setEditingEvent(null); setShowAddEdit(true); }}
+                onClick={() => {
+                  setEditingEvent(null);
+                  setShowAddEdit(true);
+                }}
               >
                 + Add Event
               </button>
@@ -547,7 +710,7 @@ function Events(): ReactElement {
               <p className={styles.noEvents}>No events on this day</p>
             ) : (
               <div className={styles.eventList}>
-                {selectedEvents.map(ev => {
+                {selectedEvents.map((ev) => {
                   const color = categoryColorMap[ev.categoryId] ?? '#2196F3';
                   return (
                     <div key={ev.id} className={styles.eventItem} style={{ borderLeftColor: color }}>
@@ -555,7 +718,13 @@ function Events(): ReactElement {
                         <div className={styles.eventItemTop}>
                           <span className={styles.eventItemTitle}>{ev.title}</span>
                           <div className={styles.eventItemActions}>
-                            <IconButton size="small" onClick={() => { setEditingEvent(ev); setShowAddEdit(true); }}>
+                            <IconButton
+                              size="small"
+                              onClick={() => {
+                                setEditingEvent(ev);
+                                setShowAddEdit(true);
+                              }}
+                            >
                               <EditIcon fontSize="small" />
                             </IconButton>
                             <IconButton size="small" onClick={() => handleDelete({ event: ev })}>
@@ -565,7 +734,9 @@ function Events(): ReactElement {
                         </div>
                         {ev.time && <span className={styles.eventItemTime}>{formatTime({ timeStr: ev.time })}</span>}
                         <div className={styles.eventItemMeta}>
-                          <span className={styles.catTag} style={{ backgroundColor: color + '22', color }}>{ev.categoryName}</span>
+                          <span className={styles.catTag} style={{ backgroundColor: color + '22', color }}>
+                            {ev.categoryName}
+                          </span>
                           {ev.subcategoryName && <span className={styles.subCatTag}>{ev.subcategoryName}</span>}
                         </div>
                         {ev.description && <p className={styles.eventItemDesc}>{ev.description}</p>}
@@ -581,15 +752,11 @@ function Events(): ReactElement {
         // List view
         <div className={styles.listView}>
           {loading && <p className={styles.loadingText}>Loading…</p>}
-          {!loading && listSections.length === 0 && (
-            <p className={styles.noEvents}>No events found</p>
-          )}
+          {!loading && listSections.length === 0 && <p className={styles.noEvents}>No events found</p>}
           {listSections.map(([date, evs]) => (
             <div key={date} className={styles.listGroup}>
-              <div className={styles.listGroupHeader}>
-                {dayjs(date).format('dddd, MMMM D, YYYY')}
-              </div>
-              {evs.map(ev => {
+              <div className={styles.listGroupHeader}>{dayjs(date).format('dddd, MMMM D, YYYY')}</div>
+              {evs.map((ev) => {
                 const color = categoryColorMap[ev.categoryId] ?? '#2196F3';
                 return (
                   <div key={ev.id} className={styles.listEventItem} style={{ borderLeftColor: color }}>
@@ -597,7 +764,13 @@ function Events(): ReactElement {
                       <div className={styles.listEventTop}>
                         <span className={styles.eventItemTitle}>{ev.title}</span>
                         <div className={styles.eventItemActions}>
-                          <IconButton size="small" onClick={() => { setEditingEvent(ev); setShowAddEdit(true); }}>
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              setEditingEvent(ev);
+                              setShowAddEdit(true);
+                            }}
+                          >
                             <EditIcon fontSize="small" />
                           </IconButton>
                           <IconButton size="small" onClick={() => handleDelete({ event: ev })}>
@@ -607,7 +780,9 @@ function Events(): ReactElement {
                       </div>
                       {ev.time && <span className={styles.eventItemTime}>{formatTime({ timeStr: ev.time })}</span>}
                       <div className={styles.eventItemMeta}>
-                        <span className={styles.catTag} style={{ backgroundColor: color + '22', color }}>{ev.categoryName}</span>
+                        <span className={styles.catTag} style={{ backgroundColor: color + '22', color }}>
+                          {ev.categoryName}
+                        </span>
                         {ev.subcategoryName && <span className={styles.subCatTag}>{ev.subcategoryName}</span>}
                       </div>
                       {ev.description && <p className={styles.eventItemDesc}>{ev.description}</p>}
@@ -626,7 +801,10 @@ function Events(): ReactElement {
           defaultDate={selectedDate}
           categories={categories}
           onSave={handleSave}
-          onClose={() => { setShowAddEdit(false); setEditingEvent(null); }}
+          onClose={() => {
+            setShowAddEdit(false);
+            setEditingEvent(null);
+          }}
         />
       )}
 

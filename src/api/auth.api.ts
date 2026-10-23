@@ -21,7 +21,13 @@ export const setUserPermissions = (userId: number, permissions: Record<string, b
   return put<void>(`${ADMIN}/users/${userId}/permissions`, permissions);
 };
 
-export const createUser = ({ username, password }: { username: string; password: string }): Promise<{ id: number; username: string }> => {
+export const createUser = ({
+  username,
+  password,
+}: {
+  username: string;
+  password: string;
+}): Promise<{ id: number; username: string }> => {
   return post<{ id: number; username: string }>(`${ADMIN}/users`, { username, password });
 };
 

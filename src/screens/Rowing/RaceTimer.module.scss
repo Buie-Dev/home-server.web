@@ -227,7 +227,9 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: $shadow-elevated;
-  transition: transform 0.1s, background 0.15s;
+  transition:
+    transform 0.1s,
+    background 0.15s;
 
   &:active {
     transform: scale(0.97);
@@ -391,7 +393,9 @@
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 0.1s, background 0.15s;
+  transition:
+    transform 0.1s,
+    background 0.15s;
 
   &:hover:not(:disabled) {
     background: color.adjust(#f44336, $lightness: -8%);

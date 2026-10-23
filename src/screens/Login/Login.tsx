@@ -68,13 +68,7 @@ function Login(): ReactElement {
 
           {error && <p className={styles.error}>{error}</p>}
 
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            disabled={loading}
-            className={styles.submitBtn}
-          >
+          <Button type="submit" variant="contained" fullWidth disabled={loading} className={styles.submitBtn}>
             {loading ? <CircularProgress size={20} className={styles.spinner} /> : 'Sign In'}
           </Button>
         </form>

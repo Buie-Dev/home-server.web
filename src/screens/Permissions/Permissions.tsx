@@ -42,7 +42,9 @@ function Permissions(): ReactElement {
       .then((data) => {
         setUsers(data);
         const initial: Record<number, Record<string, boolean>> = {};
-        data.forEach((u) => { initial[u.id] = { ...u.permissions }; });
+        data.forEach((u) => {
+          initial[u.id] = { ...u.permissions };
+        });
         setDirty(initial);
       })
       .catch(console.error)
@@ -64,7 +66,9 @@ function Permissions(): ReactElement {
       const data = await fetchAllUsers();
       setUsers(data);
       const refreshed: Record<number, Record<string, boolean>> = {};
-      data.forEach((u) => { refreshed[u.id] = { ...u.permissions }; });
+      data.forEach((u) => {
+        refreshed[u.id] = { ...u.permissions };
+      });
       setDirty(refreshed);
       setShowAddDialog(false);
       setNewUsername('');
@@ -80,7 +84,7 @@ function Permissions(): ReactElement {
     setSaving(userId);
     try {
       await setUserPermissions(userId, dirty[userId] ?? {});
-      setUsers((prev) => prev.map((u) => u.id === userId ? { ...u, permissions: dirty[userId] } : u));
+      setUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, permissions: dirty[userId] } : u)));
     } catch (e) {
       console.error(e);
     } finally {
@@ -89,11 +93,22 @@ function Permissions(): ReactElement {
   };
 
   const handleDeleteUser = async (userId: number, username: string): Promise<void> => {
-    if (!await confirm({ message: `Delete user "${username}"? This cannot be undone.`, variant: 'danger', confirmLabel: 'Delete' })) return;
+    if (
+      !(await confirm({
+        message: `Delete user "${username}"? This cannot be undone.`,
+        variant: 'danger',
+        confirmLabel: 'Delete',
+      }))
+    )
+      return;
     try {
       await deleteUser({ userId });
       setUsers((prev) => prev.filter((u) => u.id !== userId));
-      setDirty((prev) => { const next = { ...prev }; delete next[userId]; return next; });
+      setDirty((prev) => {
+        const next = { ...prev };
+        delete next[userId];
+        return next;
+      });
     } catch (e) {
       console.error(e);
     }

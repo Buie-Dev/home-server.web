@@ -24,7 +24,10 @@ const ZONE_ICONS: Record<string, React.ElementType> = {
 
 const getZoneIcon = (type: string): React.ElementType => ZONE_ICONS[type?.toLowerCase()] ?? OpacityIcon;
 
-const getZoneStatus = (zone: Zone, priorityQueue: ReturnType<typeof useIrrigation>['priorityQueue']): 'active' | 'queued' | 'idle' => {
+const getZoneStatus = (
+  zone: Zone,
+  priorityQueue: ReturnType<typeof useIrrigation>['priorityQueue']
+): 'active' | 'queued' | 'idle' => {
   if (zone.state) return 'active';
   const inQueue = priorityQueue.find((item) => item.zone === zone.zone);
   if (inQueue) return 'queued';
@@ -89,7 +92,9 @@ function Zones(): ReactElement {
                 className={`${styles.option} ${!selectedFilter ? styles.optionActive : ''}`}
                 onClick={() => handleSelectType(undefined)}
               >
-                <span className={styles.checkSlot}>{!selectedFilter && <CheckIcon className={styles.checkIcon} />}</span>
+                <span className={styles.checkSlot}>
+                  {!selectedFilter && <CheckIcon className={styles.checkIcon} />}
+                </span>
                 <span>All types</span>
               </button>
               <div className={styles.divider} />

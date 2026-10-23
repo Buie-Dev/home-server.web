@@ -32,7 +32,9 @@ describe('useEvents', () => {
   });
 
   it('fetchEvents loads events with filters', async () => {
-    mockedFetchEvents.mockResolvedValue([{ id: 1, title: 'BBQ', date: '2024-06-15', categoryId: 1, categoryName: 'Social' }]);
+    mockedFetchEvents.mockResolvedValue([
+      { id: 1, title: 'BBQ', date: '2024-06-15', categoryId: 1, categoryName: 'Social' },
+    ]);
     const { result } = renderHook(() => useEvents());
 
     await act(async () => {
@@ -115,6 +117,11 @@ describe('useEvents', () => {
       await result.current.refetchEvents();
     });
 
-    expect(mockedFetchEvents).toHaveBeenCalledWith({ categoryId: undefined, subcategoryId: undefined, month: 3, year: 2024 });
+    expect(mockedFetchEvents).toHaveBeenCalledWith({
+      categoryId: undefined,
+      subcategoryId: undefined,
+      month: 3,
+      year: 2024,
+    });
   });
 });

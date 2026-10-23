@@ -2,7 +2,14 @@ import { get, post, put, del } from 'api/base.api';
 import { EVENTS } from 'api/routes';
 
 type FetchEventsParams = { categoryId?: number; subcategoryId?: number; month?: number; year?: number };
-type EventPayload = { title: string; description?: string; date: string; time?: string; categoryId: number; subcategoryId?: number };
+type EventPayload = {
+  title: string;
+  description?: string;
+  date: string;
+  time?: string;
+  categoryId: number;
+  subcategoryId?: number;
+};
 
 export const fetchEvents = ({ categoryId, subcategoryId, month, year }: FetchEventsParams) =>
   get<any[]>(EVENTS, { categoryId, subcategoryId, month, year });

@@ -72,7 +72,9 @@
     color: $color-text-secondary;
     padding: $spacing-xs $spacing-sm;
     border-radius: $radius-sm;
-    transition: color 0.15s ease, background-color 0.15s ease;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
 
     &:hover {
       color: $color-primary;
@@ -114,7 +116,9 @@
     font-weight: 500;
     border-radius: 0 $radius-md $radius-md 0;
     margin-right: $spacing-sm;
-    transition: color 0.15s ease, background-color 0.15s ease;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
 
     &:hover {
       background-color: $color-primary-light;

@@ -36,7 +36,9 @@ function ManualIrrigationModal({ open, zone, onClose }: ManualIrrigationModalPro
   }, [zone]);
 
   const toggleSubzone = (subzoneId: number): void => {
-    setSubzones((prev) => prev.map((subzone) => (subzone.id === subzoneId ? { ...subzone, isChecked: !subzone.isChecked } : subzone)));
+    setSubzones((prev) =>
+      prev.map((subzone) => (subzone.id === subzoneId ? { ...subzone, isChecked: !subzone.isChecked } : subzone))
+    );
   };
 
   const handleStart = (): void => {

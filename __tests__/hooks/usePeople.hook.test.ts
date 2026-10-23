@@ -85,7 +85,9 @@ describe('usePeople', () => {
   });
 
   it('fetchIdeas loads ideas with loading state', async () => {
-    mockedFetchIdeas.mockResolvedValue([{ id: 1, title: 'Book', completed: false, createdAt: '2024-01-01', categoryId: 1, categoryName: 'G' }]);
+    mockedFetchIdeas.mockResolvedValue([
+      { id: 1, title: 'Book', completed: false, createdAt: '2024-01-01', categoryId: 1, categoryName: 'G' },
+    ]);
     const { result } = renderHook(() => usePeople());
 
     await act(async () => {
@@ -131,7 +133,9 @@ describe('usePeople', () => {
 
   it('clearPerson resets categories and ideas', async () => {
     mockedFetchCategories.mockResolvedValue([{ id: 1, name: 'G', subcategories: [], ideaCount: 0 }]);
-    mockedFetchIdeas.mockResolvedValue([{ id: 1, title: 'A', completed: false, createdAt: '2024-01-01', categoryId: 1, categoryName: 'G' }]);
+    mockedFetchIdeas.mockResolvedValue([
+      { id: 1, title: 'A', completed: false, createdAt: '2024-01-01', categoryId: 1, categoryName: 'G' },
+    ]);
     const { result } = renderHook(() => usePeople());
 
     await act(async () => {

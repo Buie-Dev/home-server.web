@@ -188,7 +188,12 @@ describe('useRowing', () => {
     });
 
     expect(mockedRecordEntryStart).toHaveBeenCalledWith({ entryId: 10, startTime: 1700000000000 });
-    expect(mockWebSocketValue.sendMessage).toHaveBeenCalledWith('rowing/start', { raceId: 1, entryId: 10, boatName: 'Shell A', timestamp: 1700000000000 });
+    expect(mockWebSocketValue.sendMessage).toHaveBeenCalledWith('rowing/start', {
+      raceId: 1,
+      entryId: 10,
+      boatName: 'Shell A',
+      timestamp: 1700000000000,
+    });
   });
 
   it('sendBoatFinish records finish and sends WebSocket message', async () => {
@@ -196,11 +201,23 @@ describe('useRowing', () => {
     const { result } = renderHook(() => useRowing());
 
     await act(async () => {
-      await result.current.sendBoatFinish({ raceId: 1, entryId: 10, boatName: 'Shell A', timestamp: 1700000300000, elapsedMs: 300000 });
+      await result.current.sendBoatFinish({
+        raceId: 1,
+        entryId: 10,
+        boatName: 'Shell A',
+        timestamp: 1700000300000,
+        elapsedMs: 300000,
+      });
     });
 
     expect(mockedRecordEntryFinish).toHaveBeenCalledWith({ entryId: 10, finishTime: 1700000300000, elapsedMs: 300000 });
-    expect(mockWebSocketValue.sendMessage).toHaveBeenCalledWith('rowing/finish', { raceId: 1, entryId: 10, boatName: 'Shell A', timestamp: 1700000300000, elapsedMs: 300000 });
+    expect(mockWebSocketValue.sendMessage).toHaveBeenCalledWith('rowing/finish', {
+      raceId: 1,
+      entryId: 10,
+      boatName: 'Shell A',
+      timestamp: 1700000300000,
+      elapsedMs: 300000,
+    });
   });
 
   it('removeRace deletes and refetches', async () => {

@@ -1,4 +1,11 @@
-import { loginRequest, fetchMyPermissions, fetchAllUsers, setUserPermissions, createUser, deleteUser } from 'api/auth.api';
+import {
+  loginRequest,
+  fetchMyPermissions,
+  fetchAllUsers,
+  setUserPermissions,
+  createUser,
+  deleteUser,
+} from 'api/auth.api';
 
 vi.mock('api/base.api', () => ({
   get: vi.fn(),
@@ -19,7 +26,10 @@ describe('auth.api', () => {
     it('posts to /auth/login with credentials', async () => {
       mockedPost.mockResolvedValue({ token: 'jwt123' });
       const result = await loginRequest('admin', 'password');
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/auth/login'), { username: 'admin', password: 'password' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/auth/login'), {
+        username: 'admin',
+        password: 'password',
+      });
       expect(result).toEqual({ token: 'jwt123' });
     });
   });
@@ -46,7 +56,9 @@ describe('auth.api', () => {
     it('puts to /admin/users/:id/permissions', async () => {
       mockedPut.mockResolvedValue(undefined);
       await setUserPermissions(1, { irrigation: true });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/admin/users/1/permissions'), { irrigation: true });
+      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/admin/users/1/permissions'), {
+        irrigation: true,
+      });
     });
   });
 
@@ -54,7 +66,10 @@ describe('auth.api', () => {
     it('posts to /admin/users', async () => {
       mockedPost.mockResolvedValue({ id: 2, username: 'new' });
       const result = await createUser({ username: 'new', password: 'pass' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/admin/users'), { username: 'new', password: 'pass' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/admin/users'), {
+        username: 'new',
+        password: 'pass',
+      });
       expect(result).toEqual({ id: 2, username: 'new' });
     });
   });

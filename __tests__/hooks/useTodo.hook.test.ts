@@ -122,7 +122,17 @@ describe('useTodo', () => {
   });
 
   it('fetchTasks loads tasks with loading state', async () => {
-    mockedFetchTasks.mockResolvedValue([{ id: 1, title: 'Do stuff', frequency: 'one_time', categoryId: 1, categoryName: 'Work', completed: false, addedAt: '2024-01-01' }]);
+    mockedFetchTasks.mockResolvedValue([
+      {
+        id: 1,
+        title: 'Do stuff',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'Work',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
+    ]);
     const { result } = renderHook(() => useTodo());
 
     await act(async () => {
@@ -146,7 +156,17 @@ describe('useTodo', () => {
   });
 
   it('completeTask marks task completed locally', async () => {
-    mockedFetchTasks.mockResolvedValue([{ id: 1, title: 'Task', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01' }]);
+    mockedFetchTasks.mockResolvedValue([
+      {
+        id: 1,
+        title: 'Task',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
+    ]);
     mockedCompleteTask.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
 
@@ -163,8 +183,24 @@ describe('useTodo', () => {
 
   it('archiveTask removes task locally', async () => {
     mockedFetchTasks.mockResolvedValue([
-      { id: 1, title: 'A', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01' },
-      { id: 2, title: 'B', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01' },
+      {
+        id: 1,
+        title: 'A',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
+      {
+        id: 2,
+        title: 'B',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
     ]);
     mockedArchiveTask.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
@@ -183,8 +219,24 @@ describe('useTodo', () => {
 
   it('archiveAllCompleted removes completed tasks locally', async () => {
     mockedFetchTasks.mockResolvedValue([
-      { id: 1, title: 'A', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: true, addedAt: '2024-01-01' },
-      { id: 2, title: 'B', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01' },
+      {
+        id: 1,
+        title: 'A',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: true,
+        addedAt: '2024-01-01',
+      },
+      {
+        id: 2,
+        title: 'B',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
     ]);
     mockedArchiveAllCompleted.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
@@ -202,7 +254,17 @@ describe('useTodo', () => {
   });
 
   it('deleteTask removes task locally', async () => {
-    mockedFetchTasks.mockResolvedValue([{ id: 1, title: 'A', frequency: 'one_time', categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01' }]);
+    mockedFetchTasks.mockResolvedValue([
+      {
+        id: 1,
+        title: 'A',
+        frequency: 'one_time',
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+      },
+    ]);
     mockedDeleteTask.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
 
@@ -230,10 +292,18 @@ describe('useTodo', () => {
   });
 
   it('toggleChecklistItem updates item locally', async () => {
-    mockedFetchTasks.mockResolvedValue([{
-      id: 1, title: 'A', frequency: 'one_time' as const, categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01',
-      checklistItems: [{ id: 10, text: 'Step', checked: false }],
-    }]);
+    mockedFetchTasks.mockResolvedValue([
+      {
+        id: 1,
+        title: 'A',
+        frequency: 'one_time' as const,
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+        checklistItems: [{ id: 10, text: 'Step', checked: false }],
+      },
+    ]);
     mockedUpdateChecklistItem.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
 
@@ -249,10 +319,21 @@ describe('useTodo', () => {
   });
 
   it('deleteChecklistItem removes item locally', async () => {
-    mockedFetchTasks.mockResolvedValue([{
-      id: 1, title: 'A', frequency: 'one_time' as const, categoryId: 1, categoryName: 'W', completed: false, addedAt: '2024-01-01',
-      checklistItems: [{ id: 10, text: 'Step 1', checked: false }, { id: 11, text: 'Step 2', checked: false }],
-    }]);
+    mockedFetchTasks.mockResolvedValue([
+      {
+        id: 1,
+        title: 'A',
+        frequency: 'one_time' as const,
+        categoryId: 1,
+        categoryName: 'W',
+        completed: false,
+        addedAt: '2024-01-01',
+        checklistItems: [
+          { id: 10, text: 'Step 1', checked: false },
+          { id: 11, text: 'Step 2', checked: false },
+        ],
+      },
+    ]);
     mockedDeleteChecklistItem.mockResolvedValue(undefined);
     const { result } = renderHook(() => useTodo());
 

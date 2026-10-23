@@ -65,7 +65,9 @@
   font-weight: 500;
   color: $color-text-secondary;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 
   &:hover {
     color: $color-primary;

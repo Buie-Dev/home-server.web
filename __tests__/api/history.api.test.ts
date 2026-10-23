@@ -24,7 +24,7 @@ describe('history.api', () => {
       await fetchHistory({ limit: 50, offset: 10, zoneId: 1 });
       expect(mockedGet).toHaveBeenCalledWith(
         expect.stringContaining('/irrigations/history'),
-        expect.objectContaining({ limit: 50, offset: 10, zoneId: 1 }),
+        expect.objectContaining({ limit: 50, offset: 10, zoneId: 1 })
       );
     });
   });
@@ -41,7 +41,7 @@ describe('history.api', () => {
       await fetchHistoryTotals({ zoneId: 2 });
       expect(mockedGet).toHaveBeenCalledWith(
         expect.stringContaining('/irrigations/history/totals'),
-        expect.objectContaining({ zoneId: 2 }),
+        expect.objectContaining({ zoneId: 2 })
       );
     });
   });

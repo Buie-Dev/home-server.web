@@ -2,9 +2,7 @@ import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { PreferencesProvider, usePreferences } from 'context/PreferencesContext';
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <PreferencesProvider>{children}</PreferencesProvider>
-);
+const wrapper = ({ children }: { children: React.ReactNode }) => <PreferencesProvider>{children}</PreferencesProvider>;
 
 describe('PreferencesContext', () => {
   it('defaults to litres (useGallons false)', () => {

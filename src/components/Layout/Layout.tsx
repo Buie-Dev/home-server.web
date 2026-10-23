@@ -43,7 +43,10 @@ function Layout(): ReactElement {
     <div className={styles.root}>
       <header className={styles.appBar}>
         <span className={styles.title}>Dandelion Lane</span>
-        <div className={`${styles.connectionDot} ${isConnected ? styles.connected : styles.disconnected}`} title={isConnected ? 'Connected' : 'Disconnected'} />
+        <div
+          className={`${styles.connectionDot} ${isConnected ? styles.connected : styles.disconnected}`}
+          title={isConnected ? 'Connected' : 'Disconnected'}
+        />
         <button className={styles.logoutBtn} onClick={logout}>
           Sign out
         </button>

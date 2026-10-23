@@ -51,11 +51,7 @@ function Devices(): ReactElement {
         </Tooltip>
       </div>
 
-      {!isConnected && (
-        <div className={styles.wsBanner}>
-          WebSocket disconnected — health checks unavailable
-        </div>
-      )}
+      {!isConnected && <div className={styles.wsBanner}>WebSocket disconnected — health checks unavailable</div>}
 
       {loading ? (
         <LoadingSpinner />

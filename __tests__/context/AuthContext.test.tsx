@@ -28,9 +28,7 @@ const mockedGetToken = vi.mocked(getToken);
 const mockedSetToken = vi.mocked(setToken);
 const mockedClearToken = vi.mocked(clearToken);
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <AuthProvider>{children}</AuthProvider>
-);
+const wrapper = ({ children }: { children: React.ReactNode }) => <AuthProvider>{children}</AuthProvider>;
 
 describe('AuthContext', () => {
   it('registers unauthorized handler on mount', async () => {

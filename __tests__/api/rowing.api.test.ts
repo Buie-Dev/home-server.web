@@ -7,11 +7,32 @@ vi.mock('api/base.api', () => ({
 
 import * as base from 'api/base.api';
 import {
-  fetchBoatClasses, fetchCrewMembers, createCrewMember, updateCrewMember, deleteCrewMember,
-  fetchBoats, createBoat, updateBoat, deleteBoat,
-  fetchCrews, createCrew, updateCrew, deleteCrew, updateCrewLineup,
-  fetchRaces, fetchRace, createRace, activateRace, completeRace, deleteRace,
-  recordEntryStart, recordEntryFinish, markEntryDns, markEntryDnf, updateEntryCrew, deleteEntry,
+  fetchBoatClasses,
+  fetchCrewMembers,
+  createCrewMember,
+  updateCrewMember,
+  deleteCrewMember,
+  fetchBoats,
+  createBoat,
+  updateBoat,
+  deleteBoat,
+  fetchCrews,
+  createCrew,
+  updateCrew,
+  deleteCrew,
+  updateCrewLineup,
+  fetchRaces,
+  fetchRace,
+  createRace,
+  activateRace,
+  completeRace,
+  deleteRace,
+  recordEntryStart,
+  recordEntryFinish,
+  markEntryDns,
+  markEntryDnf,
+  updateEntryCrew,
+  deleteEntry,
 } from 'api/rowing.api';
 
 const mockedGet = vi.mocked(base.get);
@@ -38,7 +59,10 @@ describe('rowing.api', () => {
     it('createCrewMember posts name and gender', async () => {
       mockedPost.mockResolvedValue({ id: 1 });
       await createCrewMember({ name: 'Alice', gender: 'Women' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/crew'), { name: 'Alice', gender: 'Women' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/crew'), {
+        name: 'Alice',
+        gender: 'Women',
+      });
     });
 
     it('updateCrewMember puts to crew/:id', async () => {
@@ -64,13 +88,19 @@ describe('rowing.api', () => {
     it('createBoat posts name and boatClassId', async () => {
       mockedPost.mockResolvedValue({ id: 1 });
       await createBoat({ name: 'Shell A', boatClassId: 2 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/boats'), { name: 'Shell A', boatClassId: 2 });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/boats'), {
+        name: 'Shell A',
+        boatClassId: 2,
+      });
     });
 
     it('updateBoat puts to boats/:id', async () => {
       mockedPut.mockResolvedValue({ success: true });
       await updateBoat({ id: 1, name: 'Shell B', boatClassId: 3 });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/rowing/boats/1'), { name: 'Shell B', boatClassId: 3 });
+      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/rowing/boats/1'), {
+        name: 'Shell B',
+        boatClassId: 3,
+      });
     });
 
     it('deleteBoat deletes boats/:id', async () => {
@@ -81,7 +111,17 @@ describe('rowing.api', () => {
   });
 
   describe('crews', () => {
-    const seats = { cox: null, seat1: 1, seat2: 2, seat3: null, seat4: null, seat5: null, seat6: null, seat7: null, seat8: null };
+    const seats = {
+      cox: null,
+      seat1: 1,
+      seat2: 2,
+      seat3: null,
+      seat4: null,
+      seat5: null,
+      seat6: null,
+      seat7: null,
+      seat8: null,
+    };
 
     it('fetchCrews calls get', async () => {
       mockedGet.mockResolvedValue([]);
@@ -92,13 +132,19 @@ describe('rowing.api', () => {
     it('createCrew posts crew data', async () => {
       mockedPost.mockResolvedValue({ id: 1 });
       await createCrew({ boatId: 1, gender: 'Men', ageCategory: 'Open', ...seats });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/crews'), expect.objectContaining({ boatId: 1, gender: 'Men' }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/rowing/crews'),
+        expect.objectContaining({ boatId: 1, gender: 'Men' })
+      );
     });
 
     it('updateCrew puts to crews/:id', async () => {
       mockedPut.mockResolvedValue({ id: 1, copied: false });
       await updateCrew({ id: 1, boatId: 1, gender: 'Women', ageCategory: 'U23', ...seats });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/rowing/crews/1'), expect.objectContaining({ gender: 'Women' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/rowing/crews/1'),
+        expect.objectContaining({ gender: 'Women' })
+      );
     });
 
     it('deleteCrew deletes crews/:id', async () => {
@@ -110,7 +156,10 @@ describe('rowing.api', () => {
     it('updateCrewLineup puts to crews/:id/lineup', async () => {
       mockedPut.mockResolvedValue({ success: true });
       await updateCrewLineup({ id: 1, boatId: 1, gender: 'Men', ageCategory: 'Open', ...seats });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/rowing/crews/1/lineup'), expect.objectContaining({ boatId: 1 }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/rowing/crews/1/lineup'),
+        expect.objectContaining({ boatId: 1 })
+      );
     });
   });
 
@@ -136,7 +185,10 @@ describe('rowing.api', () => {
     it('createRace posts race data', async () => {
       mockedPost.mockResolvedValue({ id: 1 });
       await createRace({ distance: '2000m', raceType: 'time_trial', crewIds: [1, 2] });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/races'), expect.objectContaining({ distance: '2000m', crewIds: [1, 2] }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/rowing/races'),
+        expect.objectContaining({ distance: '2000m', crewIds: [1, 2] })
+      );
     });
 
     it('activateRace posts to races/:id/activate', async () => {
@@ -162,13 +214,18 @@ describe('rowing.api', () => {
     it('recordEntryStart posts start time', async () => {
       mockedPost.mockResolvedValue({ success: true });
       await recordEntryStart({ entryId: 10, startTime: 1700000000000 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/entries/10/start'), { startTime: 1700000000000 });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/entries/10/start'), {
+        startTime: 1700000000000,
+      });
     });
 
     it('recordEntryFinish posts finish time and elapsed', async () => {
       mockedPost.mockResolvedValue({ success: true });
       await recordEntryFinish({ entryId: 10, finishTime: 1700000300000, elapsedMs: 300000 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/entries/10/finish'), { finishTime: 1700000300000, elapsedMs: 300000 });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/rowing/entries/10/finish'), {
+        finishTime: 1700000300000,
+        elapsedMs: 300000,
+      });
     });
 
     it('markEntryDns posts to dns', async () => {

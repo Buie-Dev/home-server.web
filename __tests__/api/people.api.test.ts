@@ -7,10 +7,20 @@ vi.mock('api/base.api', () => ({
 
 import * as base from 'api/base.api';
 import {
-  fetchPeople, createPerson, deletePerson,
-  fetchCategories, createCategory, updateCategory, deleteCategory,
-  createSubcategory, updateSubcategory, deleteSubcategory,
-  fetchIdeas, createIdea, updateIdea, deleteIdea,
+  fetchPeople,
+  createPerson,
+  deletePerson,
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  createSubcategory,
+  updateSubcategory,
+  deleteSubcategory,
+  fetchIdeas,
+  createIdea,
+  updateIdea,
+  deleteIdea,
 } from 'api/people.api';
 
 const mockedGet = vi.mocked(base.get);
@@ -49,7 +59,10 @@ describe('people.api', () => {
     it('createCategory posts name and subcategoryNames', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createCategory(1, { name: 'Gifts', subcategoryNames: ['Birthday'] });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/people/1/categories'), { name: 'Gifts', subcategoryNames: ['Birthday'] });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/people/1/categories'), {
+        name: 'Gifts',
+        subcategoryNames: ['Birthday'],
+      });
     });
 
     it('updateCategory puts to categories/:id', async () => {
@@ -69,7 +82,9 @@ describe('people.api', () => {
     it('createSubcategory posts to categories/:catId/subcategories', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createSubcategory(1, 2, { name: 'Sub' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/people/1/categories/2/subcategories'), { name: 'Sub' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/people/1/categories/2/subcategories'), {
+        name: 'Sub',
+      });
     });
 
     it('updateSubcategory puts to subcategories/:id', async () => {
@@ -95,19 +110,28 @@ describe('people.api', () => {
     it('fetchIdeas passes category filter', async () => {
       mockedGet.mockResolvedValue([]);
       await fetchIdeas(1, { categoryId: 2 });
-      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/people/1/ideas'), expect.objectContaining({ categoryId: 2 }));
+      expect(mockedGet).toHaveBeenCalledWith(
+        expect.stringContaining('/people/1/ideas'),
+        expect.objectContaining({ categoryId: 2 })
+      );
     });
 
     it('createIdea posts idea data', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createIdea(1, { title: 'Book', categoryId: 2 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/people/1/ideas'), expect.objectContaining({ title: 'Book' }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/people/1/ideas'),
+        expect.objectContaining({ title: 'Book' })
+      );
     });
 
     it('updateIdea puts to ideas/:id', async () => {
       mockedPut.mockResolvedValue(undefined);
       await updateIdea(1, 5, { title: 'Updated', categoryId: 2 });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/people/1/ideas/5'), expect.objectContaining({ title: 'Updated' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/people/1/ideas/5'),
+        expect.objectContaining({ title: 'Updated' })
+      );
     });
 
     it('deleteIdea deletes ideas/:id', async () => {

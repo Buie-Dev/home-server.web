@@ -61,7 +61,11 @@ const router = createBrowserRouter([
       { index: true, element: <DefaultRedirect /> },
       {
         path: 'irrigation',
-        element: <PermissionRoute permission="irrigation"><Irrigation /></PermissionRoute>,
+        element: (
+          <PermissionRoute permission="irrigation">
+            <Irrigation />
+          </PermissionRoute>
+        ),
         children: [
           { index: true, element: <Navigate to={PAGE_PATHS.ZONES} replace /> },
           { path: 'zones', element: <Zones /> },
@@ -70,14 +74,70 @@ const router = createBrowserRouter([
           { path: 'history', element: <History /> },
         ],
       },
-      { path: 'rowing', element: <PermissionRoute permission="rowing"><Rowing /></PermissionRoute> },
-      { path: 'rowing/race/:id', element: <PermissionRoute permission="rowing"><RaceTimer /></PermissionRoute> },
-      { path: 'rowing/stroke-rate', element: <PermissionRoute permission="rowing"><StrokeRate /></PermissionRoute> },
-      { path: 'todo', element: <PermissionRoute permission="todo"><ToDo /></PermissionRoute> },
-      { path: 'devices', element: <PermissionRoute permission="devices"><Devices /></PermissionRoute> },
-      { path: 'events', element: <PermissionRoute permission="events"><Events /></PermissionRoute> },
-      { path: 'people', element: <PermissionRoute permission="people"><People /></PermissionRoute> },
-      { path: 'admin/permissions', element: <PermissionRoute permission="admin"><Permissions /></PermissionRoute> },
+      {
+        path: 'rowing',
+        element: (
+          <PermissionRoute permission="rowing">
+            <Rowing />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'rowing/race/:id',
+        element: (
+          <PermissionRoute permission="rowing">
+            <RaceTimer />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'rowing/stroke-rate',
+        element: (
+          <PermissionRoute permission="rowing">
+            <StrokeRate />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'todo',
+        element: (
+          <PermissionRoute permission="todo">
+            <ToDo />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'devices',
+        element: (
+          <PermissionRoute permission="devices">
+            <Devices />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'events',
+        element: (
+          <PermissionRoute permission="events">
+            <Events />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'people',
+        element: (
+          <PermissionRoute permission="people">
+            <People />
+          </PermissionRoute>
+        ),
+      },
+      {
+        path: 'admin/permissions',
+        element: (
+          <PermissionRoute permission="admin">
+            <Permissions />
+          </PermissionRoute>
+        ),
+      },
     ],
   },
   {

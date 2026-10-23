@@ -55,17 +55,23 @@ function History(): ReactElement {
           <div className={styles.totalCard}>
             <span className={styles.totalLabel}>Today</span>
             <span className={styles.totalValue}>{formatVolume(totals.today.litres, useGallons)}</span>
-            <span className={styles.totalSub}>{totals.today.runs} runs · {totals.today.minutes} min</span>
+            <span className={styles.totalSub}>
+              {totals.today.runs} runs · {totals.today.minutes} min
+            </span>
           </div>
           <div className={styles.totalCard}>
             <span className={styles.totalLabel}>This Week</span>
             <span className={styles.totalValue}>{formatVolume(totals.week.litres, useGallons)}</span>
-            <span className={styles.totalSub}>{totals.week.runs} runs · {totals.week.minutes} min</span>
+            <span className={styles.totalSub}>
+              {totals.week.runs} runs · {totals.week.minutes} min
+            </span>
           </div>
           <div className={styles.totalCard}>
             <span className={styles.totalLabel}>This Month</span>
             <span className={styles.totalValue}>{formatVolume(totals.month.litres, useGallons)}</span>
-            <span className={styles.totalSub}>{totals.month.runs} runs · {totals.month.minutes} min</span>
+            <span className={styles.totalSub}>
+              {totals.month.runs} runs · {totals.month.minutes} min
+            </span>
           </div>
         </div>
       )}
@@ -93,7 +99,9 @@ function History(): ReactElement {
                   <div className={styles.cardInfo}>
                     <span className={styles.runName}>{run.zoneName}</span>
                     {run.subzoneName && <span className={styles.subzoneName}>{run.subzoneName}</span>}
-                    <span className={styles.runDate}>{formatDate(run.startedAt, dateFormats.abbreviatedPrettyWithWeekday)}</span>
+                    <span className={styles.runDate}>
+                      {formatDate(run.startedAt, dateFormats.abbreviatedPrettyWithWeekday)}
+                    </span>
                     <span className={styles.runTime}>
                       {formatDate(run.startedAt, dateFormats.time)} – {formatDate(run.endedAt, dateFormats.time)}
                     </span>

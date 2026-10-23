@@ -36,9 +36,13 @@ describe('base.api', () => {
     it('calls axios.post with route and data', async () => {
       mockedAxios.post.mockResolvedValue({ data: { id: 1 } });
       const result = await post('/test', { name: 'foo' });
-      expect(mockedAxios.post).toHaveBeenCalledWith('/test', { name: 'foo' }, {
-        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
-      });
+      expect(mockedAxios.post).toHaveBeenCalledWith(
+        '/test',
+        { name: 'foo' },
+        {
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+        }
+      );
       expect(result).toEqual({ id: 1 });
     });
   });
@@ -47,9 +51,13 @@ describe('base.api', () => {
     it('calls axios.put with route and data', async () => {
       mockedAxios.put.mockResolvedValue({ data: { updated: true } });
       const result = await put('/test/1', { name: 'bar' });
-      expect(mockedAxios.put).toHaveBeenCalledWith('/test/1', { name: 'bar' }, {
-        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
-      });
+      expect(mockedAxios.put).toHaveBeenCalledWith(
+        '/test/1',
+        { name: 'bar' },
+        {
+          headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+        }
+      );
       expect(result).toEqual({ updated: true });
     });
   });

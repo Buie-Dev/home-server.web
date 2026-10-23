@@ -32,8 +32,18 @@ function Irrigation(): ReactElement {
           </NavLink>
         ))}
         <div className={styles.unitToggle}>
-          <button className={`${styles.unitBtn} ${!useGallons ? styles.unitActive : ''}`} onClick={() => useGallons && toggleUnit()}>L</button>
-          <button className={`${styles.unitBtn} ${useGallons ? styles.unitActive : ''}`} onClick={() => !useGallons && toggleUnit()}>gal</button>
+          <button
+            className={`${styles.unitBtn} ${!useGallons ? styles.unitActive : ''}`}
+            onClick={() => useGallons && toggleUnit()}
+          >
+            L
+          </button>
+          <button
+            className={`${styles.unitBtn} ${useGallons ? styles.unitActive : ''}`}
+            onClick={() => !useGallons && toggleUnit()}
+          >
+            gal
+          </button>
         </div>
       </nav>
       <div className={styles.content}>

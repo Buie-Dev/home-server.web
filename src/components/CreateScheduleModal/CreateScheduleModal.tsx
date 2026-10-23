@@ -99,7 +99,15 @@ function CreateScheduleModal({ open, onClose, onSave, editSchedule }: CreateSche
     setName('');
     setStartTime('06:00');
     setDuration('');
-    setDays({ monday: false, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false });
+    setDays({
+      monday: false,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false,
+    });
   };
 
   const toggleDay = (key: keyof DayFlags): void => {
@@ -133,7 +141,9 @@ function CreateScheduleModal({ open, onClose, onSave, editSchedule }: CreateSche
   };
 
   const toggleSubzone = (subzoneId: number): void => {
-    setSelectedSubzoneIds((prev) => (prev.includes(subzoneId) ? prev.filter((id) => id !== subzoneId) : [...prev, subzoneId]));
+    setSelectedSubzoneIds((prev) =>
+      prev.includes(subzoneId) ? prev.filter((id) => id !== subzoneId) : [...prev, subzoneId]
+    );
   };
 
   return (

@@ -89,22 +89,19 @@ export default function useConfirm(): UseConfirmReturn {
         setOpen(true);
       });
     },
-    [],
+    []
   );
 
   const confirm = useCallback(
     (options: ConfirmOptions): Promise<boolean> => showModal('confirm', options),
-    [showModal],
+    [showModal]
   );
 
-  const alertFn = useCallback(
-    (options: ConfirmOptions): Promise<void> => showModal('alert', options),
-    [showModal],
-  );
+  const alertFn = useCallback((options: ConfirmOptions): Promise<void> => showModal('alert', options), [showModal]);
 
   const promptFn = useCallback(
     (options: PromptOptions): Promise<string | null> => showModal('prompt', options),
-    [showModal],
+    [showModal]
   );
 
   const confirmElement = createElement(ConfirmModal, {

@@ -92,15 +92,9 @@ function Queue(): ReactElement {
           </div>
 
           <div className={styles.activeStats}>
-            <span className={styles.statItem}>
-              {remainingTime !== null ? formatTime(remainingTime) : '—'} left
-            </span>
+            <span className={styles.statItem}>{remainingTime !== null ? formatTime(remainingTime) : '—'} left</span>
             <span className={styles.statItem}>{formatTime(activeItem.duration)} total</span>
-            {liveFlow && (
-              <span className={styles.statItem}>
-                {formatVolume(liveFlow.litres, useGallons)} flowing
-              </span>
-            )}
+            {liveFlow && <span className={styles.statItem}>{formatVolume(liveFlow.litres, useGallons)} flowing</span>}
           </div>
         </div>
       )}

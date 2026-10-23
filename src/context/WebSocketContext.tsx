@@ -95,7 +95,12 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }): 
             setLatestCurrentQueueStates(JSON.parse(content.message) as Array<CurrentQueueState>);
             break;
           case WEBSOCKET_TOPICS.HEALTH_CHECK_RESPONSE: {
-            const raw = JSON.parse(content.message) as { deviceId?: string; device?: string; status?: string; timestamp?: number };
+            const raw = JSON.parse(content.message) as {
+              deviceId?: string;
+              device?: string;
+              status?: string;
+              timestamp?: number;
+            };
             const response: HealthCheckResponse = {
               deviceId: raw.deviceId ?? raw.device ?? '',
               status: raw.status ?? raw.device ?? '',
@@ -162,7 +167,16 @@ export function WebSocketProvider({ children }: { children: React.ReactNode }): 
 
   return (
     <WebSocketContext.Provider
-      value={{ sendMessage, isConnected, latestCurrentQueueStates, latestCurrentStates, latestHealthCheckResponses, liveFlow, latestRowingStartEvent, latestRowingFinishEvent }}
+      value={{
+        sendMessage,
+        isConnected,
+        latestCurrentQueueStates,
+        latestCurrentStates,
+        latestHealthCheckResponses,
+        liveFlow,
+        latestRowingStartEvent,
+        latestRowingFinishEvent,
+      }}
     >
       {children}
     </WebSocketContext.Provider>

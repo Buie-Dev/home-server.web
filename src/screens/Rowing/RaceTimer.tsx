@@ -22,8 +22,15 @@ type LiveStartMap = Record<number, number>;
 const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19', 'U23'] as const;
 
 const EMPTY_SEATS: CrewSeats = {
-  cox: null, seat1: null, seat2: null, seat3: null, seat4: null,
-  seat5: null, seat6: null, seat7: null, seat8: null,
+  cox: null,
+  seat1: null,
+  seat2: null,
+  seat3: null,
+  seat4: null,
+  seat5: null,
+  seat6: null,
+  seat7: null,
+  seat8: null,
 };
 
 function getSeatLabel(seatKey: string, crewCount: number): string {
@@ -91,7 +98,11 @@ function ElapsedTicker({ startTimestamp }: { startTimestamp: number }): ReactEle
 
 // ── Lineup View Modal ──────────────────────────────────────────────────────────
 
-function LineupViewModal({ entry, crew, onClose }: {
+function LineupViewModal({
+  entry,
+  crew,
+  onClose,
+}: {
   entry: RaceEntry;
   crew: Crew | null;
   onClose: () => void;
@@ -111,11 +122,14 @@ function LineupViewModal({ entry, crew, onClose }: {
         {crew ? (
           <div className={styles.lineupSeatTable}>
             {seatKeys.map((key) => {
-              const slot = key === 'cox' ? crew.cox : crew[key as keyof Crew] as ({ name: string; gender: string } | null);
+              const slot =
+                key === 'cox' ? crew.cox : (crew[key as keyof Crew] as { name: string; gender: string } | null);
               const label = getSeatLabel(key, crewCount);
               return (
                 <div key={key} className={styles.lineupSeatRow}>
-                  <span className={`${styles.lineupSeatLabel} ${key === 'cox' ? styles.lineupSeatLabelCox : ''}`}>{label}</span>
+                  <span className={`${styles.lineupSeatLabel} ${key === 'cox' ? styles.lineupSeatLabelCox : ''}`}>
+                    {label}
+                  </span>
                   <span className={styles.lineupViewName}>
                     {slot ? slot.name : <em className={styles.lineupViewEmpty}>unassigned</em>}
                   </span>
@@ -127,7 +141,9 @@ function LineupViewModal({ entry, crew, onClose }: {
           <p className={styles.confirmText}>No crew assigned to this entry.</p>
         )}
         <div className={styles.confirmActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Close</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Close
+          </button>
         </div>
       </div>
     </div>
@@ -136,7 +152,14 @@ function LineupViewModal({ entry, crew, onClose }: {
 
 // ── Edit Lineup Modal ──────────────────────────────────────────────────────────
 
-function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }: {
+function EditLineupModal({
+  entry,
+  crew,
+  boats,
+  crewMembers,
+  onClose,
+  onSubmit,
+}: {
   entry: RaceEntry;
   crew: Crew | null;
   boats: Boat[];
@@ -196,12 +219,18 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
 
         {sameClassBoats.length > 1 && (
           <div className={styles.lineupField}>
-            <span className={styles.lineupFieldLabel}>Boat <span className={styles.lineupFieldHint}>({crew?.boatClassSymbol})</span></span>
+            <span className={styles.lineupFieldLabel}>
+              Boat <span className={styles.lineupFieldHint}>({crew?.boatClassSymbol})</span>
+            </span>
             <div className={styles.lineupChipRow}>
               {sameClassBoats.map((boat) => (
-                <button key={boat.id}
+                <button
+                  key={boat.id}
                   className={`${styles.lineupChip} ${selectedBoatId === boat.id ? styles.lineupChipActive : ''}`}
-                  onClick={() => setSelectedBoatId(boat.id)}>{boat.name}</button>
+                  onClick={() => setSelectedBoatId(boat.id)}
+                >
+                  {boat.name}
+                </button>
               ))}
             </div>
           </div>
@@ -211,9 +240,13 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
           <span className={styles.lineupFieldLabel}>Gender</span>
           <div className={styles.lineupChipRow}>
             {(['Men', 'Women', 'Mixed'] as Gender[]).map((g) => (
-              <button key={g}
+              <button
+                key={g}
                 className={`${styles.lineupChip} ${gender === g ? styles.lineupChipActive : ''}`}
-                onClick={() => setGender(g)}>{g}</button>
+                onClick={() => setGender(g)}
+              >
+                {g}
+              </button>
             ))}
           </div>
         </div>
@@ -222,9 +255,13 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
           <span className={styles.lineupFieldLabel}>Age Category</span>
           <div className={styles.lineupChipRow}>
             {AGE_CATEGORIES.map((age) => (
-              <button key={age}
+              <button
+                key={age}
                 className={`${styles.lineupChip} ${ageCategory === age ? styles.lineupChipActive : ''}`}
-                onClick={() => setAgeCategory(age)}>{age}</button>
+                onClick={() => setAgeCategory(age)}
+              >
+                {age}
+              </button>
             ))}
           </div>
         </div>
@@ -238,7 +275,9 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
               const selectedId = seats[key as keyof CrewSeats];
               return (
                 <div key={key} className={styles.lineupSeatRow}>
-                  <span className={`${styles.lineupSeatLabel} ${key === 'cox' ? styles.lineupSeatLabelCox : ''}`}>{label}</span>
+                  <span className={`${styles.lineupSeatLabel} ${key === 'cox' ? styles.lineupSeatLabelCox : ''}`}>
+                    {label}
+                  </span>
                   <select
                     className={styles.lineupSeatSelect}
                     value={selectedId ?? ''}
@@ -247,7 +286,9 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
                     <option value="">— unassigned —</option>
                     {crewMembers.map((m) => (
                       <option key={m.id} value={m.id}>
-                        {m.name}{m.gender ? ` (${m.gender})` : ''}{usedIds.has(m.id) && selectedId !== m.id ? ' — in boat' : ''}
+                        {m.name}
+                        {m.gender ? ` (${m.gender})` : ''}
+                        {usedIds.has(m.id) && selectedId !== m.id ? ' — in boat' : ''}
                       </option>
                     ))}
                   </select>
@@ -259,7 +300,9 @@ function EditLineupModal({ entry, crew, boats, crewMembers, onClose, onSubmit }:
 
         {formError && <p className={styles.confirmError}>{formError}</p>}
         <div className={styles.confirmActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
           <button className={styles.completeConfirmBtn} onClick={handleSubmit} disabled={saving || !crew}>
             {saving ? 'Saving…' : 'Save Lineup'}
           </button>
@@ -346,58 +389,86 @@ function RaceTimer(): ReactElement {
     });
   }, [activeRace]);
 
-  const handleStart = useCallback(async (entry: RaceEntry) => {
-    const timestamp = Date.now();
-    setLiveStarts((prev) => ({ ...prev, [entry.id]: timestamp }));
-    await sendBoatStart({ raceId, entryId: entry.id, boatName: entry.boatName, timestamp });
-  }, [raceId, sendBoatStart]);
+  const handleStart = useCallback(
+    async (entry: RaceEntry) => {
+      const timestamp = Date.now();
+      setLiveStarts((prev) => ({ ...prev, [entry.id]: timestamp }));
+      await sendBoatStart({ raceId, entryId: entry.id, boatName: entry.boatName, timestamp });
+    },
+    [raceId, sendBoatStart]
+  );
 
-  const handleFinish = useCallback(async (entry: RaceEntry) => {
-    const timestamp = Date.now();
-    const startTimestamp = liveStarts[entry.id] ?? entry.startTime;
-    if (startTimestamp === null || startTimestamp === undefined) return;
-    const elapsedMs = timestamp - startTimestamp;
-    setFinishing((prev) => ({ ...prev, [entry.id]: true }));
-    try {
-      await sendBoatFinish({ raceId, entryId: entry.id, boatName: entry.boatName, timestamp, elapsedMs });
-      setLiveStarts((prev) => {
-        const next = { ...prev };
-        delete next[entry.id];
-        return next;
-      });
-    } finally {
-      setFinishing((prev) => ({ ...prev, [entry.id]: false }));
-    }
-  }, [raceId, liveStarts, sendBoatFinish]);
+  const handleFinish = useCallback(
+    async (entry: RaceEntry) => {
+      const timestamp = Date.now();
+      const startTimestamp = liveStarts[entry.id] ?? entry.startTime;
+      if (startTimestamp === null || startTimestamp === undefined) return;
+      const elapsedMs = timestamp - startTimestamp;
+      setFinishing((prev) => ({ ...prev, [entry.id]: true }));
+      try {
+        await sendBoatFinish({ raceId, entryId: entry.id, boatName: entry.boatName, timestamp, elapsedMs });
+        setLiveStarts((prev) => {
+          const next = { ...prev };
+          delete next[entry.id];
+          return next;
+        });
+      } finally {
+        setFinishing((prev) => ({ ...prev, [entry.id]: false }));
+      }
+    },
+    [raceId, liveStarts, sendBoatFinish]
+  );
 
-  const handleDns = useCallback(async (entryId: number) => {
-    await setEntryDns({ entryId });
-  }, [setEntryDns]);
+  const handleDns = useCallback(
+    async (entryId: number) => {
+      await setEntryDns({ entryId });
+    },
+    [setEntryDns]
+  );
 
-  const handleDnf = useCallback(async (entryId: number) => {
-    await setEntryDnf({ entryId });
-  }, [setEntryDnf]);
+  const handleDnf = useCallback(
+    async (entryId: number) => {
+      await setEntryDnf({ entryId });
+    },
+    [setEntryDnf]
+  );
 
   const handleCompleteRace = useCallback(async () => {
     await finishRace({ id: raceId });
     setConfirmCompleteOpen(false);
   }, [finishRace, raceId]);
 
-  const handleRemoveEntry = useCallback(async (entry: RaceEntry) => {
-    const confirmed = await confirm({
-      title: 'Remove Entry',
-      message: `Remove ${entry.boatName} from this race?`,
-      confirmLabel: 'Remove',
-      variant: 'danger',
-    });
-    if (!confirmed) return;
-    await removeEntry({ entryId: entry.id });
-  }, [confirm, removeEntry]);
+  const handleRemoveEntry = useCallback(
+    async (entry: RaceEntry) => {
+      const confirmed = await confirm({
+        title: 'Remove Entry',
+        message: `Remove ${entry.boatName} from this race?`,
+        confirmLabel: 'Remove',
+        variant: 'danger',
+      });
+      if (!confirmed) return;
+      await removeEntry({ entryId: entry.id });
+    },
+    [confirm, removeEntry]
+  );
 
-  const handleEditLineup = useCallback(async ({ boatId, gender, ageCategory, seats }: { boatId: number; gender: Gender; ageCategory: AgeCategory; seats: CrewSeats }) => {
-    if (!lineupEditEntry?.crewId) return;
-    await editCrewLineup({ id: lineupEditEntry.crewId, boatId, gender, ageCategory, ...seats });
-  }, [lineupEditEntry, editCrewLineup]);
+  const handleEditLineup = useCallback(
+    async ({
+      boatId,
+      gender,
+      ageCategory,
+      seats,
+    }: {
+      boatId: number;
+      gender: Gender;
+      ageCategory: AgeCategory;
+      seats: CrewSeats;
+    }) => {
+      if (!lineupEditEntry?.crewId) return;
+      await editCrewLineup({ id: lineupEditEntry.crewId, boatId, gender, ageCategory, ...seats });
+    },
+    [lineupEditEntry, editCrewLineup]
+  );
 
   // Lock entry order on first load so positions never shift during a live race
   useEffect(() => {
@@ -436,7 +507,9 @@ function RaceTimer(): ReactElement {
         </button>
         <div className={styles.raceInfo}>
           <span className={styles.raceTitle}>{activeRace.distance}m</span>
-          <span className={styles.raceType}>{activeRace.raceType === 'time_trial' ? 'Time Trial' : 'Side by Side'}</span>
+          <span className={styles.raceType}>
+            {activeRace.raceType === 'time_trial' ? 'Time Trial' : 'Side by Side'}
+          </span>
           <span className={`${styles.statusPill} ${styles[activeRace.status]}`}>{activeRace.status}</span>
         </div>
         {activeRace.status !== 'completed' && allBoatsFinished && (
@@ -447,7 +520,10 @@ function RaceTimer(): ReactElement {
       </div>
 
       {activeRace.windConditions && (
-        <p className={styles.raceMeta}>Wind: {activeRace.windConditions}{activeRace.notes ? ` · ${activeRace.notes}` : ''}</p>
+        <p className={styles.raceMeta}>
+          Wind: {activeRace.windConditions}
+          {activeRace.notes ? ` · ${activeRace.notes}` : ''}
+        </p>
       )}
 
       {activeRace.status !== 'completed' && (
@@ -490,8 +566,18 @@ function RaceTimer(): ReactElement {
         {activeRace.status === 'completed' && hasWbt && (
           <div className={styles.rankBar}>
             <span className={styles.rankLabel}>Rank by</span>
-            <button className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('time')}>Time</button>
-            <button className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('wbt')}>WBT%</button>
+            <button
+              className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`}
+              onClick={() => setRankBy('time')}
+            >
+              Time
+            </button>
+            <button
+              className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`}
+              onClick={() => setRankBy('wbt')}
+            >
+              WBT%
+            </button>
           </div>
         )}
         <div className={styles.entryGrid}>
@@ -502,134 +588,180 @@ function RaceTimer(): ReactElement {
                 .sort((a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1))
                 .map((e, i) => [e.id, i + 1])
             );
-            return [...activeRace.entries].sort(
-              activeRace.status === 'completed'
-                ? rankBy === 'wbt'
-                  ? (a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1)
-                  : (a, b) => (a.placement ?? 999) - (b.placement ?? 999)
-                : byStableOrder
-            ).map((entry) => {
-            const crew = crews.find((c) => c.id === entry.crewId) ?? null;
-            const startTs = liveStarts[entry.id] ?? entry.startTime;
+            return [...activeRace.entries]
+              .sort(
+                activeRace.status === 'completed'
+                  ? rankBy === 'wbt'
+                    ? (a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1)
+                    : (a, b) => (a.placement ?? 999) - (b.placement ?? 999)
+                  : byStableOrder
+              )
+              .map((entry) => {
+                const crew = crews.find((c) => c.id === entry.crewId) ?? null;
+                const startTs = liveStarts[entry.id] ?? entry.startTime;
 
-            if (entry.dns) {
-              return (
-                <div key={entry.id} className={`${styles.entryCard} ${styles.entryDns}`}>
-                  <span className={styles.dnsBadge}>DNS</span>
-                  <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
-                    <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
-                  </button>
-                  <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
-                    <EditIcon fontSize="small" />
-                  </button>
-                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
-                    <CloseIcon fontSize="small" />
-                  </button>
-                </div>
-              );
-            }
-
-            if (entry.dnf) {
-              return (
-                <div key={entry.id} className={`${styles.entryCard} ${styles.entryDnf}`}>
-                  <span className={styles.dnfBadge}>DNF</span>
-                  <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
-                    <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
-                  </button>
-                  <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
-                    <EditIcon fontSize="small" />
-                  </button>
-                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
-                    <CloseIcon fontSize="small" />
-                  </button>
-                </div>
-              );
-            }
-
-            if (entry.finishTime !== null) {
-              return (
-                <div key={entry.id} className={`${styles.entryCard} ${styles.entryFinished}`}>
-                  <span className={styles.resultPlacement}>
-                    {formatPlacement(rankBy === 'wbt' ? (wbtRanks.get(entry.id) ?? null) : entry.placement)}
-                  </span>
-                  <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
-                    <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
-                  </button>
-                  <div className={styles.resultTimeBlock}>
-                    <span className={styles.resultTime}>
-                      {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
-                    </span>
-                    {entry.wbtPct !== null && (
-                      <span className={styles.wbtBadge}>
-                        {entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}
-                      </span>
-                    )}
-                  </div>
-                  <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
-                    <EditIcon fontSize="small" />
-                  </button>
-                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
-                    <CloseIcon fontSize="small" />
-                  </button>
-                </div>
-              );
-            }
-
-            if (entry.startTime !== null) {
-              return (
-                <div key={entry.id} className={`${styles.entryCard} ${styles.entryOnCourse}`}>
-                  <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
-                    <span className={styles.entryBoat}>{entry.boatName}</span>
-                    <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
-                  </button>
-                  {startTs !== null && <ElapsedTicker startTimestamp={startTs} />}
-                  <div className={styles.entryActions}>
-                    {role === 'finish' && (
-                      <button className={styles.finishBtn} onClick={() => handleFinish(entry)} disabled={finishing[entry.id]}>
-                        <StopIcon fontSize="small" />
-                        {finishing[entry.id] ? 'Saving…' : 'Finish'}
+                if (entry.dns) {
+                  return (
+                    <div key={entry.id} className={`${styles.entryCard} ${styles.entryDns}`}>
+                      <span className={styles.dnsBadge}>DNS</span>
+                      <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
+                        <span className={styles.entryBoat}>{entry.boatName}</span>
+                        <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                       </button>
-                    )}
-                    {role === 'finish' && (
-                      <button className={styles.dnfBtn} onClick={() => handleDnf(entry.id)}>DNF</button>
-                    )}
-                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
-                      <CloseIcon fontSize="small" />
-                    </button>
-                  </div>
-                </div>
-              );
-            }
+                      <button
+                        className={styles.reassignBtn}
+                        onClick={() => setLineupEditEntry(entry)}
+                        title="Edit lineup"
+                      >
+                        <EditIcon fontSize="small" />
+                      </button>
+                      <button
+                        className={styles.removeBtn}
+                        onClick={() => handleRemoveEntry(entry)}
+                        title="Remove from race"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </button>
+                    </div>
+                  );
+                }
 
-            // Pending
-            return (
-              <div key={entry.id} className={styles.entryCard}>
-                <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
-                  <span className={styles.entryBoat}>{entry.boatName}</span>
-                  <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
-                </button>
-                <div className={styles.entryActions}>
-                  {activeRace.status !== 'completed' && role === 'start' && !isSideBySide && (
-                    <button className={styles.startBtn} onClick={() => handleStart(entry)}>
-                      <PlayArrowIcon fontSize="small" /> Start
+                if (entry.dnf) {
+                  return (
+                    <div key={entry.id} className={`${styles.entryCard} ${styles.entryDnf}`}>
+                      <span className={styles.dnfBadge}>DNF</span>
+                      <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
+                        <span className={styles.entryBoat}>{entry.boatName}</span>
+                        <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
+                      </button>
+                      <button
+                        className={styles.reassignBtn}
+                        onClick={() => setLineupEditEntry(entry)}
+                        title="Edit lineup"
+                      >
+                        <EditIcon fontSize="small" />
+                      </button>
+                      <button
+                        className={styles.removeBtn}
+                        onClick={() => handleRemoveEntry(entry)}
+                        title="Remove from race"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </button>
+                    </div>
+                  );
+                }
+
+                if (entry.finishTime !== null) {
+                  return (
+                    <div key={entry.id} className={`${styles.entryCard} ${styles.entryFinished}`}>
+                      <span className={styles.resultPlacement}>
+                        {formatPlacement(rankBy === 'wbt' ? (wbtRanks.get(entry.id) ?? null) : entry.placement)}
+                      </span>
+                      <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
+                        <span className={styles.entryBoat}>{entry.boatName}</span>
+                        <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
+                      </button>
+                      <div className={styles.resultTimeBlock}>
+                        <span className={styles.resultTime}>
+                          {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
+                        </span>
+                        {entry.wbtPct !== null && (
+                          <span className={styles.wbtBadge}>
+                            {entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        className={styles.reassignBtn}
+                        onClick={() => setLineupEditEntry(entry)}
+                        title="Edit lineup"
+                      >
+                        <EditIcon fontSize="small" />
+                      </button>
+                      <button
+                        className={styles.removeBtn}
+                        onClick={() => handleRemoveEntry(entry)}
+                        title="Remove from race"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </button>
+                    </div>
+                  );
+                }
+
+                if (entry.startTime !== null) {
+                  return (
+                    <div key={entry.id} className={`${styles.entryCard} ${styles.entryOnCourse}`}>
+                      <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
+                        <span className={styles.entryBoat}>{entry.boatName}</span>
+                        <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
+                      </button>
+                      {startTs !== null && <ElapsedTicker startTimestamp={startTs} />}
+                      <div className={styles.entryActions}>
+                        {role === 'finish' && (
+                          <button
+                            className={styles.finishBtn}
+                            onClick={() => handleFinish(entry)}
+                            disabled={finishing[entry.id]}
+                          >
+                            <StopIcon fontSize="small" />
+                            {finishing[entry.id] ? 'Saving…' : 'Finish'}
+                          </button>
+                        )}
+                        {role === 'finish' && (
+                          <button className={styles.dnfBtn} onClick={() => handleDnf(entry.id)}>
+                            DNF
+                          </button>
+                        )}
+                        <button
+                          className={styles.removeBtn}
+                          onClick={() => handleRemoveEntry(entry)}
+                          title="Remove from race"
+                        >
+                          <CloseIcon fontSize="small" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // Pending
+                return (
+                  <div key={entry.id} className={styles.entryCard}>
+                    <button className={styles.entryInfo} onClick={() => setViewLineupEntry(entry)}>
+                      <span className={styles.entryBoat}>{entry.boatName}</span>
+                      <span className={styles.entryCrew}>{getCrewSummary(crew, entry)}</span>
                     </button>
-                  )}
-                  {activeRace.status !== 'completed' && role === 'start' && (
-                    <button className={styles.dnsBtn} onClick={() => handleDns(entry.id)}>DNS</button>
-                  )}
-                  <button className={styles.reassignBtn} onClick={() => setLineupEditEntry(entry)} title="Edit lineup">
-                    <EditIcon fontSize="small" />
-                  </button>
-                                    <button className={styles.removeBtn} onClick={() => handleRemoveEntry(entry)} title="Remove from race">
-                    <CloseIcon fontSize="small" />
-                  </button>
-                </div>
-              </div>
-            );
-          });
+                    <div className={styles.entryActions}>
+                      {activeRace.status !== 'completed' && role === 'start' && !isSideBySide && (
+                        <button className={styles.startBtn} onClick={() => handleStart(entry)}>
+                          <PlayArrowIcon fontSize="small" /> Start
+                        </button>
+                      )}
+                      {activeRace.status !== 'completed' && role === 'start' && (
+                        <button className={styles.dnsBtn} onClick={() => handleDns(entry.id)}>
+                          DNS
+                        </button>
+                      )}
+                      <button
+                        className={styles.reassignBtn}
+                        onClick={() => setLineupEditEntry(entry)}
+                        title="Edit lineup"
+                      >
+                        <EditIcon fontSize="small" />
+                      </button>
+                      <button
+                        className={styles.removeBtn}
+                        onClick={() => handleRemoveEntry(entry)}
+                        title="Remove from race"
+                      >
+                        <CloseIcon fontSize="small" />
+                      </button>
+                    </div>
+                  </div>
+                );
+              });
           })()}
         </div>
       </div>
@@ -640,8 +772,12 @@ function RaceTimer(): ReactElement {
             <h2 className={styles.confirmTitle}>Complete Race?</h2>
             <p className={styles.confirmText}>This will finalise placements and mark the race as completed.</p>
             <div className={styles.confirmActions}>
-              <button className={styles.cancelBtn} onClick={() => setConfirmCompleteOpen(false)}>Cancel</button>
-              <button className={styles.completeConfirmBtn} onClick={handleCompleteRace}>Complete</button>
+              <button className={styles.cancelBtn} onClick={() => setConfirmCompleteOpen(false)}>
+                Cancel
+              </button>
+              <button className={styles.completeConfirmBtn} onClick={handleCompleteRace}>
+                Complete
+              </button>
             </div>
           </div>
         </div>

@@ -7,11 +7,7 @@ interface PageContainerProps {
 }
 
 function PageContainer({ children, className }: PageContainerProps): ReactElement {
-  return (
-    <div className={[styles.page, className].filter(Boolean).join(' ')}>
-      {children}
-    </div>
-  );
+  return <div className={[styles.page, className].filter(Boolean).join(' ')}>{children}</div>;
 }
 
 export default PageContainer;

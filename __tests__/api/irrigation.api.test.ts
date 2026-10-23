@@ -7,8 +7,17 @@ vi.mock('api/base.api', () => ({
 
 import * as base from 'api/base.api';
 import {
-  fetchSchedules, createSchedule, updateSchedule, deleteSchedule, toggleSchedule,
-  fetchZones, fetchZoneTypes, checkScheduleSync, forceScheduleSync, reorderSchedules, healthCheck,
+  fetchSchedules,
+  createSchedule,
+  updateSchedule,
+  deleteSchedule,
+  toggleSchedule,
+  fetchZones,
+  fetchZoneTypes,
+  checkScheduleSync,
+  forceScheduleSync,
+  reorderSchedules,
+  healthCheck,
 } from 'api/irrigation.api';
 
 const mockedGet = vi.mocked(base.get);
@@ -21,31 +30,67 @@ describe('irrigation.api', () => {
     it('calls get with schedules endpoint', async () => {
       mockedGet.mockResolvedValue([]);
       await fetchSchedules();
-      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules'), { zoneId: undefined, subzoneId: undefined });
+      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules'), {
+        zoneId: undefined,
+        subzoneId: undefined,
+      });
     });
 
     it('passes zone and subzone filters', async () => {
       mockedGet.mockResolvedValue([]);
       await fetchSchedules(1, 2);
-      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules'), { zoneId: 1, subzoneId: 2 });
+      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules'), {
+        zoneId: 1,
+        subzoneId: 2,
+      });
     });
   });
 
   describe('createSchedule', () => {
     it('puts to schedules endpoint', async () => {
       mockedPut.mockResolvedValue(undefined);
-      const data = { name: 'Test', startTime: '06:00', duration: 10, monday: true, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false, zoneId: 1 };
+      const data = {
+        name: 'Test',
+        startTime: '06:00',
+        duration: 10,
+        monday: true,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        zoneId: 1,
+      };
       await createSchedule(data);
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules'), expect.objectContaining({ name: 'Test' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/irrigations/schedules'),
+        expect.objectContaining({ name: 'Test' })
+      );
     });
   });
 
   describe('updateSchedule', () => {
     it('puts to schedules/:id endpoint', async () => {
       mockedPut.mockResolvedValue(undefined);
-      const data = { name: 'Updated', startTime: '07:00', duration: 15, monday: true, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false, zoneId: 1 };
+      const data = {
+        name: 'Updated',
+        startTime: '07:00',
+        duration: 15,
+        monday: true,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        zoneId: 1,
+      };
       await updateSchedule(5, data);
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules/5'), expect.objectContaining({ name: 'Updated' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/irrigations/schedules/5'),
+        expect.objectContaining({ name: 'Updated' })
+      );
     });
   });
 
@@ -61,7 +106,9 @@ describe('irrigation.api', () => {
     it('posts to schedules/:id/toggle', async () => {
       mockedPost.mockResolvedValue(undefined);
       await toggleSchedule(2, true);
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules/2/toggle'), { active: true });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules/2/toggle'), {
+        active: true,
+      });
     });
   });
 
@@ -107,7 +154,10 @@ describe('irrigation.api', () => {
     it('puts to reorder endpoint with ids', async () => {
       mockedPut.mockResolvedValue(undefined);
       await reorderSchedules([3, 1, 2]);
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/irrigations/schedules/reorder'), expect.objectContaining({ ids: [3, 1, 2] }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/irrigations/schedules/reorder'),
+        expect.objectContaining({ ids: [3, 1, 2] })
+      );
     });
   });
 

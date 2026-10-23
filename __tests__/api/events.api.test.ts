@@ -7,9 +7,17 @@ vi.mock('api/base.api', () => ({
 
 import * as base from 'api/base.api';
 import {
-  fetchEvents, createEvent, updateEvent, deleteEvent,
-  fetchCategories, createCategory, updateCategory, deleteCategory,
-  createSubcategory, updateSubcategory, deleteSubcategory,
+  fetchEvents,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  createSubcategory,
+  updateSubcategory,
+  deleteSubcategory,
 } from 'api/events.api';
 
 const mockedGet = vi.mocked(base.get);
@@ -22,19 +30,30 @@ describe('events.api', () => {
     it('fetchEvents calls get with filters', async () => {
       mockedGet.mockResolvedValue([]);
       await fetchEvents({ month: 6, year: 2024 });
-      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/events'), { categoryId: undefined, subcategoryId: undefined, month: 6, year: 2024 });
+      expect(mockedGet).toHaveBeenCalledWith(expect.stringContaining('/events'), {
+        categoryId: undefined,
+        subcategoryId: undefined,
+        month: 6,
+        year: 2024,
+      });
     });
 
     it('createEvent posts event data', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createEvent({ title: 'BBQ', date: '2024-06-15', categoryId: 1 });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/events'), expect.objectContaining({ title: 'BBQ' }));
+      expect(mockedPost).toHaveBeenCalledWith(
+        expect.stringContaining('/events'),
+        expect.objectContaining({ title: 'BBQ' })
+      );
     });
 
     it('updateEvent puts to events/:id', async () => {
       mockedPut.mockResolvedValue(undefined);
       await updateEvent({ id: 1, data: { title: 'Updated', date: '2024-06-16', categoryId: 1 } });
-      expect(mockedPut).toHaveBeenCalledWith(expect.stringContaining('/events/1'), expect.objectContaining({ title: 'Updated' }));
+      expect(mockedPut).toHaveBeenCalledWith(
+        expect.stringContaining('/events/1'),
+        expect.objectContaining({ title: 'Updated' })
+      );
     });
 
     it('deleteEvent deletes events/:id', async () => {
@@ -54,7 +73,10 @@ describe('events.api', () => {
     it('createCategory posts name and subcategoryNames', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createCategory({ name: 'Social', subcategoryNames: ['Party'] });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/events/categories'), { name: 'Social', subcategoryNames: ['Party'] });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/events/categories'), {
+        name: 'Social',
+        subcategoryNames: ['Party'],
+      });
     });
 
     it('updateCategory puts to categories/:id', async () => {
@@ -74,7 +96,9 @@ describe('events.api', () => {
     it('createSubcategory posts to categories/:id/subcategories', async () => {
       mockedPost.mockResolvedValue(undefined);
       await createSubcategory({ categoryId: 1, name: 'Sub' });
-      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/events/categories/1/subcategories'), { name: 'Sub' });
+      expect(mockedPost).toHaveBeenCalledWith(expect.stringContaining('/events/categories/1/subcategories'), {
+        name: 'Sub',
+      });
     });
 
     it('updateSubcategory puts to subcategories/:id', async () => {

@@ -34,8 +34,15 @@ type CreateBoatFormState = {
 const AGE_CATEGORIES = ['Open', 'U15', 'U17', 'U19', 'U23'] as const;
 
 const EMPTY_SEATS: CrewSeats = {
-  cox: null, seat1: null, seat2: null, seat3: null, seat4: null,
-  seat5: null, seat6: null, seat7: null, seat8: null,
+  cox: null,
+  seat1: null,
+  seat2: null,
+  seat3: null,
+  seat4: null,
+  seat5: null,
+  seat6: null,
+  seat7: null,
+  seat8: null,
 };
 
 function getSeatLabel(seatKey: string, crewCount: number): string {
@@ -76,9 +83,10 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
   const finishedEntries = race.entries.filter((e) => e.elapsedMs !== null && !e.dns && !e.dnf);
   const pendingEntries = race.entries.filter((e) => e.elapsedMs === null && !e.dns && !e.dnf);
   const hasWbt = finishedEntries.some((e) => e.wbtPct !== null);
-  const sortedFinished = rankBy === 'wbt' && hasWbt
-    ? [...finishedEntries].sort((a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1))
-    : [...finishedEntries].sort((a, b) => (a.placement ?? 999) - (b.placement ?? 999));
+  const sortedFinished =
+    rankBy === 'wbt' && hasWbt
+      ? [...finishedEntries].sort((a, b) => (b.wbtPct ?? -1) - (a.wbtPct ?? -1))
+      : [...finishedEntries].sort((a, b) => (a.placement ?? 999) - (b.placement ?? 999));
   const firstStartTime = race.entries.reduce<number | null>((min, e) => {
     if (e.startTime === null) return min;
     return min === null || e.startTime < min ? e.startTime : min;
@@ -89,7 +97,9 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
       <div className={styles.raceCardHeader}>
         <div className={styles.raceCardMeta}>
           <span className={styles.raceDistance}>{race.distance}m</span>
-          <span className={`${styles.raceTypeBadge} ${race.raceType === 'time_trial' ? styles.timeTrial : styles.sideBySide}`}>
+          <span
+            className={`${styles.raceTypeBadge} ${race.raceType === 'time_trial' ? styles.timeTrial : styles.sideBySide}`}
+          >
             {race.raceType === 'time_trial' ? 'Time Trial' : 'Side by Side'}
           </span>
           <span className={`${styles.statusBadge} ${styles[race.status]}`}>{race.status}</span>
@@ -117,8 +127,18 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
           {hasWbt && finishedEntries.length >= 2 && (
             <div className={styles.entryListHeader}>
               <span className={styles.rankLabel}>Rank by</span>
-              <button className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('time')}>Time</button>
-              <button className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`} onClick={() => setRankBy('wbt')}>WBT%</button>
+              <button
+                className={`${styles.rankBtn} ${rankBy === 'time' ? styles.rankBtnActive : ''}`}
+                onClick={() => setRankBy('time')}
+              >
+                Time
+              </button>
+              <button
+                className={`${styles.rankBtn} ${rankBy === 'wbt' ? styles.rankBtnActive : ''}`}
+                onClick={() => setRankBy('wbt')}
+              >
+                WBT%
+              </button>
             </div>
           )}
           {sortedFinished.map((entry, index) => (
@@ -131,9 +151,13 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
                 {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
               </span>
               <div className={styles.entryTimeBlock}>
-                <span className={styles.entryTime}>{entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}</span>
+                <span className={styles.entryTime}>
+                  {entry.elapsedMs !== null ? formatElapsed(entry.elapsedMs) : '—'}
+                </span>
                 {entry.wbtPct !== null && (
-                  <span className={styles.wbtBadge}>{entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}</span>
+                  <span className={styles.wbtBadge}>
+                    {entry.wbtPct.toFixed(1)}% WBT{entry.wbtIsEstimated ? '*' : ''}
+                  </span>
                 )}
               </div>
             </div>
@@ -148,26 +172,30 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
               <span className={styles.entryTime}>Pending</span>
             </div>
           ))}
-          {race.entries.filter((e) => e.dns).map((entry) => (
-            <div key={entry.id} className={`${styles.entryRow} ${styles.entryDns}`}>
-              <span className={styles.entryPlacement}>DNS</span>
-              <span className={styles.entryInfo}>
-                <span className={styles.entryBoat}>{entry.boatName}</span>
-                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
-              </span>
-              <span className={styles.entryTime}>—</span>
-            </div>
-          ))}
-          {race.entries.filter((e) => e.dnf).map((entry) => (
-            <div key={entry.id} className={`${styles.entryRow} ${styles.entryDnf}`}>
-              <span className={styles.entryPlacement}>DNF</span>
-              <span className={styles.entryInfo}>
-                <span className={styles.entryBoat}>{entry.boatName}</span>
-                {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
-              </span>
-              <span className={styles.entryTime}>—</span>
-            </div>
-          ))}
+          {race.entries
+            .filter((e) => e.dns)
+            .map((entry) => (
+              <div key={entry.id} className={`${styles.entryRow} ${styles.entryDns}`}>
+                <span className={styles.entryPlacement}>DNS</span>
+                <span className={styles.entryInfo}>
+                  <span className={styles.entryBoat}>{entry.boatName}</span>
+                  {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+                </span>
+                <span className={styles.entryTime}>—</span>
+              </div>
+            ))}
+          {race.entries
+            .filter((e) => e.dnf)
+            .map((entry) => (
+              <div key={entry.id} className={`${styles.entryRow} ${styles.entryDnf}`}>
+                <span className={styles.entryPlacement}>DNF</span>
+                <span className={styles.entryInfo}>
+                  <span className={styles.entryBoat}>{entry.boatName}</span>
+                  {entry.keyPerson && <span className={styles.entryKeyPerson}>{entry.keyPerson}</span>}
+                </span>
+                <span className={styles.entryTime}>—</span>
+              </div>
+            ))}
         </div>
       )}
     </div>
@@ -176,13 +204,23 @@ function RaceCard({ race, onDelete, onOpen }: { race: Race; onDelete: () => void
 
 // ── Create Race Modal ──────────────────────────────────────────────────────────
 
-function CreateRaceModal({ crews, onClose, onSubmit }: {
+function CreateRaceModal({
+  crews,
+  onClose,
+  onSubmit,
+}: {
   crews: Crew[];
   onClose: () => void;
   onSubmit: (form: CreateRaceFormState) => Promise<void>;
 }): ReactElement {
   useBodyScrollLock();
-  const [form, setForm] = useState<CreateRaceFormState>({ distance: '', raceType: 'time_trial', crewIds: [], windConditions: '', notes: '' });
+  const [form, setForm] = useState<CreateRaceFormState>({
+    distance: '',
+    raceType: 'time_trial',
+    crewIds: [],
+    windConditions: '',
+    notes: '',
+  });
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -194,8 +232,14 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
   };
 
   const handleSubmit = async (): Promise<void> => {
-    if (!form.distance.trim()) { setFormError('Distance is required'); return; }
-    if (form.crewIds.length === 0) { setFormError('Select at least one crew'); return; }
+    if (!form.distance.trim()) {
+      setFormError('Distance is required');
+      return;
+    }
+    if (form.crewIds.length === 0) {
+      setFormError('Select at least one crew');
+      return;
+    }
     setSaving(true);
     setFormError(null);
     try {
@@ -215,17 +259,30 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
 
         <div className={styles.field}>
           <label className={styles.label}>Distance (m)</label>
-          <input className={styles.input} type="number" placeholder="e.g. 2000" value={form.distance}
-            onChange={(e) => setForm((prev) => ({ ...prev, distance: e.target.value }))} />
+          <input
+            className={styles.input}
+            type="number"
+            placeholder="e.g. 2000"
+            value={form.distance}
+            onChange={(e) => setForm((prev) => ({ ...prev, distance: e.target.value }))}
+          />
         </div>
 
         <div className={styles.field}>
           <label className={styles.label}>Race Type</label>
           <div className={styles.raceTypeToggle}>
-            <button className={`${styles.toggleBtn} ${form.raceType === 'time_trial' ? styles.toggleActive : ''}`}
-              onClick={() => setForm((prev) => ({ ...prev, raceType: 'time_trial' }))}>Time Trial</button>
-            <button className={`${styles.toggleBtn} ${form.raceType === 'side_by_side' ? styles.toggleActive : ''}`}
-              onClick={() => setForm((prev) => ({ ...prev, raceType: 'side_by_side' }))}>Side by Side</button>
+            <button
+              className={`${styles.toggleBtn} ${form.raceType === 'time_trial' ? styles.toggleActive : ''}`}
+              onClick={() => setForm((prev) => ({ ...prev, raceType: 'time_trial' }))}
+            >
+              Time Trial
+            </button>
+            <button
+              className={`${styles.toggleBtn} ${form.raceType === 'side_by_side' ? styles.toggleActive : ''}`}
+              onClick={() => setForm((prev) => ({ ...prev, raceType: 'side_by_side' }))}
+            >
+              Side by Side
+            </button>
           </div>
         </div>
 
@@ -236,9 +293,11 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
           ) : (
             <div className={styles.crewCheckList}>
               {crews.map((crew) => (
-                <button key={crew.id}
+                <button
+                  key={crew.id}
                   className={`${styles.crewChip} ${form.crewIds.includes(crew.id) ? styles.crewChipSelected : ''}`}
-                  onClick={() => toggleCrew(crew.id)}>
+                  onClick={() => toggleCrew(crew.id)}
+                >
                   <DirectionsBoatIcon fontSize="small" />
                   <span>{crew.boatName}</span>
                   {crew.crewClassName && <span className={styles.boatChipCrew}>{crew.crewClassName}</span>}
@@ -250,20 +309,33 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
 
         <div className={styles.field}>
           <label className={styles.label}>Wind Conditions</label>
-          <input className={styles.input} type="text" placeholder="e.g. 10 knots NW" value={form.windConditions}
-            onChange={(e) => setForm((prev) => ({ ...prev, windConditions: e.target.value }))} />
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="e.g. 10 knots NW"
+            value={form.windConditions}
+            onChange={(e) => setForm((prev) => ({ ...prev, windConditions: e.target.value }))}
+          />
         </div>
 
         <div className={styles.field}>
           <label className={styles.label}>Notes</label>
-          <textarea className={styles.textarea} placeholder="Optional notes" value={form.notes}
-            onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))} />
+          <textarea
+            className={styles.textarea}
+            placeholder="Optional notes"
+            value={form.notes}
+            onChange={(e) => setForm((prev) => ({ ...prev, notes: e.target.value }))}
+          />
         </div>
 
         {formError && <p className={styles.formError}>{formError}</p>}
         <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
-          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>{saving ? 'Creating…' : 'Create Race'}</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
+          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>
+            {saving ? 'Creating…' : 'Create Race'}
+          </button>
         </div>
       </div>
     </div>
@@ -274,7 +346,13 @@ function CreateRaceModal({ crews, onClose, onSubmit }: {
 
 type CrewModalSubmitParams = { boatId: number; gender: Gender; ageCategory: AgeCategory; seats: CrewSeats };
 
-function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
+function CrewModal({
+  boats,
+  crewMembers,
+  initialCrew,
+  onClose,
+  onSubmit,
+}: {
   boats: Boat[];
   crewMembers: CrewMember[];
   initialCrew?: Crew | null;
@@ -323,9 +401,7 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
   const hasCox = selectedBoat?.boatClassHasCox ?? false;
   const seatKeys = buildSeatKeys(hasCox, crewCount);
 
-  const usedIds = new Set(
-    Object.values(seats).filter((v): v is number => v !== null)
-  );
+  const usedIds = new Set(Object.values(seats).filter((v): v is number => v !== null));
 
   const handleSeatChange = (key: string, value: string): void => {
     setSeats((prev) => ({ ...prev, [key]: value === '' ? null : Number(value) }));
@@ -341,7 +417,10 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
     : [];
 
   const handleSubmit = async (): Promise<void> => {
-    if (!selectedBoatId) { setFormError('Select a boat'); return; }
+    if (!selectedBoatId) {
+      setFormError('Select a boat');
+      return;
+    }
     setSaving(true);
     setFormError(null);
     try {
@@ -361,12 +440,16 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
 
         {isEditing && sameClassBoats.length > 1 && (
           <div className={styles.field}>
-            <label className={styles.label}>Boat <span className={styles.optionalHint}>({initialCrew?.boatClassSymbol})</span></label>
+            <label className={styles.label}>
+              Boat <span className={styles.optionalHint}>({initialCrew?.boatClassSymbol})</span>
+            </label>
             <div className={styles.boatSelectList}>
               {sameClassBoats.map((boat) => (
-                <button key={boat.id}
+                <button
+                  key={boat.id}
                   className={`${styles.boatSelectItem} ${selectedBoatId === boat.id ? styles.boatSelectActive : ''}`}
-                  onClick={() => handleBoatSelect(boat.id, false)}>
+                  onClick={() => handleBoatSelect(boat.id, false)}
+                >
                   <span className={styles.boatSelectSymbol}>{boat.boatClassSymbol ?? '—'}</span>
                   <span className={styles.boatSelectName}>{boat.name}</span>
                 </button>
@@ -380,9 +463,11 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
             <label className={styles.label}>Boat</label>
             <div className={styles.boatSelectList}>
               {boats.map((boat) => (
-                <button key={boat.id}
+                <button
+                  key={boat.id}
                   className={`${styles.boatSelectItem} ${selectedBoatId === boat.id ? styles.boatSelectActive : ''}`}
-                  onClick={() => handleBoatSelect(boat.id)}>
+                  onClick={() => handleBoatSelect(boat.id)}
+                >
                   <span className={styles.boatSelectSymbol}>{boat.boatClassSymbol ?? '—'}</span>
                   <span className={styles.boatSelectName}>{boat.name}</span>
                 </button>
@@ -396,7 +481,9 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
           <div className={styles.field}>
             <label className={styles.label}>Seats</label>
             {!selectedBoat?.boatClassId && (
-              <p className={styles.emptyHint}>Boat has no class — showing one seat. Assign a class to the boat for the full layout.</p>
+              <p className={styles.emptyHint}>
+                Boat has no class — showing one seat. Assign a class to the boat for the full layout.
+              </p>
             )}
             <div className={styles.seatTable}>
               {seatKeys.map((key) => {
@@ -413,7 +500,9 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
                       <option value="">— unassigned —</option>
                       {crewMembers.map((m) => (
                         <option key={m.id} value={m.id}>
-                          {m.name}{m.gender ? ` (${m.gender})` : ''}{usedIds.has(m.id) && selectedId !== m.id ? ' — in boat' : ''}
+                          {m.name}
+                          {m.gender ? ` (${m.gender})` : ''}
+                          {usedIds.has(m.id) && selectedId !== m.id ? ' — in boat' : ''}
                         </option>
                       ))}
                     </select>
@@ -428,9 +517,13 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
           <label className={styles.label}>Gender</label>
           <div className={styles.chipRow}>
             {(['Men', 'Women', 'Mixed'] as Gender[]).map((g) => (
-              <button key={g}
+              <button
+                key={g}
                 className={`${styles.toggleBtn} ${gender === g ? styles.toggleActive : ''}`}
-                onClick={() => setGender(g)}>{g}</button>
+                onClick={() => setGender(g)}
+              >
+                {g}
+              </button>
             ))}
           </div>
         </div>
@@ -439,16 +532,22 @@ function CrewModal({ boats, crewMembers, initialCrew, onClose, onSubmit }: {
           <label className={styles.label}>Age Category</label>
           <div className={styles.chipRow}>
             {AGE_CATEGORIES.map((age) => (
-              <button key={age}
+              <button
+                key={age}
                 className={`${styles.toggleBtn} ${styles.toggleBtnSm} ${ageCategory === age ? styles.toggleActive : ''}`}
-                onClick={() => setAgeCategory(age)}>{age}</button>
+                onClick={() => setAgeCategory(age)}
+              >
+                {age}
+              </button>
             ))}
           </div>
         </div>
 
         {formError && <p className={styles.formError}>{formError}</p>}
         <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
           <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving || !selectedBoatId}>
             {saving ? 'Saving…' : isEditing ? 'Save Crew' : 'Create Crew'}
           </button>
@@ -483,12 +582,14 @@ function CrewCard({ crew, onEdit, onDelete }: { crew: Crew; onEdit: () => void; 
       </div>
       <div className={styles.crewSeatList}>
         {seatKeys.map((key) => {
-          const slot = key === 'cox' ? crew.cox : crew[key as keyof Crew] as ({ name: string; gender: string } | null);
+          const slot = key === 'cox' ? crew.cox : (crew[key as keyof Crew] as { name: string; gender: string } | null);
           const label = getSeatLabel(key, crewCount);
           return (
             <div key={key} className={styles.crewSeatItem}>
               <span className={`${styles.crewSeatLabel} ${key === 'cox' ? styles.crewSeatLabelCox : ''}`}>{label}</span>
-              <span className={styles.crewSeatName}>{slot ? slot.name : <em className={styles.crewSeatEmpty}>unassigned</em>}</span>
+              <span className={styles.crewSeatName}>
+                {slot ? slot.name : <em className={styles.crewSeatEmpty}>unassigned</em>}
+              </span>
             </div>
           );
         })}
@@ -500,7 +601,11 @@ function CrewCard({ crew, onEdit, onDelete }: { crew: Crew; onEdit: () => void; 
 
 // ── Create Boat Modal ──────────────────────────────────────────────────────────
 
-function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
+function CreateBoatModal({
+  boatClasses,
+  onClose,
+  onSubmit,
+}: {
   boatClasses: BoatClass[];
   onClose: () => void;
   onSubmit: (form: CreateBoatFormState) => Promise<void>;
@@ -511,7 +616,10 @@ function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
   const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (): Promise<void> => {
-    if (!form.name.trim()) { setFormError('Boat name is required'); return; }
+    if (!form.name.trim()) {
+      setFormError('Boat name is required');
+      return;
+    }
     setSaving(true);
     setFormError(null);
     try {
@@ -531,23 +639,34 @@ function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
 
         <div className={styles.field}>
           <label className={styles.label}>Boat Name</label>
-          <input className={styles.input} type="text" placeholder="e.g. Blue Thunder" value={form.name}
-            onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))} autoFocus />
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="e.g. Blue Thunder"
+            value={form.name}
+            onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
+            autoFocus
+          />
         </div>
 
         <div className={styles.field}>
-          <label className={styles.label}>Boat Class <span className={styles.optionalHint}>(optional)</span></label>
+          <label className={styles.label}>
+            Boat Class <span className={styles.optionalHint}>(optional)</span>
+          </label>
           <div className={styles.boatClassList}>
             <button
               className={`${styles.boatClassItem} ${form.boatClassId === null ? styles.boatClassSelected : ''}`}
-              onClick={() => setForm((prev) => ({ ...prev, boatClassId: null }))}>
+              onClick={() => setForm((prev) => ({ ...prev, boatClassId: null }))}
+            >
               <span className={styles.boatClassSymbol}>—</span>
               <span className={styles.boatClassLabel}>No class</span>
             </button>
             {boatClasses.map((bc) => (
-              <button key={bc.id}
+              <button
+                key={bc.id}
                 className={`${styles.boatClassItem} ${form.boatClassId === bc.id ? styles.boatClassSelected : ''}`}
-                onClick={() => setForm((prev) => ({ ...prev, boatClassId: bc.id }))}>
+                onClick={() => setForm((prev) => ({ ...prev, boatClassId: bc.id }))}
+              >
                 <span className={styles.boatClassSymbol}>{bc.symbol}</span>
                 {bc.hasCox && <span className={styles.coxBadge}>+ Cox</span>}
               </button>
@@ -557,8 +676,12 @@ function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
 
         {formError && <p className={styles.formError}>{formError}</p>}
         <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
-          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>{saving ? 'Creating…' : 'Create Boat'}</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
+          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>
+            {saving ? 'Creating…' : 'Create Boat'}
+          </button>
         </div>
       </div>
     </div>
@@ -567,7 +690,10 @@ function CreateBoatModal({ boatClasses, onClose, onSubmit }: {
 
 // ── Crew Member Modal ──────────────────────────────────────────────────────────
 
-function CrewMemberModal({ onClose, onSubmit }: {
+function CrewMemberModal({
+  onClose,
+  onSubmit,
+}: {
   onClose: () => void;
   onSubmit: ({ name, gender }: { name: string; gender: string }) => Promise<void>;
 }): ReactElement {
@@ -578,7 +704,10 @@ function CrewMemberModal({ onClose, onSubmit }: {
   const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (): Promise<void> => {
-    if (!name.trim()) { setFormError('Name is required'); return; }
+    if (!name.trim()) {
+      setFormError('Name is required');
+      return;
+    }
     setSaving(true);
     setFormError(null);
     try {
@@ -597,22 +726,38 @@ function CrewMemberModal({ onClose, onSubmit }: {
         <h2 className={styles.modalTitle}>New Rower</h2>
         <div className={styles.field}>
           <label className={styles.label}>Name</label>
-          <input className={styles.input} type="text" placeholder="Full name" value={name}
-            onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSubmit()} autoFocus />
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Full name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+            autoFocus
+          />
         </div>
         <div className={styles.field}>
           <label className={styles.label}>Gender</label>
           <div className={styles.chipRow}>
             {(['Men', 'Women'] as const).map((g) => (
-              <button key={g} className={`${styles.toggleBtn} ${gender === g ? styles.toggleActive : ''}`}
-                onClick={() => setGender(g)}>{g}</button>
+              <button
+                key={g}
+                className={`${styles.toggleBtn} ${gender === g ? styles.toggleActive : ''}`}
+                onClick={() => setGender(g)}
+              >
+                {g}
+              </button>
             ))}
           </div>
         </div>
         {formError && <p className={styles.formError}>{formError}</p>}
         <div className={styles.modalActions}>
-          <button className={styles.cancelBtn} onClick={onClose}>Cancel</button>
-          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>{saving ? 'Saving…' : 'Add Rower'}</button>
+          <button className={styles.cancelBtn} onClick={onClose}>
+            Cancel
+          </button>
+          <button className={styles.submitBtn} onClick={handleSubmit} disabled={saving}>
+            {saving ? 'Saving…' : 'Add Rower'}
+          </button>
         </div>
       </div>
     </div>
@@ -624,13 +769,27 @@ function CrewMemberModal({ onClose, onSubmit }: {
 function Rowing(): ReactElement {
   const navigate = useNavigate();
   const {
-    boatClasses, crewMembers, boats, crews, races,
-    isLoading, error,
-    fetchAllBoatClasses, fetchAllCrew, fetchAllBoats, fetchAllCrews, fetchAllRaces,
-    addCrewMember, removeCrewMember,
-    addBoat, removeBoat,
-    addCrew, editCrew, removeCrew,
-    startRace, removeRace,
+    boatClasses,
+    crewMembers,
+    boats,
+    crews,
+    races,
+    isLoading,
+    error,
+    fetchAllBoatClasses,
+    fetchAllCrew,
+    fetchAllBoats,
+    fetchAllCrews,
+    fetchAllRaces,
+    addCrewMember,
+    removeCrewMember,
+    addBoat,
+    removeBoat,
+    addCrew,
+    editCrew,
+    removeCrew,
+    startRace,
+    removeRace,
   } = useRowing();
 
   const { confirm, confirmElement } = useConfirm();
@@ -653,44 +812,69 @@ function Rowing(): ReactElement {
     fetchAllRaces({ date: raceDateFilter });
   }, [fetchAllRaces, raceDateFilter]);
 
-  const handleCreateRace = useCallback(async (form: CreateRaceFormState) => {
-    const raceId = await startRace({
-      distance: form.distance,
-      raceType: form.raceType,
-      crewIds: form.crewIds,
-      windConditions: form.windConditions || undefined,
-      notes: form.notes || undefined,
-    });
-    navigate(`${PAGE_PATHS.ROWING_RACE}/${raceId}`);
-  }, [startRace, navigate]);
+  const handleCreateRace = useCallback(
+    async (form: CreateRaceFormState) => {
+      const raceId = await startRace({
+        distance: form.distance,
+        raceType: form.raceType,
+        crewIds: form.crewIds,
+        windConditions: form.windConditions || undefined,
+        notes: form.notes || undefined,
+      });
+      navigate(`${PAGE_PATHS.ROWING_RACE}/${raceId}`);
+    },
+    [startRace, navigate]
+  );
 
-  const handleDeleteRace = useCallback(async (id: number) => {
-    if (!await confirm({ message: 'Delete this race and all its results?', variant: 'danger', confirmLabel: 'Delete' })) return;
-    await removeRace({ id, date: raceDateFilter });
-  }, [removeRace, raceDateFilter, confirm]);
+  const handleDeleteRace = useCallback(
+    async (id: number) => {
+      if (
+        !(await confirm({
+          message: 'Delete this race and all its results?',
+          variant: 'danger',
+          confirmLabel: 'Delete',
+        }))
+      )
+        return;
+      await removeRace({ id, date: raceDateFilter });
+    },
+    [removeRace, raceDateFilter, confirm]
+  );
 
-  const handleDeleteBoat = useCallback(async (id: number) => {
-    if (!await confirm({ message: 'Delete this boat?', variant: 'danger', confirmLabel: 'Delete' })) return;
-    await removeBoat({ id });
-  }, [removeBoat, confirm]);
+  const handleDeleteBoat = useCallback(
+    async (id: number) => {
+      if (!(await confirm({ message: 'Delete this boat?', variant: 'danger', confirmLabel: 'Delete' }))) return;
+      await removeBoat({ id });
+    },
+    [removeBoat, confirm]
+  );
 
-  const handleDeleteCrew = useCallback(async (id: number) => {
-    if (!await confirm({ message: 'Delete this crew?', variant: 'danger', confirmLabel: 'Delete' })) return;
-    await removeCrew({ id });
-  }, [removeCrew, confirm]);
+  const handleDeleteCrew = useCallback(
+    async (id: number) => {
+      if (!(await confirm({ message: 'Delete this crew?', variant: 'danger', confirmLabel: 'Delete' }))) return;
+      await removeCrew({ id });
+    },
+    [removeCrew, confirm]
+  );
 
-  const handleDeleteMember = useCallback(async (id: number) => {
-    if (!await confirm({ message: 'Remove this rower?', variant: 'danger', confirmLabel: 'Remove' })) return;
-    await removeCrewMember({ id });
-  }, [removeCrewMember, confirm]);
+  const handleDeleteMember = useCallback(
+    async (id: number) => {
+      if (!(await confirm({ message: 'Remove this rower?', variant: 'danger', confirmLabel: 'Remove' }))) return;
+      await removeCrewMember({ id });
+    },
+    [removeCrewMember, confirm]
+  );
 
-  const handleCrewSubmit = useCallback(async ({ boatId, gender, ageCategory, seats }: CrewModalSubmitParams) => {
-    if (editingCrew) {
-      await editCrew({ id: editingCrew.id, boatId, gender, ageCategory, ...seats });
-    } else {
-      await addCrew({ boatId, gender, ageCategory, ...seats });
-    }
-  }, [editingCrew, editCrew, addCrew]);
+  const handleCrewSubmit = useCallback(
+    async ({ boatId, gender, ageCategory, seats }: CrewModalSubmitParams) => {
+      if (editingCrew) {
+        await editCrew({ id: editingCrew.id, boatId, gender, ageCategory, ...seats });
+      } else {
+        await addCrew({ boatId, gender, ageCategory, ...seats });
+      }
+    },
+    [editingCrew, editCrew, addCrew]
+  );
 
   return (
     <div className={styles.container}>
@@ -698,9 +882,11 @@ function Rowing(): ReactElement {
         <h1 className={styles.title}>Rowing</h1>
         <div className={styles.tabs}>
           {(['races', 'crews', 'boats', 'members'] as Tab[]).map((tab) => (
-            <button key={tab}
+            <button
+              key={tab}
               className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
-              onClick={() => setActiveTab(tab)}>
+              onClick={() => setActiveTab(tab)}
+            >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
@@ -728,13 +914,19 @@ function Rowing(): ReactElement {
           </div>
           {isLoading && <p className={styles.loadingText}>Loading…</p>}
           {!isLoading && races.length === 0 && (
-            <div className={styles.emptyState}><TimerIcon className={styles.emptyIcon} /><p>No races yet.</p></div>
+            <div className={styles.emptyState}>
+              <TimerIcon className={styles.emptyIcon} />
+              <p>No races yet.</p>
+            </div>
           )}
           <div className={styles.raceList}>
             {races.map((race) => (
-              <RaceCard key={race.id} race={race}
+              <RaceCard
+                key={race.id}
+                race={race}
                 onDelete={() => handleDeleteRace(race.id)}
-                onOpen={() => navigate(`${PAGE_PATHS.ROWING_RACE}/${race.id}`)} />
+                onOpen={() => navigate(`${PAGE_PATHS.ROWING_RACE}/${race.id}`)}
+              />
             ))}
           </div>
         </div>
@@ -744,19 +936,34 @@ function Rowing(): ReactElement {
         <div className={styles.section}>
           <div className={styles.sectionHeader}>
             <h2 className={styles.sectionTitle}>Crews</h2>
-            <button className={styles.addBtn} onClick={() => { setEditingCrew(null); setShowCreateCrew(true); }}>
+            <button
+              className={styles.addBtn}
+              onClick={() => {
+                setEditingCrew(null);
+                setShowCreateCrew(true);
+              }}
+            >
               <AddIcon fontSize="small" /> New Crew
             </button>
           </div>
           {isLoading && <p className={styles.loadingText}>Loading…</p>}
           {!isLoading && crews.length === 0 && (
-            <div className={styles.emptyState}><GroupsIcon className={styles.emptyIcon} /><p>No crews yet.</p></div>
+            <div className={styles.emptyState}>
+              <GroupsIcon className={styles.emptyIcon} />
+              <p>No crews yet.</p>
+            </div>
           )}
           <div className={styles.crewCardList}>
             {crews.map((crew) => (
-              <CrewCard key={crew.id} crew={crew}
-                onEdit={() => { setEditingCrew(crew); setShowCreateCrew(true); }}
-                onDelete={() => handleDeleteCrew(crew.id)} />
+              <CrewCard
+                key={crew.id}
+                crew={crew}
+                onEdit={() => {
+                  setEditingCrew(crew);
+                  setShowCreateCrew(true);
+                }}
+                onDelete={() => handleDeleteCrew(crew.id)}
+              />
             ))}
           </div>
         </div>
@@ -772,7 +979,10 @@ function Rowing(): ReactElement {
           </div>
           {isLoading && <p className={styles.loadingText}>Loading…</p>}
           {!isLoading && boats.length === 0 && (
-            <div className={styles.emptyState}><DirectionsBoatIcon className={styles.emptyIcon} /><p>No boats yet.</p></div>
+            <div className={styles.emptyState}>
+              <DirectionsBoatIcon className={styles.emptyIcon} />
+              <p>No boats yet.</p>
+            </div>
           )}
           <div className={styles.boatGrid}>
             {boats.map((boat) => (
@@ -783,7 +993,11 @@ function Rowing(): ReactElement {
                     <span className={styles.boatName}>{boat.name}</span>
                     {boat.boatClassSymbol && <span className={styles.boatClassName}>{boat.boatClassSymbol}</span>}
                   </div>
-                  <button className={styles.deleteBtn} onClick={() => handleDeleteBoat(boat.id)} aria-label="Delete boat">
+                  <button
+                    className={styles.deleteBtn}
+                    onClick={() => handleDeleteBoat(boat.id)}
+                    aria-label="Delete boat"
+                  >
                     <DeleteIcon fontSize="small" />
                   </button>
                 </div>
@@ -803,7 +1017,10 @@ function Rowing(): ReactElement {
           </div>
           {isLoading && <p className={styles.loadingText}>Loading…</p>}
           {!isLoading && crewMembers.length === 0 && (
-            <div className={styles.emptyState}><PersonIcon className={styles.emptyIcon} /><p>No rowers yet.</p></div>
+            <div className={styles.emptyState}>
+              <PersonIcon className={styles.emptyIcon} />
+              <p>No rowers yet.</p>
+            </div>
           )}
           <div className={styles.crewMemberList}>
             {crewMembers.map((member) => (
@@ -811,7 +1028,11 @@ function Rowing(): ReactElement {
                 <PersonIcon className={styles.crewMemberIcon} />
                 <span className={styles.crewMemberName}>{member.name}</span>
                 {member.gender && <span className={styles.crewMemberGender}>{member.gender}</span>}
-                <button className={styles.deleteBtn} onClick={() => handleDeleteMember(member.id)} aria-label="Remove rower">
+                <button
+                  className={styles.deleteBtn}
+                  onClick={() => handleDeleteMember(member.id)}
+                  aria-label="Remove rower"
+                >
                   <DeleteIcon fontSize="small" />
                 </button>
               </div>
@@ -824,21 +1045,25 @@ function Rowing(): ReactElement {
         <CreateRaceModal crews={crews} onClose={() => setShowCreateRace(false)} onSubmit={handleCreateRace} />
       )}
       {showCreateBoat && (
-        <CreateBoatModal boatClasses={boatClasses} onClose={() => setShowCreateBoat(false)}
-          onSubmit={({ name, boatClassId }) => addBoat({ name, boatClassId: boatClassId ?? undefined })} />
+        <CreateBoatModal
+          boatClasses={boatClasses}
+          onClose={() => setShowCreateBoat(false)}
+          onSubmit={({ name, boatClassId }) => addBoat({ name, boatClassId: boatClassId ?? undefined })}
+        />
       )}
       {showCreateCrew && (
         <CrewModal
           boats={boats}
           crewMembers={crewMembers}
           initialCrew={editingCrew}
-          onClose={() => { setShowCreateCrew(false); setEditingCrew(null); }}
+          onClose={() => {
+            setShowCreateCrew(false);
+            setEditingCrew(null);
+          }}
           onSubmit={handleCrewSubmit}
         />
       )}
-      {showCreateMember && (
-        <CrewMemberModal onClose={() => setShowCreateMember(false)} onSubmit={addCrewMember} />
-      )}
+      {showCreateMember && <CrewMemberModal onClose={() => setShowCreateMember(false)} onSubmit={addCrewMember} />}
       {confirmElement}
     </div>
   );

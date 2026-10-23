@@ -15,7 +15,14 @@ export type CalendarEvent = {
   subcategoryName?: string;
 };
 
-type EventPayload = { title: string; description?: string; date: string; time?: string; categoryId: number; subcategoryId?: number };
+type EventPayload = {
+  title: string;
+  description?: string;
+  date: string;
+  time?: string;
+  categoryId: number;
+  subcategoryId?: number;
+};
 type FilterRef = { categoryId?: number; subcategoryId?: number; month?: number; year?: number };
 
 function useEvents() {
@@ -68,7 +75,7 @@ function useEvents() {
 
   const deleteEvent = async ({ id }: { id: number }) => {
     await eventsApi.deleteEvent({ id });
-    setEvents(prev => prev.filter(e => e.id !== id));
+    setEvents((prev) => prev.filter((e) => e.id !== id));
   };
 
   const createCategory = async ({ name, subcategoryNames }: { name: string; subcategoryNames: string[] }) => {
@@ -102,11 +109,21 @@ function useEvents() {
   };
 
   return {
-    events, categories, loading,
-    fetchEvents, refetchEvents, fetchCategories,
-    createEvent, updateEvent, deleteEvent,
-    createCategory, updateCategory, deleteCategory,
-    createSubcategory, updateSubcategory, deleteSubcategory,
+    events,
+    categories,
+    loading,
+    fetchEvents,
+    refetchEvents,
+    fetchCategories,
+    createEvent,
+    updateEvent,
+    deleteEvent,
+    createCategory,
+    updateCategory,
+    deleteCategory,
+    createSubcategory,
+    updateSubcategory,
+    deleteSubcategory,
   };
 }
 

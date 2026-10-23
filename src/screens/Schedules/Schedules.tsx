@@ -1,18 +1,6 @@
 import React, { ReactElement, useEffect, useState } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-  arrayMove,
-} from '@dnd-kit/sortable';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, useSortable, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
@@ -139,7 +127,17 @@ function SortableCard({ schedule, onToggle, onEdit, onDelete }: SortableCardProp
 }
 
 function Schedules(): ReactElement {
-  const { schedules, fetchSchedules, toggleSchedule, deleteSchedule, reorderSchedules, checkSync, forceSync, zoneDetails, fetchZones } = useIrrigation();
+  const {
+    schedules,
+    fetchSchedules,
+    toggleSchedule,
+    deleteSchedule,
+    reorderSchedules,
+    checkSync,
+    forceSync,
+    zoneDetails,
+    fetchZones,
+  } = useIrrigation();
   const { confirm, confirmElement } = useConfirm();
   const [localSchedules, setLocalSchedules] = useState<Schedule[]>([]);
   const [openCreate, setOpenCreate] = useState(false);
@@ -203,7 +201,11 @@ function Schedules(): ReactElement {
     }
 
     const message = getSyncMessage(result, localSchedules);
-    const confirmed = await confirm({ title: 'Out of sync', message: `${message}\n\nForce sync now?`, confirmLabel: 'Sync' });
+    const confirmed = await confirm({
+      title: 'Out of sync',
+      message: `${message}\n\nForce sync now?`,
+      confirmLabel: 'Sync',
+    });
     if (confirmed) {
       const syncResult = await forceSync();
       if (syncResult) {
@@ -238,7 +240,9 @@ function Schedules(): ReactElement {
       )}
 
       {syncMessage && (
-        <div className={`${styles.syncBanner} ${syncMessage.includes('in sync') || syncMessage.includes('re-synced') ? styles.syncSuccess : styles.syncWarning}`}>
+        <div
+          className={`${styles.syncBanner} ${syncMessage.includes('in sync') || syncMessage.includes('re-synced') ? styles.syncSuccess : styles.syncWarning}`}
+        >
           {syncMessage}
         </div>
       )}
@@ -270,7 +274,11 @@ function Schedules(): ReactElement {
         </button>
         <Tooltip title="Check sync with automation service">
           <button type="button" className={styles.syncBtn} onClick={handleCheckSync} disabled={syncChecking}>
-            {syncChecking ? <CircularProgress size={18} className={styles.syncSpinner} /> : <SyncIcon className={styles.syncIcon} />}
+            {syncChecking ? (
+              <CircularProgress size={18} className={styles.syncSpinner} />
+            ) : (
+              <SyncIcon className={styles.syncIcon} />
+            )}
           </button>
         </Tooltip>
       </div>

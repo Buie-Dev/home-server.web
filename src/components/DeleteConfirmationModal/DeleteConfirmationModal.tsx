@@ -15,7 +15,13 @@ interface DeleteConfirmationModalProps {
   onConfirm: () => void;
 }
 
-function DeleteConfirmationModal({ open, title, message, onCancel, onConfirm }: DeleteConfirmationModalProps): ReactElement {
+function DeleteConfirmationModal({
+  open,
+  title,
+  message,
+  onCancel,
+  onConfirm,
+}: DeleteConfirmationModalProps): ReactElement {
   return (
     <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
       <DialogTitle className={styles.title}>

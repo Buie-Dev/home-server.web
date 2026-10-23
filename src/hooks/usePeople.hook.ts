@@ -100,12 +100,19 @@ function usePeople() {
     await fetchCategories(personId);
   };
 
-  const createIdea = async (personId: number, data: { title: string; categoryId: number; subcategoryId?: number; notes?: string }): Promise<void> => {
+  const createIdea = async (
+    personId: number,
+    data: { title: string; categoryId: number; subcategoryId?: number; notes?: string }
+  ): Promise<void> => {
     await peopleApi.createIdea(personId, data);
     await fetchIdeas(personId);
   };
 
-  const updateIdea = async (personId: number, id: number, data: { title: string; categoryId: number; subcategoryId?: number; notes?: string }): Promise<void> => {
+  const updateIdea = async (
+    personId: number,
+    id: number,
+    data: { title: string; categoryId: number; subcategoryId?: number; notes?: string }
+  ): Promise<void> => {
     await peopleApi.updateIdea(personId, id, data);
   };
 
@@ -120,12 +127,25 @@ function usePeople() {
   };
 
   return {
-    people, categories, ideas, loading,
-    fetchPeople, addPerson, deletePerson,
-    fetchCategories, fetchIdeas, clearPerson,
-    createCategory, createSubcategory, updateCategory,
-    updateSubcategory, deleteSubcategory, deleteCategory,
-    createIdea, updateIdea, deleteIdea,
+    people,
+    categories,
+    ideas,
+    loading,
+    fetchPeople,
+    addPerson,
+    deletePerson,
+    fetchCategories,
+    fetchIdeas,
+    clearPerson,
+    createCategory,
+    createSubcategory,
+    updateCategory,
+    updateSubcategory,
+    deleteSubcategory,
+    deleteCategory,
+    createIdea,
+    updateIdea,
+    deleteIdea,
   };
 }
 

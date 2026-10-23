@@ -28,12 +28,25 @@ const emptyIdeaForm: IdeaFormState = { title: '', notes: '', categoryId: '', sub
 
 function People(): ReactElement {
   const {
-    people, categories, ideas, loading,
-    fetchPeople, addPerson, deletePerson,
-    fetchCategories, fetchIdeas, clearPerson,
-    createCategory, createSubcategory, updateCategory,
-    updateSubcategory, deleteSubcategory, deleteCategory,
-    createIdea, updateIdea, deleteIdea,
+    people,
+    categories,
+    ideas,
+    loading,
+    fetchPeople,
+    addPerson,
+    deletePerson,
+    fetchCategories,
+    fetchIdeas,
+    clearPerson,
+    createCategory,
+    createSubcategory,
+    updateCategory,
+    updateSubcategory,
+    deleteSubcategory,
+    deleteCategory,
+    createIdea,
+    updateIdea,
+    deleteIdea,
   } = usePeople();
 
   const [selectedPersonId, setSelectedPersonId] = useState<number | undefined>();
@@ -169,9 +182,8 @@ function People(): ReactElement {
     setNewSubcategoryName('');
   };
 
-  const currentSubcategories = ideaForm.categoryId !== ''
-    ? (categories.find((c) => c.id === ideaForm.categoryId)?.subcategories ?? [])
-    : [];
+  const currentSubcategories =
+    ideaForm.categoryId !== '' ? (categories.find((c) => c.id === ideaForm.categoryId)?.subcategories ?? []) : [];
 
   return (
     <PageContainer>
@@ -230,7 +242,10 @@ function People(): ReactElement {
                   <button
                     type="button"
                     className={`${styles.filterChip} ${!activeSubcategoryId ? styles.filterChipActive : ''}`}
-                    onClick={() => { setActiveSubcategoryId(undefined); if (selectedPersonId !== undefined) fetchIdeas(selectedPersonId, activeCategoryId); }}
+                    onClick={() => {
+                      setActiveSubcategoryId(undefined);
+                      if (selectedPersonId !== undefined) fetchIdeas(selectedPersonId, activeCategoryId);
+                    }}
                   >
                     All
                   </button>
@@ -262,7 +277,9 @@ function People(): ReactElement {
                     <p className={styles.ideaTitle}>{idea.title}</p>
                     <div className={styles.badgeRow}>
                       <span className={styles.badge}>{idea.categoryName}</span>
-                      {idea.subcategoryName && <span className={`${styles.badge} ${styles.badgeSub}`}>{idea.subcategoryName}</span>}
+                      {idea.subcategoryName && (
+                        <span className={`${styles.badge} ${styles.badgeSub}`}>{idea.subcategoryName}</span>
+                      )}
                     </div>
                     {idea.notes && <p className={styles.ideaNotes}>{idea.notes}</p>}
                   </div>
@@ -308,13 +325,19 @@ function People(): ReactElement {
             label="Name"
             value={newPersonName}
             onChange={(e) => setNewPersonName(e.target.value)}
-            onKeyDown={(e) => { if (e.key === 'Enter') handleAddPerson(); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleAddPerson();
+            }}
             sx={{ mt: 1 }}
           />
         </DialogContent>
         <DialogActions>
-          <button type="button" className={styles.dialogCancel} onClick={() => setShowAddPerson(false)}>Cancel</button>
-          <button type="button" className={styles.dialogSave} onClick={handleAddPerson}>Add</button>
+          <button type="button" className={styles.dialogCancel} onClick={() => setShowAddPerson(false)}>
+            Cancel
+          </button>
+          <button type="button" className={styles.dialogSave} onClick={handleAddPerson}>
+            Add
+          </button>
         </DialogActions>
       </Dialog>
 
@@ -334,12 +357,18 @@ function People(): ReactElement {
             fullWidth
             displayEmpty
             value={ideaForm.categoryId}
-            onChange={(e) => setIdeaForm((f) => ({ ...f, categoryId: e.target.value as number | '', subcategoryId: '' }))}
+            onChange={(e) =>
+              setIdeaForm((f) => ({ ...f, categoryId: e.target.value as number | '', subcategoryId: '' }))
+            }
             sx={{ mt: 2 }}
           >
-            <MenuItem value="" disabled>Select category</MenuItem>
+            <MenuItem value="" disabled>
+              Select category
+            </MenuItem>
             {categories.map((cat) => (
-              <MenuItem key={cat.id} value={cat.id}>{cat.name}</MenuItem>
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </MenuItem>
             ))}
           </Select>
           {currentSubcategories.length > 0 && (
@@ -352,7 +381,9 @@ function People(): ReactElement {
             >
               <MenuItem value="">No subcategory</MenuItem>
               {currentSubcategories.map((sub) => (
-                <MenuItem key={sub.id} value={sub.id}>{sub.name}</MenuItem>
+                <MenuItem key={sub.id} value={sub.id}>
+                  {sub.name}
+                </MenuItem>
               ))}
             </Select>
           )}
@@ -367,8 +398,12 @@ function People(): ReactElement {
           />
         </DialogContent>
         <DialogActions>
-          <button type="button" className={styles.dialogCancel} onClick={() => setShowIdeaDialog(false)}>Cancel</button>
-          <button type="button" className={styles.dialogSave} onClick={handleSaveIdea}>Save</button>
+          <button type="button" className={styles.dialogCancel} onClick={() => setShowIdeaDialog(false)}>
+            Cancel
+          </button>
+          <button type="button" className={styles.dialogSave} onClick={handleSaveIdea}>
+            Save
+          </button>
         </DialogActions>
       </Dialog>
 
@@ -394,7 +429,10 @@ function People(): ReactElement {
                 {cat.subcategories.map((sub) => (
                   <div key={sub.id} className={styles.manageSubcategory}>
                     <span>{sub.name}</span>
-                    <IconButton size="small" onClick={() => selectedPersonId && deleteSubcategory(selectedPersonId, sub.id)}>
+                    <IconButton
+                      size="small"
+                      onClick={() => selectedPersonId && deleteSubcategory(selectedPersonId, sub.id)}
+                    >
                       <DeleteIcon fontSize="inherit" />
                     </IconButton>
                   </div>
@@ -407,7 +445,9 @@ function People(): ReactElement {
                       value={newSubcategoryName}
                       onChange={(e) => setNewSubcategoryName(e.target.value)}
                     />
-                    <button type="button" className={styles.dialogSave} onClick={() => handleAddSubcategory(cat.id)}>Add</button>
+                    <button type="button" className={styles.dialogSave} onClick={() => handleAddSubcategory(cat.id)}>
+                      Add
+                    </button>
                   </div>
                 )}
               </div>
@@ -421,11 +461,15 @@ function People(): ReactElement {
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
             />
-            <button type="button" className={styles.dialogSave} onClick={handleAddCategory}>Add</button>
+            <button type="button" className={styles.dialogSave} onClick={handleAddCategory}>
+              Add
+            </button>
           </div>
         </DialogContent>
         <DialogActions>
-          <button type="button" className={styles.dialogSave} onClick={() => setShowManage(false)}>Done</button>
+          <button type="button" className={styles.dialogSave} onClick={() => setShowManage(false)}>
+            Done
+          </button>
         </DialogActions>
       </Dialog>
 

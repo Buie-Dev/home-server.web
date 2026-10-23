@@ -19,7 +19,9 @@
   color: $color-text-primary;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 
   &:hover {
     border-color: $color-primary;
@@ -238,4 +240,3 @@
     color: $color-text-muted;
   }
 }
-

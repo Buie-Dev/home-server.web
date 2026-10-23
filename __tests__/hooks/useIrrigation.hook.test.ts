@@ -94,7 +94,26 @@ describe('useIrrigation', () => {
   });
 
   it('fetchSchedules calls API and updates state', async () => {
-    const schedules = [{ id: 1, name: 'Morning', startTime: '06:00', duration: 10, monday: true, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false, subzoneIds: [], zoneName: 'Zone 1', zoneId: 1, active: true, sortOrder: 0 }];
+    const schedules = [
+      {
+        id: 1,
+        name: 'Morning',
+        startTime: '06:00',
+        duration: 10,
+        monday: true,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false,
+        subzoneIds: [],
+        zoneName: 'Zone 1',
+        zoneId: 1,
+        active: true,
+        sortOrder: 0,
+      },
+    ];
     mockedFetchSchedules.mockResolvedValue(schedules);
 
     const { result } = renderHook(() => useIrrigation());
@@ -112,7 +131,19 @@ describe('useIrrigation', () => {
     const { result } = renderHook(() => useIrrigation());
     await vi.advanceTimersByTimeAsync(0);
 
-    const data = { name: 'Test', startTime: '07:00', duration: 5, monday: true, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false, zoneId: 1 };
+    const data = {
+      name: 'Test',
+      startTime: '07:00',
+      duration: 5,
+      monday: true,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false,
+      zoneId: 1,
+    };
     await act(async () => {
       await result.current.createSchedule(data);
     });
@@ -125,7 +156,19 @@ describe('useIrrigation', () => {
     const { result } = renderHook(() => useIrrigation());
     await vi.advanceTimersByTimeAsync(0);
 
-    const data = { name: 'Updated', startTime: '08:00', duration: 10, monday: true, tuesday: false, wednesday: false, thursday: false, friday: false, saturday: false, sunday: false, zoneId: 2 };
+    const data = {
+      name: 'Updated',
+      startTime: '08:00',
+      duration: 10,
+      monday: true,
+      tuesday: false,
+      wednesday: false,
+      thursday: false,
+      friday: false,
+      saturday: false,
+      sunday: false,
+      zoneId: 2,
+    };
     await act(async () => {
       await result.current.updateSchedule(1, data);
     });
@@ -194,7 +237,12 @@ describe('useIrrigation', () => {
   });
 
   it('checkSync returns sync status', async () => {
-    mockedCheckSync.mockResolvedValue({ in_sync: true, missing_from_automation: [], mismatched: [], extra_in_automation: [] });
+    mockedCheckSync.mockResolvedValue({
+      in_sync: true,
+      missing_from_automation: [],
+      mismatched: [],
+      extra_in_automation: [],
+    });
     const { result } = renderHook(() => useIrrigation());
     await vi.advanceTimersByTimeAsync(0);
 

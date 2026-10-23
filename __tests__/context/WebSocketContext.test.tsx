@@ -54,9 +54,7 @@ beforeEach(() => {
 
 const latestWs = () => mockWsInstances[mockWsInstances.length - 1];
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <WebSocketProvider>{children}</WebSocketProvider>
-);
+const wrapper = ({ children }: { children: React.ReactNode }) => <WebSocketProvider>{children}</WebSocketProvider>;
 
 describe('WebSocketContext', () => {
   it('connects on mount with token', () => {
@@ -111,9 +109,14 @@ describe('WebSocketContext', () => {
     });
 
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.CURRENT_STATE, message: JSON.stringify([{ id: 1, state: true }]) }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({
+            topic: WEBSOCKET_TOPICS.CURRENT_STATE,
+            message: JSON.stringify([{ id: 1, state: true }]),
+          }),
+        })
+      );
     });
 
     expect(result.current.latestCurrentStates).toEqual([{ id: 1, state: true }]);
@@ -127,9 +130,14 @@ describe('WebSocketContext', () => {
     });
 
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.PRIORITY_QUEUE, message: JSON.stringify([{ id: 'abc', duration: 300, zone: 1, priority: 1 }]) }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({
+            topic: WEBSOCKET_TOPICS.PRIORITY_QUEUE,
+            message: JSON.stringify([{ id: 'abc', duration: 300, zone: 1, priority: 1 }]),
+          }),
+        })
+      );
     });
 
     expect(result.current.latestCurrentQueueStates).toHaveLength(1);
@@ -144,17 +152,27 @@ describe('WebSocketContext', () => {
     });
 
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.HEALTH_CHECK_RESPONSE, message: JSON.stringify({ deviceId: 'pi-1', status: 'pi-1' }) }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({
+            topic: WEBSOCKET_TOPICS.HEALTH_CHECK_RESPONSE,
+            message: JSON.stringify({ deviceId: 'pi-1', status: 'pi-1' }),
+          }),
+        })
+      );
     });
 
     expect(result.current.latestHealthCheckResponses).toHaveLength(1);
 
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.HEALTH_CHECK_RESPONSE, message: JSON.stringify({ deviceId: 'pi-1', status: 'pi-1' }) }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({
+            topic: WEBSOCKET_TOPICS.HEALTH_CHECK_RESPONSE,
+            message: JSON.stringify({ deviceId: 'pi-1', status: 'pi-1' }),
+          }),
+        })
+      );
     });
 
     expect(result.current.latestHealthCheckResponses).toHaveLength(1);
@@ -168,9 +186,14 @@ describe('WebSocketContext', () => {
     });
 
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.LIVE_FLOW, message: JSON.stringify({ id: 'zone-1', litres: 12.5 }) }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({
+            topic: WEBSOCKET_TOPICS.LIVE_FLOW,
+            message: JSON.stringify({ id: 'zone-1', litres: 12.5 }),
+          }),
+        })
+      );
     });
 
     expect(result.current.liveFlow).toEqual({ id: 'zone-1', litres: 12.5 });
@@ -185,9 +208,11 @@ describe('WebSocketContext', () => {
 
     const event = { raceId: 1, entryId: 10, boatName: 'Shell A', timestamp: 1700000000000 };
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.ROWING_START, message: event }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({ topic: WEBSOCKET_TOPICS.ROWING_START, message: event }),
+        })
+      );
     });
 
     expect(result.current.latestRowingStartEvent).toEqual(event);
@@ -202,9 +227,11 @@ describe('WebSocketContext', () => {
 
     const event = { raceId: 1, entryId: 10, boatName: 'Shell A', timestamp: 1700000300000, elapsedMs: 300000 };
     act(() => {
-      latestWs().onmessage?.(new MessageEvent('message', {
-        data: JSON.stringify({ topic: WEBSOCKET_TOPICS.ROWING_FINISH, message: event }),
-      }));
+      latestWs().onmessage?.(
+        new MessageEvent('message', {
+          data: JSON.stringify({ topic: WEBSOCKET_TOPICS.ROWING_FINISH, message: event }),
+        })
+      );
     });
 
     expect(result.current.latestRowingFinishEvent).toEqual(event);

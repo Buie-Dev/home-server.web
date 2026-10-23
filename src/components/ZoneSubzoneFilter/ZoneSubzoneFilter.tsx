@@ -26,9 +26,7 @@ function ZoneSubzoneFilter({
 
   const activeZone = zoneDetails.find((z) => z.id === activeZoneId);
   const activeSubzone = activeZone?.subzones?.find((sz) => sz.id === activeSubzoneId);
-  const triggerLabel = activeSubzone
-    ? `${activeZone?.name} › ${activeSubzone.name}`
-    : (activeZone?.name ?? allLabel);
+  const triggerLabel = activeSubzone ? `${activeZone?.name} › ${activeSubzone.name}` : (activeZone?.name ?? allLabel);
 
   // Group zones by type for section headers
   const groupedZones = zoneDetails.reduce<Record<string, ZoneDetail[]>>((acc, zone) => {
@@ -106,9 +104,7 @@ function ZoneSubzoneFilter({
           {typeGroups.map(([type, zones], groupIndex) => (
             <div key={type}>
               <div className={`${styles.divider} ${groupIndex === 0 ? styles.dividerFirst : ''}`} />
-              <div className={styles.sectionHeader}>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
-              </div>
+              <div className={styles.sectionHeader}>{type.charAt(0).toUpperCase() + type.slice(1)}</div>
 
               {zones.map((zone) => {
                 const isActive = activeZoneId === zone.id;

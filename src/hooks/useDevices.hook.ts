@@ -64,7 +64,9 @@ function useDevices(): DevicesInfo {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       setDevices((prev) =>
-        prev.map((device) => (device.status === 'checking' ? { ...device, status: 'offline', lastChecked: new Date() } : device))
+        prev.map((device) =>
+          device.status === 'checking' ? { ...device, status: 'offline', lastChecked: new Date() } : device
+        )
       );
     }, HEALTH_CHECK_TIMEOUT_MS);
   };

@@ -6,8 +6,7 @@ type CategoryPayload = { name: string; subcategoryNames?: string[] };
 export const fetchCategories = () => get(`${TODO}/categories`);
 export const createCategory = ({ name, subcategoryNames }: CategoryPayload) =>
   post(`${TODO}/categories`, { name, subcategoryNames: subcategoryNames ?? [] });
-export const updateCategory = ({ id, name }: { id: number; name: string }) =>
-  put(`${TODO}/categories/${id}`, { name });
+export const updateCategory = ({ id, name }: { id: number; name: string }) => put(`${TODO}/categories/${id}`, { name });
 export const deleteCategory = ({ id }: { id: number }) => del(`${TODO}/categories/${id}`);
 export const createSubcategory = ({ categoryId, name }: { categoryId: number; name: string }) =>
   post(`${TODO}/categories/${categoryId}/subcategories`, { name });
@@ -16,8 +15,13 @@ export const updateSubcategory = ({ id, name }: { id: number; name: string }) =>
 export const deleteSubcategory = ({ id }: { id: number }) => del(`${TODO}/subcategories/${id}`);
 
 type TemplatePayload = {
-  title: string; notes?: string; categoryId: number; subcategoryId?: number;
-  frequency: string; month?: number; checklistItems?: string[];
+  title: string;
+  notes?: string;
+  categoryId: number;
+  subcategoryId?: number;
+  frequency: string;
+  month?: number;
+  checklistItems?: string[];
 };
 export const fetchTemplates = ({ categoryId, subcategoryId }: { categoryId?: number; subcategoryId?: number } = {}) => {
   const params = new URLSearchParams();
@@ -38,12 +42,21 @@ export const fetchTasks = ({ categoryId, subcategoryId }: { categoryId?: number;
   const qs = params.toString();
   return get(`${TODO}/tasks${qs ? `?${qs}` : ''}`);
 };
-export const createTaskFromTemplate = ({ templateId }: { templateId: number }) =>
-  post(`${TODO}/tasks`, { templateId });
-export const createDirectTask = (data: { title: string; notes?: string; categoryId: number; subcategoryId?: number; frequency?: string }) =>
-  post(`${TODO}/tasks/direct`, data as any);
-export const updateTask = ({ id, data }: { id: number; data: { title: string; notes?: string; categoryId: number; subcategoryId?: number } }) =>
-  put(`${TODO}/tasks/${id}`, data as any);
+export const createTaskFromTemplate = ({ templateId }: { templateId: number }) => post(`${TODO}/tasks`, { templateId });
+export const createDirectTask = (data: {
+  title: string;
+  notes?: string;
+  categoryId: number;
+  subcategoryId?: number;
+  frequency?: string;
+}) => post(`${TODO}/tasks/direct`, data as any);
+export const updateTask = ({
+  id,
+  data,
+}: {
+  id: number;
+  data: { title: string; notes?: string; categoryId: number; subcategoryId?: number };
+}) => put(`${TODO}/tasks/${id}`, data as any);
 export const completeTask = ({ id }: { id: number }) => put(`${TODO}/tasks/${id}/complete`, {});
 export const archiveTask = ({ id }: { id: number }) => put(`${TODO}/tasks/${id}/archive`, {});
 export const archiveAllCompleted = () => put(`${TODO}/tasks/archive-completed`, {});

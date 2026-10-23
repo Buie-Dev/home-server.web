@@ -25,7 +25,9 @@
   background: transparent;
   cursor: pointer;
 
-  &:hover { background-color: $color-primary-light; }
+  &:hover {
+    background-color: $color-primary-light;
+  }
 }
 
 // ── Tabs ────────────────────────────────────────────────────────────────────
@@ -47,9 +49,13 @@
   border-bottom: 2px solid transparent;
   margin-bottom: -2px;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 
-  &:hover { color: $color-text-primary; }
+  &:hover {
+    color: $color-text-primary;
+  }
 }
 
 .tabActive {
@@ -76,7 +82,10 @@
   background-color: $color-surface;
   cursor: pointer;
 
-  &:focus { outline: none; border-color: $color-primary; }
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
 }
 
 .addBtn {
@@ -90,7 +99,9 @@
   transition: background-color 0.15s ease;
   white-space: nowrap;
 
-  &:hover { background-color: $color-primary-dark; }
+  &:hover {
+    background-color: $color-primary-dark;
+  }
 }
 
 .archiveAllBtn {
@@ -104,7 +115,10 @@
   cursor: pointer;
   white-space: nowrap;
 
-  &:hover { border-color: $color-text-muted; color: $color-text-primary; }
+  &:hover {
+    border-color: $color-text-muted;
+    color: $color-text-primary;
+  }
 }
 
 // ── List ─────────────────────────────────────────────────────────────────────
@@ -151,7 +165,9 @@
   align-items: center;
   flex-shrink: 0;
 
-  &:disabled { cursor: default; }
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .taskContent {
@@ -289,7 +305,9 @@
   cursor: pointer;
   white-space: nowrap;
 
-  &:hover { background-color: $color-primary-light; }
+  &:hover {
+    background-color: $color-primary-light;
+  }
 }
 
 // ── History Row ──────────────────────────────────────────────────────────────
@@ -370,7 +388,9 @@
   cursor: pointer;
   padding: 2px 6px;
 
-  &:hover { color: $color-text-primary; }
+  &:hover {
+    color: $color-text-primary;
+  }
 }
 
 .modalError {
@@ -396,7 +416,10 @@
   background-color: $color-background;
   box-sizing: border-box;
 
-  &:focus { outline: none; border-color: $color-primary; }
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
 }
 
 .fieldTextarea {
@@ -410,7 +433,10 @@
   box-sizing: border-box;
   resize: vertical;
 
-  &:focus { outline: none; border-color: $color-primary; }
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
 }
 
 .modalBtns {
@@ -430,8 +456,13 @@
   cursor: pointer;
   transition: background-color 0.15s ease;
 
-  &:hover { background-color: $color-primary-dark; }
-  &:disabled { opacity: 0.6; cursor: default; }
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
 }
 
 .cancelBtn {
@@ -443,7 +474,9 @@
   border-radius: $radius-sm;
   cursor: pointer;
 
-  &:hover { color: $color-text-primary; }
+  &:hover {
+    color: $color-text-primary;
+  }
 }
 
 // ── Category management ──────────────────────────────────────────────────────
@@ -496,7 +529,9 @@
   color: $color-text-primary;
   background-color: $color-surface;
 
-  &:focus { outline: none; }
+  &:focus {
+    outline: none;
+  }
 }
 
 .subRow {
@@ -528,7 +563,10 @@
   color: $color-text-primary;
   background-color: $color-surface;
 
-  &:focus { outline: none; border-color: $color-primary; }
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+  }
 }
 
 .addSubBtn {
@@ -539,7 +577,9 @@
   font-size: 0.9rem;
   cursor: pointer;
 
-  &:hover { background-color: $color-primary-dark; }
+  &:hover {
+    background-color: $color-primary-dark;
+  }
 }
 
 .addCatRow {
@@ -557,7 +597,9 @@
   color: $color-text-muted;
   padding: 2px 4px;
 
-  &:hover { color: $color-text-primary; }
+  &:hover {
+    color: $color-text-primary;
+  }
 }
 
 // ── Checklist in template form ────────────────────────────────────────────────
